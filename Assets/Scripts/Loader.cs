@@ -1,21 +1,30 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace JamCraft.GMTK2023.Code
 {
-    public class Loader : MonoBehaviour
+    public static class Loader
     {
-        // Start is called before the first frame update
-        void Start()
+        public enum Scene
         {
-
+            mainmenu_scene,
+            game_scene,
+            loading_scene
         }
 
-        // Update is called once per frame
-        void Update()
-        {
+        private static Scene _targetScene;
 
+        public static void Load(Scene targetScene)
+        {
+            _targetScene = targetScene;
+
+            SceneManager.LoadScene(Scene.loading_scene.ToString());
+
+            
+        }
+
+        public static void LoaderCallback()
+        {
+            SceneManager.LoadScene(_targetScene.ToString());
         }
     }
 }

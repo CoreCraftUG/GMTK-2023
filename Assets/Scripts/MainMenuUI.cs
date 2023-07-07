@@ -19,7 +19,7 @@ namespace JamCraft.GMTK2023.Code
         {
             _playButton.onClick.AddListener(() =>
             {
-                SceneManager.LoadScene(2);
+                Loader.Load(Loader.Scene.game_scene);
             });
             _quitButton.onClick.AddListener(() =>
             {

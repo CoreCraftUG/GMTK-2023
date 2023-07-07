@@ -12,6 +12,7 @@ namespace JamCraft.GMTK2023.Code
             {
                 _isFirstUpdate = false;
 
+                // Call on first update.
                 Loader.LoaderCallback();
             }
         }

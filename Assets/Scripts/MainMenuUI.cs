@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace JamCraft.GMTK2023.Code
@@ -18,11 +17,10 @@ namespace JamCraft.GMTK2023.Code
 
         private void Awake()
         {
-            SetupUI();
             SetupUIButtons();
         }
 
-        private void SetupUI()
+        private void Start()
         {
             _quitPanel.SetActive(false);
         }

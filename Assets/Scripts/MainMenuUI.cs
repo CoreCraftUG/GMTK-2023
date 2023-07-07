@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace JamCraft.GMTK2023.Code
@@ -18,6 +20,8 @@ namespace JamCraft.GMTK2023.Code
         private void Awake()
         {
             SetupUIButtons();
+
+            Time.timeScale = 1f;
         }
 
         private void Start()

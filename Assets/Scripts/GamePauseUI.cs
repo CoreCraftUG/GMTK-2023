@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,24 @@ namespace JamCraft.GMTK2023.Code
         [SerializeField] private Button _resumeButton;
         [SerializeField] private Button _optionsButton;
         [SerializeField] private Button _mainMenuButton;
+
+        private void Awake()
+        {
+            _resumeButton.onClick.AddListener(() =>
+            {
+                GameStateManager.Instance.TogglePauseGame();
+            });
+
+            _optionsButton.onClick.AddListener(() =>
+            {
+
+            });
+
+            _mainMenuButton.onClick.AddListener(() =>
+            {
+                Loader.Load(Loader.Scene.mainmenu_scene);
+            });
+        }
 
         private void Start()
         {

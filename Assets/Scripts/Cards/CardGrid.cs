@@ -14,7 +14,7 @@ public class CardGrid : MonoBehaviour
     [SerializeField] private int _gridWidth;
     [SerializeField] private float _fieldLengthSpacing;
     [SerializeField] private float _fieldWidthSpacing;
-    [SerializeField] private Vector3 _gridStartPosition;
+    [SerializeField] private Transform _gridStartTransform;
 
     [SerializeField] private GameObject _cardObject;
     [SerializeField] private GameObject _gridSlot;
@@ -34,7 +34,7 @@ public class CardGrid : MonoBehaviour
         {
             for(int z  = 0; z < _gridLength; z++)
             {
-                _cardPositions[x, z] = new Vector3(x * _fieldWidthSpacing, _gridStartPosition.y, z * _fieldLengthSpacing);
+                _cardPositions[x, z] = new Vector3(x * _fieldWidthSpacing, 0, z * _fieldLengthSpacing);
             }
         }
 
@@ -49,6 +49,7 @@ public class CardGrid : MonoBehaviour
     public void AddCard(CardHolder card, int slot)
     {
         Debug.Log($"Card: {card} spawned at Slot: {slot}");
+        card.gameObject.transform.SetParent(this.transform);
         bool couldPlace = false;
         #region handle ERROR
         if (slot > _gridWidth)
@@ -67,7 +68,7 @@ public class CardGrid : MonoBehaviour
         {
             _cardField[slot - 1, 0] = card.Card;
             _cardObjects[slot - 1, 0] = card;
-            _cardObjects[slot - 1, 0].MoveCard(_cardPositions[slot - 1, 0]);
+            _cardObjects[slot - 1, 0].MoveCard(_gridStartTransform.position + _cardPositions[slot - 1, 0]);
             couldPlace = true;
         }
         else
@@ -83,7 +84,7 @@ public class CardGrid : MonoBehaviour
                             _cardField[slot - 1, j] = _cardField[slot - 1, j - 1];
                             _cardField[slot - 1, j - 1] = null;
                             _cardObjects[slot - 1, j] = _cardObjects[slot - 1, j - 1];
-                            _cardObjects[slot - 1, j - 1].MoveCard(_cardPositions[slot - 1, j]);
+                            _cardObjects[slot - 1, j - 1].MoveCard(_gridStartTransform.position + _cardPositions[slot - 1, j]);
                             Debug.Log($"Card: {_cardObjects[slot - 1, j - 1]} Moved to: {_cardPositions[slot - 1, j]}");
                             _cardObjects[slot - 1, j - 1] = null;
                         }
@@ -91,7 +92,7 @@ public class CardGrid : MonoBehaviour
                         {
                             _cardField[slot - 1, j] = card.Card;
                             _cardObjects[slot - 1, j] = card;
-                            _cardObjects[slot - 1, j].MoveCard(_cardPositions[slot - 1, j]);
+                            _cardObjects[slot - 1, j].MoveCard(_gridStartTransform.position + _cardPositions[slot - 1, j]);
                         }
                     }
                     couldPlace = true;
@@ -191,7 +192,7 @@ public class CardGrid : MonoBehaviour
                         if (_cardField[i, k + 1] != null)
                         {
                             _cardField[i, k] = _cardField[i, k + 1];
-                            _cardObjects[i, k + 1].MoveCard(_cardPositions[i, k]);
+                            _cardObjects[i, k + 1].MoveCard(_gridStartTransform.position + _cardPositions[i, k]);
                             time = _cardObjects[i, k + 1].MoveTime;
                         }
                     }

@@ -1,5 +1,6 @@
-using UnityEngine;
+using System;
 
+[System.Serializable]
 public class CardBase
 {
     public ECardColour Colour;

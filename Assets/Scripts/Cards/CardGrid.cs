@@ -160,6 +160,8 @@ public class CardGrid : MonoBehaviour
             _cardField[j, i] = null;
         }
 
+        EventManager.Instance.MatchingCardsEvent.Invoke(false);
+
         ArrangeField();
 
         CheckForMatch();

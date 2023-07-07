@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class CardHolder : MonoBehaviour
 {
-    [SerializeField] private float _moveTime;
+    [SerializeField] public float MoveTime;
 
     [SerializeField] private GameObject _cardObject;
     [SerializeField] private TMP_Text _cardText;
@@ -28,7 +28,7 @@ public class CardHolder : MonoBehaviour
     public void MoveCard(Vector3 position)
     {
         Debug.Log($"Moving Card: {this} from {transform.position} to {position}");
-        transform.DOMove(position, _moveTime);
+        transform.DOMove(position, MoveTime);
     }
 
     public void VanishCard()

@@ -145,30 +145,40 @@ public class CardGrid : MonoBehaviour
 
             if(red == _gridWidth || blue == _gridWidth || green == _gridWidth || yellow == _gridWidth)
             {
-                RowMatch(i);
+                StartCoroutine(RowMatch(i));
                 return;
             }
         }
     }
 
-    private void RowMatch(int i)
+    private IEnumerator RowMatch(int i)
     {
+        float time = _cardObjects[_gridWidth - 1, i].MoveTime;
+        yield return new WaitForSeconds(time);
         Debug.Log(string.Format("<color=#{0:X2}{1:X2}{2:X2}>{3}</color>", (byte)(255f), (byte)(255f), (byte)(255f), $"Found Match"));
+        ECardFace face = _cardObjects[_gridWidth - 1, i].Card.Face;
+        bool faceMatch = true;
         for (int j  = _gridWidth - 1; j >= 0; j--)
         {
+            if(face != _cardObjects[j, i].Card.Face)
+                faceMatch = false;
             _cardObjects[j, i].VanishCard();
             _cardField[j, i] = null;
         }
 
-        EventManager.Instance.MatchingCardsEvent.Invoke(false);
+        EventManager.Instance.MatchingCardsEvent.Invoke(faceMatch);
+        if(faceMatch)
+            Debug.Log(string.Format("<color=#{0:X2}{1:X2}{2:X2}>{3}</color>", (byte)(255f), (byte)(255f), (byte)(255f), $"All Card Faces mach"));
 
-        ArrangeField();
+        yield return new WaitForSeconds(time);
+        StartCoroutine(ArrangeField());
 
         CheckForMatch();
     }
 
-    private void ArrangeField()
+    private IEnumerator ArrangeField()
     {
+        float time = 0;
         Debug.Log($"Arranging Field");
         for (int i  = 0; i < _gridWidth; i++)
         {
@@ -182,11 +192,13 @@ public class CardGrid : MonoBehaviour
                         {
                             _cardField[i, k] = _cardField[i, k + 1];
                             _cardObjects[i, k + 1].MoveCard(_cardPositions[i, k]);
+                            time = _cardObjects[i, k + 1].MoveTime;
                         }
                     }
                 }
             }
         }
+        yield return new WaitForSeconds(time);
     }
 
     private void FailedToPlace()
@@ -213,6 +225,7 @@ public class CardGrid : MonoBehaviour
     }
 
     [SerializeField] private ECardColour _testColour;
+    [SerializeField] private ECardFace _testFace;
     List<GameObject> _gridDebugObjects = new List<GameObject>();
     [Button("DebugGrid")]
     private void DebugGrid()
@@ -249,7 +262,7 @@ public class CardGrid : MonoBehaviour
         int face = Random.Range(0, 3);
         CardBase card = new CardBase();
         card.Colour = _testColour;
-        card.Face = (ECardFace)face;
+        card.Face = _testFace;
         holder.SetCard(card);
         obj.name = $"{card.Colour} {card.Face}";
 

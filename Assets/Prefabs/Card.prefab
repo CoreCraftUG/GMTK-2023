@@ -180,7 +180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66b2e0773dae4f041baaa31660990c63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveTime: 1
+  MoveTime: 1
   _cardObject: {fileID: 5613682045183669760, guid: e9bbfd84f064fa2408a156b2e62ab073,
     type: 3}
   _cardText: {fileID: 5295302816762720064}

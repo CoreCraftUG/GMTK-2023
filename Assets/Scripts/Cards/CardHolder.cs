@@ -33,7 +33,7 @@ public class CardHolder : MonoBehaviour
 
     public void VanishCard()
     {
-        Destroy(this);
+        Destroy(this.gameObject);
     }
 
     public void VisualizeCard()

@@ -91,6 +91,7 @@ public class CardGrid : MonoBehaviour
                         {
                             _cardField[slot - 1, j] = card.Card;
                             _cardObjects[slot - 1, j] = card;
+                            _cardObjects[slot - 1, j].MoveCard(_cardPositions[slot - 1, j]);
                         }
                     }
                     couldPlace = true;
@@ -152,11 +153,11 @@ public class CardGrid : MonoBehaviour
 
     private void RowMatch(int i)
     {
-        Debug.Log($"Found Match");
-        for (int j  = 0; j < _gridWidth; j++)
+        Debug.Log(string.Format("<color=#{0:X2}{1:X2}{2:X2}>{3}</color>", (byte)(255f), (byte)(255f), (byte)(255f), $"Found Match"));
+        for (int j  = _gridWidth - 1; j >= 0; j--)
         {
-            _cardField[i, j] = null;
-            _cardObjects[i, j].VanishCard();
+            _cardObjects[j, i].VanishCard();
+            _cardField[j, i] = null;
         }
 
         ArrangeField();
@@ -175,8 +176,11 @@ public class CardGrid : MonoBehaviour
                 {
                     for(int k  = j; k < _gridLength - 1; k++)
                     {
-                        _cardField[i, k] = _cardField[i, k + 1];
-                        _cardObjects[i, k + 1].MoveCard(_cardPositions[i, k]);
+                        if (_cardField[i, k + 1] != null)
+                        {
+                            _cardField[i, k] = _cardField[i, k + 1];
+                            _cardObjects[i, k + 1].MoveCard(_cardPositions[i, k]);
+                        }
                     }
                 }
             }
@@ -206,6 +210,7 @@ public class CardGrid : MonoBehaviour
         TestCard(3);
     }
 
+    [SerializeField] private ECardColour _testColour;
     List<GameObject> _gridDebugObjects = new List<GameObject>();
     [Button("DebugGrid")]
     private void DebugGrid()
@@ -241,7 +246,7 @@ public class CardGrid : MonoBehaviour
         int colour = Random.Range(0, 3);
         int face = Random.Range(0, 3);
         CardBase card = new CardBase();
-        card.Colour = (ECardColour)colour;
+        card.Colour = _testColour;
         card.Face = (ECardFace)face;
         holder.SetCard(card);
         obj.name = $"{card.Colour} {card.Face}";

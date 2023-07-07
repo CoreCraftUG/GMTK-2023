@@ -7,6 +7,8 @@ namespace JamCraft.GMTK2023.Code
 {
     public class GamePauseUI : MonoBehaviour
     {
+        public static GamePauseUI Instance { get; private set; }
+
         [Header("UI Buttons")]
         [SerializeField] private Button _resumeButton;
         [SerializeField] private Button _optionsButton;
@@ -14,6 +16,13 @@ namespace JamCraft.GMTK2023.Code
 
         private void Awake()
         {
+            if (Instance != null)
+            {
+                Debug.LogError($"There is more than one {this} instance in the scene!");
+            }
+
+            Instance = this;
+
             _resumeButton.onClick.AddListener(() =>
             {
                 GameStateManager.Instance.TogglePauseGame();
@@ -21,7 +30,8 @@ namespace JamCraft.GMTK2023.Code
 
             _optionsButton.onClick.AddListener(() =>
             {
-
+                GameOptionsUI.Instance.Show();
+                Hide();
             });
 
             _mainMenuButton.onClick.AddListener(() =>
@@ -49,14 +59,20 @@ namespace JamCraft.GMTK2023.Code
         }
 
 
-        private void Show()
+        public void Show()
         {
             gameObject.SetActive(true);
         }
 
-        private void Hide()
+        public void Hide()
         {
             gameObject.SetActive(false);
+        }
+
+        private void OnDestroy()
+        {
+            GameStateManager.Instance.OnGamePaused -= GameStateManager_OnOnGamePaused;
+            GameStateManager.Instance.OnGameUnpaused -= GameStateManager_OnOnGameUnpaused;
         }
     }
 }

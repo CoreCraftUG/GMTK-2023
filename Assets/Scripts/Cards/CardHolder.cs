@@ -28,7 +28,7 @@ public class CardHolder : MonoBehaviour
     public void MoveCard(Vector3 position)
     {
         Debug.Log($"Moving Card: {this} from {transform.position} to {position}");
-        transform.DOMove(position, MoveTime);
+        transform.DOLocalMove(position, MoveTime);
     }
 
     public void VanishCard()

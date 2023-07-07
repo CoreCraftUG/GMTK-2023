@@ -56,30 +56,30 @@ namespace JamCraft.GMTK2023.Code
         private void OnSfxVolumeValueChanged(float value)
         {
             SoundManager.Instance.ChangeSfxVolume(_sfxVolumeSlider.value);
-            _sfxVolumeText.text = SoundManager.Instance.SfxVolume.ToString();
+            _sfxVolumeText.text = Mathf.Round(SoundManager.Instance.SfxVolume * 100).ToString();
         }
 
         private void OnMusicVolumeValueChanged(float value)
         {
             SoundManager.Instance.ChangeMusicVolume(_musicVolumeSlider.value);
-            _musicVolumeText.text = SoundManager.Instance.MusicVolume.ToString();
+            _musicVolumeText.text = Mathf.Round(SoundManager.Instance.MusicVolume * 100).ToString();
         }
 
         private void OnMainVolumeValueChanged(float value)
         {
             SoundManager.Instance.ChangeMainVolume(_mainVolumeSlider.value);
-            _mainVolumeText.text = SoundManager.Instance.MainVolume.ToString();
+            _mainVolumeText.text = Mathf.Round(SoundManager.Instance.MainVolume * 100).ToString();
         }
 
         private void Start()
         {
             GameStateManager.Instance.OnGameUnpaused += GameStateManager_OnOnGameUnpaused;
 
-            _mainVolumeText.text = SoundManager.Instance.MainVolume.ToString();
+            _mainVolumeText.text = Mathf.Round(SoundManager.Instance.MainVolume * 100).ToString();
 
-            _musicVolumeText.text = SoundManager.Instance.MusicVolume.ToString();
+            _musicVolumeText.text = Mathf.Round(SoundManager.Instance.MusicVolume * 100).ToString();
 
-            _sfxVolumeText.text = SoundManager.Instance.SfxVolume.ToString();
+            _sfxVolumeText.text = Mathf.Round(SoundManager.Instance.SfxVolume * 100).ToString();
 
             _mainVolumeSlider.value = SoundManager.Instance.MainVolume;
 

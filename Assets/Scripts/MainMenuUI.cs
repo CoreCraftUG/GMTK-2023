@@ -43,7 +43,7 @@ namespace JamCraft.GMTK2023.Code
 
             _coreCraftButton.onClick.AddListener(() =>
             {
-                Application.OpenURL("https://www.corecraft-games.com");
+                
             });
 
             _yesButton.onClick.AddListener(() =>

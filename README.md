@@ -1,1 +1,1 @@
-# GMTK_GameJam
+# GMTK 2023

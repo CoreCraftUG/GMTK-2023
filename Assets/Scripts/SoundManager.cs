@@ -6,7 +6,9 @@ namespace JamCraft.GMTK2023.Code
     {
         public static SoundManager Instance { get; private set; }
 
-        public float _volume;
+        public float MainVolume = 5f;
+        public float MusicVolume = 5f;
+        public float SfxVolume = 5f;
 
         private void Awake()
         {
@@ -18,9 +20,19 @@ namespace JamCraft.GMTK2023.Code
             Instance = this;
         }
 
-        public void ChangeVolume(float value)
+        public void ChangeMainVolume(float value)
         {
-            _volume = value;
+            MainVolume = value;
+        }
+
+        public void ChangeMusicVolume(float value)
+        {
+            MusicVolume = value;
+        }
+
+        public void ChangeSfxVolume(float value)
+        {
+            SfxVolume = value;
         }
     }
 }

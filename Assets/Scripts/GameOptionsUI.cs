@@ -21,6 +21,11 @@ namespace JamCraft.GMTK2023.Code
         [SerializeField] private Slider _musicVolumeSlider;
         [SerializeField] private Slider _sfxVolumeSlider;
 
+        [Header("UI Texts")] 
+        [SerializeField] private TextMeshProUGUI _mainVolumeText;
+        [SerializeField] private TextMeshProUGUI _musicVolumeText;
+        [SerializeField] private TextMeshProUGUI _sfxVolumeText;
+
         private void Awake()
         {
             if (Instance != null)
@@ -30,26 +35,11 @@ namespace JamCraft.GMTK2023.Code
 
             Instance = this;
 
-            _mainVolumeSlider.onValueChanged.AddListener(value =>
-            {
-                SoundManager.Instance.ChangeVolume(value);
-                Debug.Log(value);
-                Debug.Log(SoundManager.Instance._volume);
-            });
+            _mainVolumeSlider.onValueChanged.AddListener(OnMainVolumeValueChanged);
 
-            _musicVolumeSlider.onValueChanged.AddListener(value =>
-            {
-                SoundManager.Instance.ChangeVolume(value);
-                Debug.Log(value);
-                Debug.Log(SoundManager.Instance._volume);
-            });
+            _musicVolumeSlider.onValueChanged.AddListener(OnMusicVolumeValueChanged);
 
-            _sfxVolumeSlider.onValueChanged.AddListener(value =>
-            {
-                SoundManager.Instance.ChangeVolume(value);
-                Debug.Log(value);
-                Debug.Log(SoundManager.Instance._volume);
-            });
+            _sfxVolumeSlider.onValueChanged.AddListener(OnSfxVolumeValueChanged);
 
             _saveButton.onClick.AddListener(() =>
             {
@@ -63,9 +53,39 @@ namespace JamCraft.GMTK2023.Code
             });
         }
 
+        private void OnSfxVolumeValueChanged(float value)
+        {
+            SoundManager.Instance.ChangeSfxVolume(_sfxVolumeSlider.value);
+            _sfxVolumeText.text = SoundManager.Instance.SfxVolume.ToString();
+        }
+
+        private void OnMusicVolumeValueChanged(float value)
+        {
+            SoundManager.Instance.ChangeMusicVolume(_musicVolumeSlider.value);
+            _musicVolumeText.text = SoundManager.Instance.MusicVolume.ToString();
+        }
+
+        private void OnMainVolumeValueChanged(float value)
+        {
+            SoundManager.Instance.ChangeMainVolume(_mainVolumeSlider.value);
+            _mainVolumeText.text = SoundManager.Instance.MainVolume.ToString();
+        }
+
         private void Start()
         {
             GameStateManager.Instance.OnGameUnpaused += GameStateManager_OnOnGameUnpaused;
+
+            _mainVolumeText.text = SoundManager.Instance.MainVolume.ToString();
+
+            _musicVolumeText.text = SoundManager.Instance.MusicVolume.ToString();
+
+            _sfxVolumeText.text = SoundManager.Instance.SfxVolume.ToString();
+
+            _mainVolumeSlider.value = SoundManager.Instance.MainVolume;
+
+            _musicVolumeSlider.value = SoundManager.Instance.MusicVolume;
+
+            _sfxVolumeSlider.value = SoundManager.Instance.SfxVolume;
 
             Hide();
         }

@@ -10,10 +10,14 @@ public class Playermanager : MonoBehaviour
     public List<CardGrid> Grids = new List<CardGrid>(); //List of all available Grids(Grid)
     public static Playermanager instance;
     public int turnCounter = 0; //Turn counter for possibly turning up current delay etc.
+    public bool CanTurn;
+    public Material On;
+    public Material Off;
 
     private void Awake()
     {
         instance = this;
+        BeginPlay();
     }
     public void BeginPlay()
     {
@@ -31,8 +35,9 @@ public class Playermanager : MonoBehaviour
 
     public void NextPlayer()
     {
-        _randomPlayer = Random.Range(0, Players.Count - 1);
+        _randomPlayer = Random.Range(0, Players.Count);
         Players[_randomPlayer].IsSelected = true;
+        Players[_randomPlayer].transform.GetComponent<MeshRenderer>().material = On;
         Invoke("SelectedPlayerPlays", CurrentDelay);
         Debug.Log(_randomPlayer);
     }
@@ -43,7 +48,9 @@ public class Playermanager : MonoBehaviour
     {
         Players[_randomPlayer].PlayCard();
         Players[_randomPlayer].IsSelected = false;
+        Players[_randomPlayer].transform.GetComponent<MeshRenderer>().material = Off;
         turnCounter++;
+        Debug.Log("Player Played");
         NextPlayer();
     }
 
@@ -52,7 +59,7 @@ public class Playermanager : MonoBehaviour
         foreach (Player player in Players)
         {
             player.FacingArea--;
-            if (player.FacingArea <= 0)
+            if (player.FacingArea < 0)
                 player.FacingArea = Players.Count - 1;
         }
     }

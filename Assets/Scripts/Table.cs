@@ -26,12 +26,13 @@ public class Table : MonoBehaviour
             if (timer > delay)
                 NextSpot();
         }
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.A)&&Playermanager.instance.CanTurn)
         {
+            
             PlayTable.transform.Rotate(0, 90, 0);
             Playermanager.instance.TurnLeft();
         }
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.D)&&Playermanager.instance.CanTurn)
         {
             PlayTable.transform.Rotate(0, -90, 0);
             Playermanager.instance.TurnRight();

@@ -26,7 +26,7 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        
+        NewDeck();
     }
 
     private void Update()
@@ -62,6 +62,7 @@ public class Player : MonoBehaviour
         foreach (CardBase card in tempcards)
             _deck.Push(card);
         _cards = tempcards;
+        PreviewNextCard();
 
     }
 
@@ -69,7 +70,7 @@ public class Player : MonoBehaviour
     {
         SelectedSpot++;
         if (SelectedSpot > _possibleSpots)
-            SelectedSpot = 0;
+            SelectedSpot = 1;
         timer = 0;
     }
 
@@ -82,9 +83,12 @@ public class Player : MonoBehaviour
 
     public void PlayCard()
     {
+        Playermanager.instance.CanTurn = false;
          _deck.Pop();
         FacingGrid.AddCard(_presentedCard, SelectedSpot);
         if (_deck.Count == 0)
             NewDeck();
+        else
+            PreviewNextCard();
     }
 }

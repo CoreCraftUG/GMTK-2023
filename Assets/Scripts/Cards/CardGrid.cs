@@ -41,7 +41,7 @@ public class CardGrid : MonoBehaviour
         #region remove later
         foreach (Vector3 vec in _cardPositions)
         {
-            Instantiate(_gridSlot, vec, Quaternion.identity, _gridVisualHolder);
+            Instantiate(_gridSlot, vec + _gridStartTransform.position, Quaternion.identity, _gridVisualHolder);
         }
         #endregion
     }

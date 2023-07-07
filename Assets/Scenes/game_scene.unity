@@ -5318,9 +5318,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0ef9525a3e28d843ba0d07e2ddc35ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MainVolume: 5
-  MusicVolume: 5
-  SfxVolume: 5
+  MainVolume: 0.5000499
+  MusicVolume: 0.5000499
+  SfxVolume: 0.5000499
   _mainAudioMixer: {fileID: 24100000, guid: 6d42d09a1545f4441be5b02f210764ee, type: 2}
 --- !u!4 &1790831727
 Transform:

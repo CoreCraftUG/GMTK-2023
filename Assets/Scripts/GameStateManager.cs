@@ -25,7 +25,7 @@ namespace JamCraft.GMTK2023.Code
 
         public void TogglePauseGame()
         {
-            // If game is paused set timeScale to 0f else 1f.
+            // If game is paused set timeScale to 0f else 1f and notify OnGamePaused / OnGameUnpaused subscribers.
 
             _isGamePaused = !_isGamePaused;
 

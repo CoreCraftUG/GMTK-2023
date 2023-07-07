@@ -5,15 +5,15 @@ namespace JamCraft.GMTK2023.Code
 {
     public class SoundManager : MonoBehaviour
     {
-        private const string _mainVolume = "masterVolume";
-        private const string _musicVolume = "musicVolume";
-        private const string _sfxVolume = "sfxVolume";
+        private const string MAIN_VOLUME = "masterVolume";
+        private const string MUSIC_VOLUME = "musicVolume";
+        private const string SFX_VOLUME = "sfxVolume";
 
         public static SoundManager Instance { get; private set; }
 
-        public float MainVolume = 5f;
-        public float MusicVolume = 5f;
-        public float SfxVolume = 5f;
+        public float MainVolume = 0.5000499f;
+        public float MusicVolume = 0.5000499f;
+        public float SfxVolume = 0.5000499f;
 
         [Header("Sound Mixer")] 
         [SerializeField] private AudioMixer _mainAudioMixer;
@@ -27,26 +27,31 @@ namespace JamCraft.GMTK2023.Code
 
             Instance = this;
             
+            // Get the saves values and set the volumes accordingly.
+            MainVolume = PlayerPrefs.GetFloat(GameOptionsUI.PLAYER_PREFS_MAIN_VOLUME, 0.5000499f);
+            MusicVolume = PlayerPrefs.GetFloat(GameOptionsUI.PLAYER_PREFS_MUSIC_VOLUME, 0.5000499f);
+            SfxVolume = PlayerPrefs.GetFloat(GameOptionsUI.PLAYER_PREFS_SFX_VOLUME, 0.5000499f);
         }
 
         public void ChangeMainVolume(float value)
         {
+            // Set MainVolume to the slider value and do some magic fuckery to display a correct value in the text.
             MainVolume = value;
-            _mainAudioMixer.SetFloat(_mainVolume, Mathf.Log10(MainVolume) * 20);
+            _mainAudioMixer.SetFloat(MAIN_VOLUME, Mathf.Log10(MainVolume) * 20);
         }
 
         public void ChangeMusicVolume(float value)
         {
+            // Set MusicVolume to the slider value and do some magic fuckery to display a correct value in the text.
             MusicVolume = value;
-            _mainAudioMixer.SetFloat(_musicVolume, Mathf.Log10(MusicVolume) * 20);
-
+            _mainAudioMixer.SetFloat(MUSIC_VOLUME, Mathf.Log10(MusicVolume) * 20);
         }
 
         public void ChangeSfxVolume(float value)
         {
+            // Set SfxVolume to the slider value and do some magic fuckery to display a correct value in the text.
             SfxVolume = value;
-            _mainAudioMixer.SetFloat(_sfxVolume, Mathf.Log10(SfxVolume) * 20);
-
+            _mainAudioMixer.SetFloat(SFX_VOLUME, Mathf.Log10(SfxVolume) * 20);
         }
     }
 }

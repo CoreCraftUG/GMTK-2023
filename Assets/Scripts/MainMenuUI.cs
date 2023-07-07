@@ -31,21 +31,25 @@ namespace JamCraft.GMTK2023.Code
 
         private void SetupUIButtons()
         {
+            // Load the game scene.
             _playButton.onClick.AddListener(() =>
             {
                 Loader.Load(Loader.Scene.game_scene);
             });
 
+            // Show quit panel on click.
             _quitButton.onClick.AddListener(() =>
             {
                 _quitPanel.SetActive(true);
             });
 
+            // TODO: Link to our website?
             _coreCraftButton.onClick.AddListener(() =>
             {
                 
             });
 
+            // Close the program.
             _yesButton.onClick.AddListener(() =>
             {
                 // TODO: Add Game Jam page. Application.OpenURL("url").
@@ -56,6 +60,7 @@ namespace JamCraft.GMTK2023.Code
 #endif
             });
 
+            // Close the quit panel.
             _noButton.onClick.AddListener(() =>
             {
                 _quitPanel.SetActive(false);

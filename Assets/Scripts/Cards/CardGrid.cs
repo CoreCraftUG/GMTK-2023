@@ -102,6 +102,7 @@ public class CardGrid : MonoBehaviour
         }
 
         EventManager.Instance.TimeStopEvent.Invoke();
+        EventManager.Instance.TurnEvent.Invoke();
         CheckForMatch();
 
     }

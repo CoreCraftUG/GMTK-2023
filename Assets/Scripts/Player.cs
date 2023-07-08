@@ -130,7 +130,6 @@ public class Player : MonoBehaviour
         FacingGrid.AddCard(_presentedCard, SelectedSpot);
         int i = Random.Range(0, 3);
         EventManager.Instance.PlayAudio.Invoke(i, .7f);
-        EventManager.Instance.TurnEvent.Invoke();
         if (_deck.Count == 0)
             NewDeck();
         else

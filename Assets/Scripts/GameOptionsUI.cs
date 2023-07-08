@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.InputSystem.InputSettings;
 
 namespace JamCraft.GMTK2023.Code
 {
@@ -29,6 +31,9 @@ namespace JamCraft.GMTK2023.Code
         [SerializeField] private TextMeshProUGUI _mainVolumeText;
         [SerializeField] private TextMeshProUGUI _musicVolumeText;
         [SerializeField] private TextMeshProUGUI _sfxVolumeText;
+
+        private List<Resolution> _supportedResolutions;
+
 
         private void Awake()
         {
@@ -61,6 +66,18 @@ namespace JamCraft.GMTK2023.Code
                 GamePauseUI.Instance.Show();
                 Hide();
             });
+
+            // Add function to the resolution dropdown.
+            _resolutionDropdown.onValueChanged.AddListener(SetResolution);
+        }
+
+        private void SetResolution(int index)
+        {
+            Screen.SetResolution(_supportedResolutions[index].width, _supportedResolutions[index].height, FullScreenMode.ExclusiveFullScreen);
+            _resolutionDropdown.value = index;
+            _resolutionDropdown.RefreshShownValue();
+            
+            // TODO: Save to playerprefs.
         }
 
         // Change the volume to the slider value and set the text accordingly.
@@ -105,6 +122,9 @@ namespace JamCraft.GMTK2023.Code
 
             _sfxVolumeSlider.value = SoundManager.Instance.SfxVolume;
 
+            // Fill the dropdown with the supported resolutions.
+            AddResolutions();
+
             Hide();
         }
 
@@ -122,6 +142,29 @@ namespace JamCraft.GMTK2023.Code
         public void Hide()
         {
             gameObject.SetActive(false);
+        }
+
+        private void AddResolutions()
+        {
+            _supportedResolutions = new List<Resolution>();
+            Resolution[] resolutions = Screen.resolutions;
+
+            Array.Reverse(resolutions);
+
+            for (int i = 0; i < resolutions.Length; i++)
+            {
+                _resolutionDropdown.options.Add(new TMP_Dropdown.OptionData(ResolutionToString(resolutions[i])));
+                _supportedResolutions.Add(resolutions[i]);
+            }
+
+            // TODO: Set dropdown value to the saved one.
+            //_resolutionDropdown.value = 
+            _resolutionDropdown.RefreshShownValue();
+        }
+
+        private string ResolutionToString(Resolution res)
+        {
+            return res.width + " x " + res.height + " @ " + res.refreshRate + " Hz";
         }
     }
 }

@@ -37,7 +37,7 @@ Transform:
   - {fileID: 6523868883274634135}
   - {fileID: 8882807663638177262}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6317657982188505315
 MeshFilter:
@@ -122,8 +122,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77ab2f5395c5c554c99469c15879cd12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _rotationTime: 0.25
   PlayTable: {fileID: 1772056176705264449}
-  _playermanager: {fileID: 0}
   TestCubes:
   - {fileID: 7887125994939150133}
   - {fileID: 1949347109735992627}

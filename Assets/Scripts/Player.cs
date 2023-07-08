@@ -13,7 +13,10 @@ public class Player : MonoBehaviour
     [SerializeField] private Stack<CardBase> _deck = new Stack<CardBase>(); //Cards
     public int FacingArea; //Number of the Grid that is currently being faced
     public bool IsSelected; //Is this player currently selected?
+    public int Level; //Is this player currently selected?
+    private int _currentLevel; //Is this player currently selected?
     public float SwapDelay; //Timer between slots changing
+    public float SwapDelayIncrement; //Timer between slots changing
     private int _possibleSpots = 3;
     public int SelectedSpot; //Currently selected Grid spot
     float timer; //timer
@@ -35,6 +38,12 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        if (_currentLevel < Level)
+        {
+            _currentLevel = Level;
+            SwapDelay -= SwapDelayIncrement;
+        }
+
         if (IsSelected)
         {
             timer += Time.deltaTime;

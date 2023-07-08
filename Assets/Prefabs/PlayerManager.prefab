@@ -44,6 +44,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03d24909b1d0f2541a2e77be594f192a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _startDelay: 0
+  _endLevel: 15
+  _delayIncrement: 0.25
+  _delayIncreaseTime: 30
   Players: []
   CurrentDelay: 0
-  Grids: 
+  Grids: []
+  turnCounter: 0
+  CanTurn: 1
+  On: {fileID: 0}
+  Off: {fileID: 0}
+  timer: 0
+  timerCountdown: {fileID: 0}

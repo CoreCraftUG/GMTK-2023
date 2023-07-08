@@ -1,9 +1,12 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Table : MonoBehaviour
 {
+    [SerializeField] float _rotationTime;
+
     public GameObject PlayTable;
     public List<GameObject> TestCubes = new List<GameObject>(); //test
     public Material TestOff; //test
@@ -12,6 +15,7 @@ public class Table : MonoBehaviour
     public bool isselected; //test
     float timer; //test
     int SelectedSpot = 2; //test
+    private float _rotation;
 
     private void Awake()
     {
@@ -26,14 +30,16 @@ public class Table : MonoBehaviour
             if (timer > delay)
                 NextSpot();
         }
-        if (Input.GetKeyDown(KeyCode.A)&&Playermanager.instance.CanTurn)
+        if (Input.GetKeyDown(KeyCode.A) && Playermanager.instance.CanTurn)
         {
-            PlayTable.transform.Rotate(0, -90, 0);
+            _rotation -= 90f;
+            PlayTable.transform.DORotate(_rotation * Vector3.up, _rotationTime);
             Playermanager.instance.TurnRight();
         }
-        if (Input.GetKeyDown(KeyCode.D)&&Playermanager.instance.CanTurn)
+        if (Input.GetKeyDown(KeyCode.D) && Playermanager.instance.CanTurn)
         {
-            PlayTable.transform.Rotate(0, 90, 0);
+            _rotation += 90f;
+            PlayTable.transform.DORotate(_rotation * Vector3.up, _rotationTime);
             Playermanager.instance.TurnLeft();
         }
 

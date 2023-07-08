@@ -5,6 +5,14 @@ using TMPro;
 using UnityEngine.UI;
 public class Playermanager : MonoBehaviour
 {
+    [SerializeField] float _startDelay;
+    [SerializeField] int _endLevel;
+    [SerializeField] float _delayIncrement;
+    [SerializeField] float _delayIncreaseTime;
+    private float _delayTimer;
+
+    private int _delayLevel;
+
     public List<Player> Players = new List<Player>(); //List of all players
     public float CurrentDelay; //Time it takes for one player to play a card automatically atm
     private int _randomPlayer; //random player currently being selected(int)
@@ -23,6 +31,7 @@ public class Playermanager : MonoBehaviour
         instance = this;
         EventManager.Instance.GameOverEvent.AddListener(() => _gameover = true);
         BeginPlay();
+        CurrentDelay = _startDelay;
 
     }
     public void BeginPlay()
@@ -33,8 +42,17 @@ public class Playermanager : MonoBehaviour
 
     private void Update()
     {
-        //if(!CanTurn)
-        //    Debug.Log("Can turn =" + CanTurn);
+        if(_delayLevel < _endLevel && _delayTimer >= _delayIncreaseTime)
+        {
+            _delayTimer = 0;
+            _delayLevel++;
+            CurrentDelay -= _delayIncrement;
+        }
+        if(_delayTimer < _delayIncreaseTime)
+        {
+            _delayTimer += Time.deltaTime;
+        }
+
         if (_gameover)
             return;
         timer += Time.deltaTime;
@@ -55,6 +73,7 @@ public class Playermanager : MonoBehaviour
     {
         _randomPlayer = Random.Range(0, Players.Count);
         Players[_randomPlayer].IsSelected = true;
+        Players[_randomPlayer].Level = _delayLevel;
         Players[_randomPlayer].transform.GetComponent<MeshRenderer>().material = On;
         //Invoke("SelectedPlayerPlays", CurrentDelay);
         //Debug.Log(_randomPlayer);

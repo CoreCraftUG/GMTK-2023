@@ -3,35 +3,34 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-public class Playermanager : MonoBehaviour
+using CoreCraft.Core;
+
+public class Playermanager : Singleton<Playermanager>
 {
-    [SerializeField] float _startDelay;
     [SerializeField] int _endLevel;
+    [SerializeField] float _startDelay;
     [SerializeField] float _delayIncrement;
     [SerializeField] float _delayIncreaseTime;
-    private float _delayTimer;
+    [SerializeField] private Material On;
+    [SerializeField] private Material Off;
+    [SerializeField] private Image timerCountdown;
+    [SerializeField] public List<CardGrid> Grids = new List<CardGrid>(); //List of all available Grids(Grid)
+    [SerializeField] private List<Player> Players = new List<Player>(); //List of all players
 
+    private float _currentDelay; //Time it takes for one player to play a card automatically atm
+    private int _randomPlayer; //random player currently being selected(int)
+    private float timer;
+    private bool _gameover;
+    private float _delayTimer;
     private int _delayLevel;
 
-    public List<Player> Players = new List<Player>(); //List of all players
-    public float CurrentDelay; //Time it takes for one player to play a card automatically atm
-    private int _randomPlayer; //random player currently being selected(int)
-    public List<CardGrid> Grids = new List<CardGrid>(); //List of all available Grids(Grid)
-    public static Playermanager instance;
-    public int turnCounter = 0; //Turn counter for possibly turning up current delay etc.
-    public bool CanTurn = true;
-    public Material On;
-    public Material Off;
-    public float timer;
-    [SerializeField] private Image timerCountdown;
-    private bool _gameover;
+    [HideInInspector] public bool CanTurn = true;
 
     private void Awake()
     {
-        instance = this;
         EventManager.Instance.GameOverEvent.AddListener(() => _gameover = true);
         BeginPlay();
-        CurrentDelay = _startDelay;
+        _currentDelay = _startDelay;
 
     }
     public void BeginPlay()
@@ -46,7 +45,7 @@ public class Playermanager : MonoBehaviour
         {
             _delayTimer = 0;
             _delayLevel++;
-            CurrentDelay -= _delayIncrement;
+            _currentDelay -= _delayIncrement;
         }
         if(_delayTimer < _delayIncreaseTime)
         {
@@ -56,8 +55,8 @@ public class Playermanager : MonoBehaviour
         if (_gameover)
             return;
         timer += Time.deltaTime;
-        timerCountdown.fillAmount = (CurrentDelay - timer)/CurrentDelay;
-        if(timer >= CurrentDelay && CanTurn)
+        timerCountdown.fillAmount = (_currentDelay - timer)/_currentDelay;
+        if(timer >= _currentDelay && CanTurn)
         {
             SelectedPlayerPlays();
         }
@@ -88,7 +87,6 @@ public class Playermanager : MonoBehaviour
         Players[_randomPlayer].IsSelected = false;
         Players[_randomPlayer].ResetSlots();
         Players[_randomPlayer].transform.GetComponent<MeshRenderer>().material = Off;
-        turnCounter++;
         NextPlayer();
     }
 

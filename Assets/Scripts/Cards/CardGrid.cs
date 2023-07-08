@@ -149,8 +149,8 @@ public class CardGrid : MonoBehaviour
                 return;
             }
         }
-        Playermanager.instance.CanTurn = true;
-        Playermanager.instance.timer = 0;
+        Playermanager.Instance.CanTurn = true;
+        Playermanager.Instance.timer = 0;
     }
 
     private IEnumerator RowMatch(int i)

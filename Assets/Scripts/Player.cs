@@ -28,7 +28,7 @@ public class Player : MonoBehaviour
     [HideInInspector] public bool IsSelected; //Is this player currently selected?
     [HideInInspector] public int FacingArea; //Number of the Grid that is currently being faced
     [HideInInspector] public int Level; //Is this player currently selected?
-    public CardGrid FacingGrid => Playermanager.instance.Grids[FacingArea]; //Grid
+    public CardGrid FacingGrid => Playermanager.Instance.Grids[FacingArea]; //Grid
     public CardBase CurrentCard => (_deck.Peek().Equals(null)) ? null : _deck.Peek(); //Card
 
     
@@ -111,7 +111,7 @@ public class Player : MonoBehaviour
 
         Debug.Log($"{_presentedCard == null}" + SelectedSpot + _presentedCard);
         
-        Playermanager.instance.CanTurn = false;
+        Playermanager.Instance.CanTurn = false;
         FacingGrid.AddCard(_presentedCard, SelectedSpot);
         int i = Random.Range(0, 3);
         EventManager.Instance.PlayAudio.Invoke(i, .7f);

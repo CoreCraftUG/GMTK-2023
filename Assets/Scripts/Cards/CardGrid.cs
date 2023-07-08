@@ -150,7 +150,7 @@ public class CardGrid : MonoBehaviour
             }
         }
         Playermanager.Instance.CanTurn = true;
-        Playermanager.Instance.timer = 0;
+        Playermanager.Instance.Timer = 0;
     }
 
     private IEnumerator RowMatch(int i)

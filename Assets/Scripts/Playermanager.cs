@@ -4,27 +4,29 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using CoreCraft.Core;
+using Sirenix.OdinInspector;
 
 public class Playermanager : Singleton<Playermanager>
 {
-    [SerializeField] int _endLevel;
-    [SerializeField] float _startDelay;
-    [SerializeField] float _delayIncrement;
-    [SerializeField] float _delayIncreaseTime;
-    [SerializeField] private Material On;
-    [SerializeField] private Material Off;
-    [SerializeField] private Image timerCountdown;
-    [SerializeField] public List<CardGrid> Grids = new List<CardGrid>(); //List of all available Grids(Grid)
-    [SerializeField] private List<Player> Players = new List<Player>(); //List of all players
+    [BoxGroup("Visual"), SerializeField] private Material On;
+    [BoxGroup("Visual"), SerializeField] private Material Off;
+    [BoxGroup("Visual"), SerializeField] private Image timerCountdown;
 
-    private float _currentDelay; //Time it takes for one player to play a card automatically atm
-    private int _randomPlayer; //random player currently being selected(int)
-    private float timer;
+    [BoxGroup("Gameplay"), SerializeField] int _endLevel;
+    [BoxGroup("Gameplay"), SerializeField] float _startDelay;
+    [BoxGroup("Gameplay"), SerializeField] float _delayIncrement;
+    [BoxGroup("Gameplay"), SerializeField] float _delayIncreaseTime;
+    [BoxGroup("Gameplay"), SerializeField] public List<CardGrid> Grids = new List<CardGrid>(); //List of all available Grids(Grid)
+    [BoxGroup("Gameplay"), SerializeField] private List<Player> Players = new List<Player>(); //List of all players
+
     private bool _gameover;
-    private float _delayTimer;
+    private int _randomPlayer; //random player currently being selected(int)
     private int _delayLevel;
+    private float _currentDelay; //Time it takes for one player to play a card automatically atm
+    private float _delayTimer;
 
     [HideInInspector] public bool CanTurn = true;
+    [HideInInspector] public float Timer;
 
     private void Awake()
     {
@@ -54,9 +56,9 @@ public class Playermanager : Singleton<Playermanager>
 
         if (_gameover)
             return;
-        timer += Time.deltaTime;
-        timerCountdown.fillAmount = (_currentDelay - timer)/_currentDelay;
-        if(timer >= _currentDelay && CanTurn)
+        Timer += Time.deltaTime;
+        timerCountdown.fillAmount = (_currentDelay - Timer)/_currentDelay;
+        if(Timer >= _currentDelay && CanTurn)
         {
             SelectedPlayerPlays();
         }

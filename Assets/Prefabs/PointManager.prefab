@@ -45,6 +45,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TotalPoints: 0
-  PointMultiplyer: 0
-  BasePoints: 0
-  _multiplierIncrease: 0
+  TempPoints: 0
+  PointMultiplyer: 1
+  _basePoints: 100
+  _match3Points: 1000
+  _multiplierIncrease: 0.2
+  _maxMissedMultiplies: 3

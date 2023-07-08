@@ -30,17 +30,18 @@ public class Table : MonoBehaviour
             if (timer > delay)
                 NextSpot();
         }
-        if (Input.GetKeyDown(KeyCode.A) && Playermanager.instance.CanTurn)
+        if (Input.GetKeyDown(KeyCode.A) && Playermanager.Instance.CanTurn)
         {
             _rotation -= 90f;
             PlayTable.transform.DORotate(_rotation * Vector3.up, _rotationTime);
-            Playermanager.instance.TurnRight();
+            Playermanager.Instance.TurnRight();
         }
-        if (Input.GetKeyDown(KeyCode.D) && Playermanager.instance.CanTurn)
+        if (Input.GetKeyDown(KeyCode.D) && Playermanager.Instance.CanTurn)
         {
             _rotation += 90f;
             PlayTable.transform.DORotate(_rotation * Vector3.up, _rotationTime);
-            Playermanager.instance.TurnLeft();
+            EventManager.Instance.PlayAudio.Invoke(4, 0);
+            Playermanager.Instance.TurnLeft();
         }
 
         //if (Input.GetKeyDown(KeyCode.Space)) //TEST

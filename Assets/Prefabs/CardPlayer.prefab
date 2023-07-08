@@ -25,14 +25,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1191534732015205400}
-  m_LocalRotation: {x: 0.99140346, y: -0.009020654, z: 0.00000001117587, w: 0.1305288}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.009023092, y: 0.99140346, z: 0.1305293, w: -0.0000001261942}
+  m_LocalPosition: {x: 0.00000047123478, y: -0.39530075, z: 0.000010744158}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 533043883086707047}
   m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 15, y: -179.86, z: -178.939}
+  m_LocalEulerAnglesHint: {x: -15, y: -180.14, z: -358.939}
 --- !u!108 &216590520132245465
 Light:
   m_ObjectHideFlags: 0
@@ -44,11 +44,11 @@ Light:
   serializedVersion: 10
   m_Type: 0
   m_Shape: 0
-  m_Color: {r: 0.8113208, g: 0.72941303, b: 0.26406196, a: 1}
-  m_Intensity: 4
+  m_Color: {r: 1, g: 0.9398585, b: 0.5990566, a: 1}
+  m_Intensity: 6
   m_Range: 1.2681463
-  m_SpotAngle: 48.253017
-  m_InnerSpotAngle: 30.972239
+  m_SpotAngle: 70.31248
+  m_InnerSpotAngle: 70.31248
   m_CookieSize: 10
   m_Shadows:
     m_Type: 0
@@ -76,7 +76,7 @@ Light:
       e32: 0
       e33: 1
     m_UseCullingMatrixOverride: 0
-  m_Cookie: {fileID: 0}
+  m_Cookie: {fileID: 2800000, guid: 3ed6bab7bb116b744ad904027d499637, type: 3}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
   m_RenderMode: 0
@@ -145,7 +145,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2422279030842722133}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.20870209, y: 1.0814557, z: -0.30356693}
+  m_LocalPosition: {x: 0.20870209, y: 1.07, z: -0.30356693}
   m_LocalScale: {x: 0.1, y: 0.010000002, z: 0.16000004}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -282,7 +282,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5097587721425485300}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.20870209, y: 1.0814557, z: -0.30356693}
+  m_LocalPosition: {x: -0.20870209, y: 1.07, z: -0.30356693}
   m_LocalScale: {x: 0.1, y: 0.010000002, z: 0.16000004}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -456,6 +456,7 @@ MonoBehaviour:
     Face: 0
   - Colour: 3
     Face: 3
+  _cardHeight: 0.01
   IsSelected: 0
   Level: 0
 --- !u!1 &5527102441520166927
@@ -516,7 +517,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6176112463692263789}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.0814557, z: -0.30356693}
+  m_LocalPosition: {x: 0, y: 1.07, z: -0.30356693}
   m_LocalScale: {x: 0.1, y: 0.010000002, z: 0.16000004}
   m_ConstrainProportionsScale: 0
   m_Children: []

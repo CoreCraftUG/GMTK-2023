@@ -38,6 +38,16 @@ namespace JamCraft.GMTK2023.Code
             EventManager.Instance.PlayAudio.AddListener(PlaySFX);
         }
 
+        private void OnDestroy()
+        {
+            EventManager.Instance.PlayAudio.RemoveAllListeners();
+        }
+
+        private void OnApplicationQuit()
+        {
+            EventManager.Instance.PlayAudio.RemoveAllListeners();
+        }
+
         public void PlaySFX(int clip, float volume)
         {
             _sfxSource.clip = _allClips[clip];

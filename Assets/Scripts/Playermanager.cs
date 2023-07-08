@@ -35,6 +35,17 @@ public class Playermanager : Singleton<Playermanager>
         _currentDelay = _startDelay;
 
     }
+
+    private void OnDestroy()
+    {
+        EventManager.Instance.GameOverEvent.RemoveAllListeners();
+    }
+
+    private void OnApplicationQuit()
+    {
+        EventManager.Instance.GameOverEvent.RemoveAllListeners();
+    }
+
     public void BeginPlay()
     {
         CanTurn = true;

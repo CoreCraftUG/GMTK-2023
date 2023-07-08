@@ -23,8 +23,23 @@ public class PointsManager : MonoBehaviour
         EventManager.Instance.TurnEvent.AddListener(TurnEnd);
     }
 
+    private void OnDestroy()
+    {
+        EventManager.Instance.MatchingCardsEvent.RemoveAllListeners();
+        EventManager.Instance.TurnEvent.RemoveAllListeners();
+    }
+
+    private void OnApplicationQuit()
+    {
+        EventManager.Instance.MatchingCardsEvent.RemoveAllListeners();
+        EventManager.Instance.TurnEvent.RemoveAllListeners();
+    }
+
     private void Multiply()
     {
+        if (TempPoints<=0)
+            return;
+
         TotalPoints += (int)(TempPoints * PointMultiplyer);
         TempPoints = 0;
 

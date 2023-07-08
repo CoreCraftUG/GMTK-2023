@@ -19,4 +19,16 @@ public class VFXManager : MonoBehaviour
                 Instantiate(_coinVFXObject, _coinVFXSpawnTransform);
         });
     }
+
+    private void OnDestroy()
+    {
+        EventManager.Instance.PointsAddedEvent.RemoveAllListeners();
+        EventManager.Instance.MatchingCardsEvent.RemoveAllListeners();
+    }
+
+    private void OnApplicationQuit()
+    {
+        EventManager.Instance.PointsAddedEvent.RemoveAllListeners();
+        EventManager.Instance.MatchingCardsEvent.RemoveAllListeners();
+    }
 }

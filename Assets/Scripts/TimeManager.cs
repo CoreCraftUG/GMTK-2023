@@ -9,7 +9,19 @@ public class TimeManager : Singleton<TimeManager>
     {
         TimeStop = false;
         EventManager.Instance.TimeStartEvent.AddListener(StartTime);       
-        EventManager.Instance.TimeStopEvent.AddListener(StopTime);       
+        EventManager.Instance.TimeStopEvent.AddListener(StopTime);
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.Instance.TimeStartEvent.RemoveAllListeners();
+        EventManager.Instance.TimeStopEvent.RemoveAllListeners();
+    }
+
+    private void OnApplicationQuit()
+    {
+        EventManager.Instance.TimeStartEvent.RemoveAllListeners();
+        EventManager.Instance.TimeStopEvent.RemoveAllListeners();
     }
 
     public bool TimeStop { get; internal set; }

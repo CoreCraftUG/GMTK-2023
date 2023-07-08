@@ -94,6 +94,7 @@ public class Player : MonoBehaviour
         if (SelectedSpot > _possibleSpots)
             SelectedSpot = 1;
         _slotIndicators[SelectedSpot - 1].transform.GetComponent<MeshRenderer>().material = _on;
+        _presentedCard.transform.position = _slotIndicators[SelectedSpot - 1].transform.position;
         timer = 0;
     }
 

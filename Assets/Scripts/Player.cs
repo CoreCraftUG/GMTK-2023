@@ -25,7 +25,8 @@ public class Player : MonoBehaviour
     private int SelectedSpot; //Currently selected Grid spot
     private float timer; //timer
     private CardHolder _presentedCard;
-    private Stack<CardBase> _deck = new Stack<CardBase>(); //Cards
+    private Stack<CardBase> _deck = new Stack<CardBase>(); //Card
+    [SerializeField] private float _cardHeight;
 
     [HideInInspector] public bool IsSelected; //Is this player currently selected?
     [HideInInspector] public int Level; //Is this player currently selected?
@@ -94,7 +95,7 @@ public class Player : MonoBehaviour
         if (SelectedSpot > _possibleSpots)
             SelectedSpot = 1;
         _slotIndicators[SelectedSpot - 1].transform.GetComponent<MeshRenderer>().material = _on;
-        _presentedCard.transform.position =  new Vector3(_slotIndicators[SelectedSpot - 1].transform.position.x, _slotIndicators[SelectedSpot - 1].transform.position.y + .5f, _slotIndicators[SelectedSpot - 1].transform.position.z);
+        _presentedCard.transform.position =  new Vector3(_slotIndicators[SelectedSpot - 1].transform.position.x, _slotIndicators[SelectedSpot - 1].transform.position.y + _cardHeight, _slotIndicators[SelectedSpot - 1].transform.position.z);
         
         timer = 0;
     }

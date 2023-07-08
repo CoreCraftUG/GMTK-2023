@@ -110,14 +110,14 @@ public class CardGrid : MonoBehaviour
     private void CheckForMatch()
     {
         //Debug.Log($"Checking Matches");
-        for (int i = 0; i< _gridLength; i++)
+        for (int i = 0; i < _gridLength; i++)
         {
             int red = 0;
             int blue = 0;
             int green = 0;
             int yellow = 0;
             int white = 0;
-            for (int k = i; k < _gridWidth; k++)
+            for (int k = 0; k < _gridWidth; k++)
             {
                 if (_cardField[k, i] == null)
                     continue;
@@ -147,9 +147,8 @@ public class CardGrid : MonoBehaviour
 
             if(red == _gridWidth || blue == _gridWidth || green == _gridWidth || yellow == _gridWidth || white == _gridWidth)
             {
-                
                 StartCoroutine(RowMatch(i));
-                return;
+                break;
             }
         }
         EventManager.Instance.TimeStartEvent.Invoke();

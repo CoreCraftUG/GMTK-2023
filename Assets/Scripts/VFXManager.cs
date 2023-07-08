@@ -11,11 +11,13 @@ public class VFXManager : MonoBehaviour
     {
         EventManager.Instance.PointsAddedEvent.AddListener((int i) =>
         {
-            Instantiate(_coinVFXObject, _coinVFXSpawnTransform);
+            //Instantiate(_coinVFXObject, _coinVFXSpawnTransform);
         });
         EventManager.Instance.MatchingCardsEvent.AddListener((bool b) =>
         {
             if (b)
+                Instantiate(_coinVFXObject, _coinVFXSpawnTransform);
+            else
                 Instantiate(_coinVFXObject, _coinVFXSpawnTransform);
         });
     }

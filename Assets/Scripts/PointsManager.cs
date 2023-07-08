@@ -57,7 +57,7 @@ public class PointsManager : MonoBehaviour
         Multiply();
         if (!_wasMultiplied)
         {
-            if (_multiplierIncrease < _maxMissedMultiplies)
+            if (_multiplierIncrease >= _maxMissedMultiplies)
             {
                 PointMultiplyer = 1;
                 EventManager.Instance.StreakEndEvent.Invoke();

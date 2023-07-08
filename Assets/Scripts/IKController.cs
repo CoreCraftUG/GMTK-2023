@@ -13,6 +13,7 @@ public class IKController : MonoBehaviour
     
     [SerializeField] private Player _player;
     private Transform _handObj = null;
+    private Transform _lookObj = null;
 
 
     private void Start()
@@ -27,6 +28,11 @@ public class IKController : MonoBehaviour
             if (_ikActive)
             {
                 Debug.Log(_handObj);
+                if(_lookObj != null)
+                {
+                    animator.SetLookAtWeight(1);
+                    animator.SetLookAtPosition(_lookObj.position);
+                }
                 if(_handObj != null)
                 {
                     animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1);
@@ -39,6 +45,7 @@ public class IKController : MonoBehaviour
             {
                 animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 0);
                 animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 0);
+                animator.SetLookAtWeight(0);
             }
         }
     }

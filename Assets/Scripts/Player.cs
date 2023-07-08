@@ -32,6 +32,7 @@ public class Player : MonoBehaviour
     [HideInInspector] public int Level; //Is this player currently selected?
     public CardGrid FacingGrid => Playermanager.Instance.Grids[FacingArea]; //Grid
     public CardBase CurrentCard => (_deck.Peek().Equals(null)) ? null : _deck.Peek(); //Card
+    [SerializeField] private Transform _lookTarget;
 
     
 
@@ -50,7 +51,7 @@ public class Player : MonoBehaviour
     {
         if (TimeManager.Instance.TimeStop)
             return;
-
+        _lookTarget = Playermanager.Instance.ReturnLookTarget();
         if (_currentLevel < Level)
         {
             _currentLevel = Level;

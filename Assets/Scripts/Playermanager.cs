@@ -20,7 +20,7 @@ public class Playermanager : Singleton<Playermanager>
     [BoxGroup("Gameplay"), SerializeField] private List<Player> Players = new List<Player>(); //List of all players
 
     private bool _gameover;
-    private int _randomPlayer; //random player currently being selected(int)
+    private int _randomPlayer = 0; //random player currently being selected(int)
     private int _delayLevel;
     private float _currentDelay; //Time it takes for one player to play a card automatically atm
     private float _delayTimer;
@@ -39,6 +39,11 @@ public class Playermanager : Singleton<Playermanager>
     {
         CanTurn = true;
         NextPlayer();
+    }
+
+    public Transform ReturnLookTarget()
+    {
+            return (Players[_randomPlayer].transform);
     }
 
     private void Update()

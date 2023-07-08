@@ -79,6 +79,9 @@ namespace JamCraft.GMTK2023.Code
                 Hide();
             });
 
+            // Fill the dropdown with the supported resolutions.
+            AddResolutions();
+
             // Add function to the resolution dropdown.
             _resolutionDropdown.onValueChanged.AddListener(SetResolution);
         }
@@ -147,9 +150,6 @@ namespace JamCraft.GMTK2023.Code
             _sfxVolumeSlider.value = SoundManager.Instance.SfxVolume;
 
             _cameraHeightSlider.value = GameSettingsManager.Instance.CameraHeight;
-
-            // Fill the dropdown with the supported resolutions.
-            AddResolutions();
 
             Hide();
         }

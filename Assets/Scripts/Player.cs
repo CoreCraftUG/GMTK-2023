@@ -41,6 +41,11 @@ public class Player : MonoBehaviour
         NewDeck();
     }
 
+    public Transform ReturnPresentedCard()
+    {
+        return _slotIndicators[SelectedSpot - 1].transform.GetChild(0).transform;
+    }
+
     private void Update()
     {
         if (TimeManager.Instance.TimeStop)

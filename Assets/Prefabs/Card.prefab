@@ -181,7 +181,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MoveTime: 1
-  _cardObject: {fileID: 5613682045183669760, guid: e9bbfd84f064fa2408a156b2e62ab073,
+  _cardObject: {fileID: 3230847829373084493, guid: d736447862c133d45b068e4f22ec941d,
     type: 3}
   _cardText: {fileID: 5295302816762720064}
 --- !u!1 &9066142118419231546

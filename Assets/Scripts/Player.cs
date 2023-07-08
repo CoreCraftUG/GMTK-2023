@@ -8,12 +8,14 @@ public class Player : MonoBehaviour
     [BoxGroup("Visual"), SerializeField] private Material _off;
     [BoxGroup("Visual"), SerializeField] private Material _on;
     [BoxGroup("Visual"), SerializeField] private List<GameObject> _slotIndicators = new List<GameObject>();
-    
+    [BoxGroup("Visual"), SerializeField] public GameObject TurnLight;
+
 
     [BoxGroup("Gameplay"), SerializeField] private int _randomCardAmount; //Amount of random Cards being added to the Base Deck amount
     [BoxGroup("Gameplay"), SerializeField] private int _deckSize => 16 + _randomCardAmount; //Cards
     [BoxGroup("Gameplay"), SerializeField] private float SwapDelay; //Timer between slots changing
     [BoxGroup("Gameplay"), SerializeField] private float SwapDelayIncrement; //Timer between slots changing
+    [BoxGroup("Gameplay"), SerializeField] public int FacingArea; //Number of the Grid that is currently being faced
     [BoxGroup("Gameplay"), SerializeField] private GameObject _card;
     [BoxGroup("Gameplay"), SerializeField] private Transform _cardPreview;
     [BoxGroup("Gameplay"), SerializeField] private List<CardBase> _cards = new List<CardBase>(); //Cards
@@ -26,7 +28,6 @@ public class Player : MonoBehaviour
     private Stack<CardBase> _deck = new Stack<CardBase>(); //Cards
 
     [HideInInspector] public bool IsSelected; //Is this player currently selected?
-    [HideInInspector] public int FacingArea; //Number of the Grid that is currently being faced
     [HideInInspector] public int Level; //Is this player currently selected?
     public CardGrid FacingGrid => Playermanager.Instance.Grids[FacingArea]; //Grid
     public CardBase CurrentCard => (_deck.Peek().Equals(null)) ? null : _deck.Peek(); //Card

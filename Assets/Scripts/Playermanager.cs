@@ -75,7 +75,8 @@ public class Playermanager : Singleton<Playermanager>
         _randomPlayer = Random.Range(0, Players.Count);
         Players[_randomPlayer].IsSelected = true;
         Players[_randomPlayer].Level = _delayLevel;
-        Players[_randomPlayer].transform.GetComponent<MeshRenderer>().material = On;
+        //Players[_randomPlayer].transform.GetComponent<MeshRenderer>().material = On;
+        Players[_randomPlayer].TurnLight.SetActive(true);
         //Invoke("SelectedPlayerPlays", CurrentDelay);
         //Debug.Log(_randomPlayer);
     }
@@ -88,7 +89,8 @@ public class Playermanager : Singleton<Playermanager>
         Players[_randomPlayer].PlayCard();
         Players[_randomPlayer].IsSelected = false;
         Players[_randomPlayer].ResetSlots();
-        Players[_randomPlayer].transform.GetComponent<MeshRenderer>().material = Off;
+        Players[_randomPlayer].TurnLight.SetActive(false);
+        //Players[_randomPlayer].transform.GetComponent<MeshRenderer>().material = Off;
         NextPlayer();
     }
 

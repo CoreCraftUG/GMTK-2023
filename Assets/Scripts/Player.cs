@@ -51,7 +51,9 @@ public class Player : MonoBehaviour
     {
         if (TimeManager.Instance.TimeStop)
             return;
+
         _lookTarget = Playermanager.Instance.ReturnLookTarget();
+
         if (_currentLevel < Level)
         {
             _currentLevel = Level;
@@ -114,7 +116,6 @@ public class Player : MonoBehaviour
 
     public void PreviewNextCard()
     {
-        
         GameObject NewCard = Instantiate(_card, _cardPreview);
         _presentedCard = NewCard.GetComponent<CardHolder>();
         _presentedCard.transform.position = new Vector3(_slotIndicators[SelectedSpot - 1].transform.position.x, _slotIndicators[SelectedSpot - 1].transform.position.y + _cardHeight, _slotIndicators[SelectedSpot - 1].transform.position.z);

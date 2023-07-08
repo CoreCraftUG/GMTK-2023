@@ -38,11 +38,17 @@ public class Playermanager : Singleton<Playermanager>
 
     private void OnDestroy()
     {
+        if (!EventManager.Instance)
+            return;
+
         EventManager.Instance.GameOverEvent.RemoveAllListeners();
     }
 
     private void OnApplicationQuit()
     {
+        if (!EventManager.Instance)
+            return;
+
         EventManager.Instance.GameOverEvent.RemoveAllListeners();
     }
 
@@ -78,11 +84,12 @@ public class Playermanager : Singleton<Playermanager>
 
         Timer += Time.deltaTime;
         timerCountdown.fillAmount = (_currentDelay - Timer)/_currentDelay;
+
         if(Timer >= _currentDelay && CanTurn)
         {
             SelectedPlayerPlays();
         }
-        else if (Input.GetKeyDown(KeyCode.Space)&&CanTurn)
+        else if (Input.GetKeyDown(KeyCode.Space) && CanTurn)
         {
             SelectedPlayerPlays();
             //CancelInvoke();

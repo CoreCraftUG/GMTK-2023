@@ -14,12 +14,18 @@ public class TimeManager : Singleton<TimeManager>
 
     private void OnDestroy()
     {
+        if (!EventManager.Instance)
+            return;
+
         EventManager.Instance.TimeStartEvent.RemoveAllListeners();
         EventManager.Instance.TimeStopEvent.RemoveAllListeners();
     }
 
     private void OnApplicationQuit()
     {
+        if (!EventManager.Instance)
+            return;
+
         EventManager.Instance.TimeStartEvent.RemoveAllListeners();
         EventManager.Instance.TimeStopEvent.RemoveAllListeners();
     }

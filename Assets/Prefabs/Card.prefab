@@ -2569,7 +2569,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66b2e0773dae4f041baaa31660990c63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveTime: 1
+  MoveTime: 0.5
   _cards:
   - {fileID: 4645712420333121880}
   - {fileID: 4037613058057373885}

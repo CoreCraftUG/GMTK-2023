@@ -25,12 +25,18 @@ public class PointsManager : MonoBehaviour
 
     private void OnDestroy()
     {
+        if (!EventManager.Instance)
+            return;
+
         EventManager.Instance.MatchingCardsEvent.RemoveAllListeners();
         EventManager.Instance.TurnEvent.RemoveAllListeners();
     }
 
     private void OnApplicationQuit()
     {
+        if (!EventManager.Instance)
+            return;
+
         EventManager.Instance.MatchingCardsEvent.RemoveAllListeners();
         EventManager.Instance.TurnEvent.RemoveAllListeners();
     }

@@ -40,11 +40,17 @@ namespace JamCraft.GMTK2023.Code
 
         private void OnDestroy()
         {
+            if (!EventManager.Instance)
+                return;
+
             EventManager.Instance.PlayAudio.RemoveAllListeners();
         }
 
         private void OnApplicationQuit()
         {
+            if (!EventManager.Instance)
+                return;
+
             EventManager.Instance.PlayAudio.RemoveAllListeners();
         }
 

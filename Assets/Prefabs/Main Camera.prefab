@@ -194,7 +194,6 @@ GameObject:
   m_Component:
   - component: {fileID: 9207958340858523118}
   - component: {fileID: 545496498018928173}
-  - component: {fileID: 627925657626477354}
   - component: {fileID: 56009797248503942}
   m_Layer: 0
   m_Name: Ignore Post Processing Camera
@@ -269,14 +268,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &627925657626477354
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7465746504772563904}
-  m_Enabled: 1
 --- !u!114 &56009797248503942
 MonoBehaviour:
   m_ObjectHideFlags: 0

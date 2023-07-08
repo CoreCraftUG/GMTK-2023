@@ -1,32 +1,35 @@
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private int _randomCardAmount; //Amount of random Cards being added to the Base Deck amount
-    [SerializeField] private int _deckSize => 16 + _randomCardAmount; //Cards
-    [SerializeField] private GameObject _card;
-    [SerializeField] private Transform _cardPreview;
-    [SerializeField] private List<CardBase> _cards = new List<CardBase>(); //Cards
+    [BoxGroup("Visual"), SerializeField] private Material _off;
+    [BoxGroup("Visual"), SerializeField] private Material _on;
+    [BoxGroup("Visual"), SerializeField] private List<GameObject> _slotIndicators = new List<GameObject>();
+    
 
-    [SerializeField] private Stack<CardBase> _deck = new Stack<CardBase>(); //Cards
-    public int FacingArea; //Number of the Grid that is currently being faced
-    public bool IsSelected; //Is this player currently selected?
-    public int Level; //Is this player currently selected?
+    [BoxGroup("Gameplay"), SerializeField] private int _randomCardAmount; //Amount of random Cards being added to the Base Deck amount
+    [BoxGroup("Gameplay"), SerializeField] private int _deckSize => 16 + _randomCardAmount; //Cards
+    [BoxGroup("Gameplay"), SerializeField] private float SwapDelay; //Timer between slots changing
+    [BoxGroup("Gameplay"), SerializeField] private float SwapDelayIncrement; //Timer between slots changing
+    [BoxGroup("Gameplay"), SerializeField] private GameObject _card;
+    [BoxGroup("Gameplay"), SerializeField] private Transform _cardPreview;
+    [BoxGroup("Gameplay"), SerializeField] private List<CardBase> _cards = new List<CardBase>(); //Cards
+
     private int _currentLevel; //Is this player currently selected?
-    public float SwapDelay; //Timer between slots changing
-    public float SwapDelayIncrement; //Timer between slots changing
     private int _possibleSpots = 3;
-    public int SelectedSpot; //Currently selected Grid spot
-    float timer; //timer
+    private int SelectedSpot; //Currently selected Grid spot
+    private float timer; //timer
+    private CardHolder _presentedCard;
+    private Stack<CardBase> _deck = new Stack<CardBase>(); //Cards
+
+    [HideInInspector] public bool IsSelected; //Is this player currently selected?
+    [HideInInspector] public int FacingArea; //Number of the Grid that is currently being faced
+    [HideInInspector] public int Level; //Is this player currently selected?
     public CardGrid FacingGrid => Playermanager.instance.Grids[FacingArea]; //Grid
     public CardBase CurrentCard => (_deck.Peek().Equals(null)) ? null : _deck.Peek(); //Card
-
-    private CardHolder _presentedCard;
-    [SerializeField] private Material _off;
-    [SerializeField] private Material _on;
-    [SerializeField] private List<GameObject> _slotIndicators = new List<GameObject>();
 
     
 
@@ -110,6 +113,8 @@ public class Player : MonoBehaviour
         
         Playermanager.instance.CanTurn = false;
         FacingGrid.AddCard(_presentedCard, SelectedSpot);
+        int i = Random.Range(0, 3);
+        EventManager.Instance.PlayAudio.Invoke(i, .7f);
         EventManager.Instance.TurnEvent.Invoke();
         if (_deck.Count == 0)
             NewDeck();

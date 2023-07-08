@@ -7,4 +7,5 @@ using UnityEngine.Events;
 public class EventManager : Singleton<EventManager>
 {
     public UnityEvent<bool> MatchingCardsEvent = new UnityEvent<bool>();
+    public UnityEvent GameOverEvent = new UnityEvent();
 }

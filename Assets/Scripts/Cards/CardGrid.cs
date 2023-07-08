@@ -223,7 +223,8 @@ public class CardGrid : MonoBehaviour
 
     private void FailedToPlace()
     {
-        Debug.Log($"Failed To Place Card!");
+        Debug.Log(string.Format("<color=#{0:X2}{1:X2}{2:X2}>{3}</color>", (byte)(255f), (byte)(0f), (byte)(0f), $"Failed To Place Card!"));
+        EventManager.Instance.GameOverEvent.Invoke();
     }
 
     [Button("Test Card Slot 1")]

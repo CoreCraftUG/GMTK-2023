@@ -108,7 +108,9 @@ public class Player : MonoBehaviour
 
     public void PreviewNextCard()
     {
-        GameObject NewCard = Instantiate(_card, _cardPreview);
+        Transform SpawnPosition = _slotIndicators[SelectedSpot - 1].transform;
+        SpawnPosition.position = new Vector3(_slotIndicators[SelectedSpot - 1].transform.position.x, _slotIndicators[SelectedSpot - 1].transform.position.y + _cardHeight, _slotIndicators[SelectedSpot - 1].transform.position.z);
+        GameObject NewCard = Instantiate(_card, SpawnPosition);
         _presentedCard = NewCard.GetComponent<CardHolder>();
         _presentedCard.SetCard(_deck.Pop());
     }

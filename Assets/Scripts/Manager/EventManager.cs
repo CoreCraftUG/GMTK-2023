@@ -13,4 +13,6 @@ public class EventManager : Singleton<EventManager>
     public UnityEvent<int, float> PlayAudio = new UnityEvent<int, float>();
     public UnityEvent TimeStartEvent = new UnityEvent();
     public UnityEvent TimeStopEvent = new UnityEvent();
+    public UnityEvent<int> MissedMultiplyEvent = new UnityEvent<int>(); 
+    public UnityEvent StreakEndEvent = new UnityEvent(); 
 }

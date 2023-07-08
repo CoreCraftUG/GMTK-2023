@@ -94,7 +94,7 @@ public class Player : MonoBehaviour
         if (SelectedSpot > _possibleSpots)
             SelectedSpot = 1;
         _slotIndicators[SelectedSpot - 1].transform.GetComponent<MeshRenderer>().material = _on;
-        _presentedCard.transform.position =  new Vector3(_slotIndicators[SelectedSpot - 1].transform.position.x, _slotIndicators[SelectedSpot - 1].transform.position.y, _slotIndicators[SelectedSpot - 1].transform.position.z + .5f);
+        _presentedCard.transform.position =  new Vector3(_slotIndicators[SelectedSpot - 1].transform.position.x, _slotIndicators[SelectedSpot - 1].transform.position.y + .5f, _slotIndicators[SelectedSpot - 1].transform.position.z);
         
         timer = 0;
     }

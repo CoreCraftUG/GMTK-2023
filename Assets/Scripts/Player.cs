@@ -101,6 +101,7 @@ public class Player : MonoBehaviour
         
         Playermanager.instance.CanTurn = false;
         FacingGrid.AddCard(_presentedCard, SelectedSpot);
+        EventManager.Instance.TurnEvent.Invoke();
         if (_deck.Count == 0)
             NewDeck();
         else

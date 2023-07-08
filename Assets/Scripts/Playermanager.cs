@@ -16,11 +16,14 @@ public class Playermanager : MonoBehaviour
     public Material Off;
     public float timer;
     [SerializeField] private Image timerCountdown;
+    private bool _gameover;
 
     private void Awake()
     {
         instance = this;
+        EventManager.Instance.GameOverEvent.AddListener(() => _gameover = true);
         BeginPlay();
+
     }
     public void BeginPlay()
     {
@@ -32,6 +35,8 @@ public class Playermanager : MonoBehaviour
     {
         //if(!CanTurn)
         //    Debug.Log("Can turn =" + CanTurn);
+        if (_gameover)
+            return;
         timer += Time.deltaTime;
         timerCountdown.fillAmount = (CurrentDelay - timer)/CurrentDelay;
         if(timer >= CurrentDelay && CanTurn)

@@ -42,11 +42,7 @@ public class CardGrid : MonoBehaviour
         }
 
         #region remove later
-        foreach (Vector3 vec in _cardPositions)
-        {
-            GameObject obj = Instantiate(_gridSlot, _gridVisualHolder);
-            obj.transform.localPosition = vec;
-        }
+        VisualizeGrid();
         #endregion
     }
 
@@ -277,6 +273,38 @@ public class CardGrid : MonoBehaviour
         }
     }
 
+    [SerializeField] List<GameObject> _gridVisualizeObjects = new List<GameObject>();
+    [Button("Visualize Grid")]
+    private void VisualizeGrid()
+    {
+        _cardPositions = new Vector3[_gridWidth, _gridLength];
+
+        for (int x = 0; x < _gridWidth; x++)
+        {
+            for (int z = 0; z < _gridLength; z++)
+            {
+                _cardPositions[x, z] = new Vector3(x * _fieldWidthSpacing, 0, z * _fieldLengthSpacing);
+            }
+        }
+
+        foreach (Vector3 vec in _cardPositions)
+        {
+            GameObject obj = Instantiate(_gridSlot, _gridVisualHolder);
+            obj.transform.localPosition = vec;
+            _gridVisualizeObjects.Add(obj);
+        }
+    }
+
+    [Button("Devisualize Grid")]
+    private void DevisualizeGrid()
+    {
+        foreach (GameObject obj in _gridVisualizeObjects)
+        {
+            DestroyImmediate(obj);
+        }
+        _gridVisualizeObjects = new List<GameObject>();
+    }
+
     private void TestCard(int slot)
     {
         GameObject obj = Instantiate(_cardObject, transform);
@@ -294,10 +322,5 @@ public class CardGrid : MonoBehaviour
         Debug.Log($"Card created Colour: {card.Colour}\nFace: {card.Face} at Slot: {slot}");
 
         AddCard(holder, slot);
-    }
-
-    void Update()
-    {
-        
     }
 }

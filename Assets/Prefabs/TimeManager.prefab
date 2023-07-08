@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7655381153589040981
+--- !u!1 &8874883979878135015
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,50 +8,39 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 765988377802000955}
-  - component: {fileID: 1364914010334878985}
+  - component: {fileID: 3128074997376997541}
+  - component: {fileID: 3841602518605619269}
   m_Layer: 0
-  m_Name: PlayerManager
+  m_Name: TimeManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &765988377802000955
+--- !u!4 &3128074997376997541
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7655381153589040981}
+  m_GameObject: {fileID: 8874883979878135015}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 5.1298246, y: -2.3150651, z: -13.179688}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 30
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1364914010334878985
+--- !u!114 &3841602518605619269
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7655381153589040981}
+  m_GameObject: {fileID: 8874883979878135015}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03d24909b1d0f2541a2e77be594f192a, type: 3}
+  m_Script: {fileID: 11500000, guid: 882fa0e8b028b98409ecc11da6e8ae22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  On: {fileID: 0}
-  Off: {fileID: 0}
-  timerCountdown: {fileID: 0}
-  _endLevel: 15
-  _startDelay: 5
-  _delayIncrement: 0.25
-  _delayIncreaseTime: 30
-  Grids: []
-  Players: []
-  CanTurn: 1
-  Timer: 0

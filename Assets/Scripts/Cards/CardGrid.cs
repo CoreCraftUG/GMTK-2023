@@ -37,10 +37,6 @@ public class CardGrid : MonoBehaviour
                 _cardPositions[x, z] = new Vector3(x * _fieldWidthSpacing, 0, z * _fieldLengthSpacing);
             }
         }
-
-        #region remove later
-        VisualizeGrid();
-        #endregion
     }
 
     public void AddCard(CardHolder card, int slot)
@@ -100,10 +96,12 @@ public class CardGrid : MonoBehaviour
 
         if (!couldPlace)
         {
+            EventManager.Instance.TimeStopEvent.Invoke();
             FailedToPlace();
             return;
         }
 
+        EventManager.Instance.TimeStopEvent.Invoke();
         CheckForMatch();
 
     }
@@ -149,6 +147,7 @@ public class CardGrid : MonoBehaviour
                 return;
             }
         }
+        EventManager.Instance.TimeStartEvent.Invoke();
         Playermanager.Instance.CanTurn = true;
         Playermanager.Instance.Timer = 0;
     }

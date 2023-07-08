@@ -42,6 +42,9 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        if (TimeManager.Instance.TimeStop)
+            return;
+
         if (_currentLevel < Level)
         {
             _currentLevel = Level;

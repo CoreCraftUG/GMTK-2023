@@ -26,8 +26,8 @@ public class CardHolder : MonoBehaviour
     {
         Debug.Log($"Moving Card: {this} from {transform.position} to {position}");
         transform.localRotation = Quaternion.identity;
-        transform.DOLocalMove(position, MoveTime);//.OnComplete(()=> Playermanager.instance.CanTurn = true);
-        
+        EventManager.Instance.TimeStopEvent.Invoke();
+        transform.DOLocalMove(position, MoveTime).OnComplete(() => EventManager.Instance.TimeStartEvent.Invoke());
     }
 
     public void VanishCard()

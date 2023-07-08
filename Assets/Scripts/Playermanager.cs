@@ -43,6 +43,12 @@ public class Playermanager : Singleton<Playermanager>
 
     private void Update()
     {
+        if (_gameover)
+            return;
+
+        if (TimeManager.Instance.TimeStop)
+            return;
+
         if(_delayLevel < _endLevel && _delayTimer >= _delayIncreaseTime)
         {
             _delayTimer = 0;
@@ -54,8 +60,6 @@ public class Playermanager : Singleton<Playermanager>
             _delayTimer += Time.deltaTime;
         }
 
-        if (_gameover)
-            return;
         Timer += Time.deltaTime;
         timerCountdown.fillAmount = (_currentDelay - Timer)/_currentDelay;
         if(Timer >= _currentDelay && CanTurn)

@@ -12,6 +12,7 @@ namespace JamCraft.GMTK2023.Code
         public const string PLAYER_PREFS_MAIN_VOLUME = "MainVolume";
         public const string PLAYER_PREFS_MUSIC_VOLUME = "MusicVolume";
         public const string PLAYER_PREFS_SFX_VOLUME = "SfxVolume";
+        public const string PLAYER_PREFS_CAMERA_HEIGHT = "CameraHeightValue";
 
         public static GameOptionsUI Instance { get; private set; }
 
@@ -26,11 +27,13 @@ namespace JamCraft.GMTK2023.Code
         [SerializeField] private Slider _mainVolumeSlider;
         [SerializeField] private Slider _musicVolumeSlider;
         [SerializeField] private Slider _sfxVolumeSlider;
+        [SerializeField] private Slider _cameraHeightSlider;
 
         [Header("UI Texts")] 
         [SerializeField] private TextMeshProUGUI _mainVolumeText;
         [SerializeField] private TextMeshProUGUI _musicVolumeText;
         [SerializeField] private TextMeshProUGUI _sfxVolumeText;
+        [SerializeField] private TextMeshProUGUI _cameraHeightText;
 
         private List<Resolution> _supportedResolutions;
 
@@ -51,12 +54,15 @@ namespace JamCraft.GMTK2023.Code
 
             _sfxVolumeSlider.onValueChanged.AddListener(OnSfxVolumeValueChanged);
 
+            _cameraHeightSlider.onValueChanged.AddListener(OnCameraHeightValueChanged);
+
             // Save sound values.
             _saveButton.onClick.AddListener(() =>
             {
                 PlayerPrefs.SetFloat(PLAYER_PREFS_MAIN_VOLUME, SoundManager.Instance.MainVolume);
                 PlayerPrefs.SetFloat(PLAYER_PREFS_MUSIC_VOLUME, SoundManager.Instance.MusicVolume);
                 PlayerPrefs.SetFloat(PLAYER_PREFS_SFX_VOLUME, SoundManager.Instance.SfxVolume);
+                PlayerPrefs.SetFloat(PLAYER_PREFS_CAMERA_HEIGHT, GameSettingsManager.Instance.CameraHeight);
                 PlayerPrefs.Save();
             });
 
@@ -69,6 +75,12 @@ namespace JamCraft.GMTK2023.Code
 
             // Add function to the resolution dropdown.
             _resolutionDropdown.onValueChanged.AddListener(SetResolution);
+        }
+
+        private void OnCameraHeightValueChanged(float value)
+        {
+            GameSettingsManager.Instance.ChangeCameraHeight(_cameraHeightSlider.value);
+            _cameraHeightText.text = Mathf.Round(GameSettingsManager.Instance.CameraHeight * 10).ToString();
         }
 
         private void SetResolution(int index)
@@ -115,12 +127,16 @@ namespace JamCraft.GMTK2023.Code
 
             _sfxVolumeText.text = Mathf.Round(SoundManager.Instance.SfxVolume * 10).ToString();
 
+            _cameraHeightText.text = Mathf.Round(GameSettingsManager.Instance.CameraHeight * 10).ToString();
+
             // Set the slider values to the sound manager values.
             _mainVolumeSlider.value = SoundManager.Instance.MainVolume;
 
             _musicVolumeSlider.value = SoundManager.Instance.MusicVolume;
 
             _sfxVolumeSlider.value = SoundManager.Instance.SfxVolume;
+
+            _cameraHeightSlider.value = GameSettingsManager.Instance.CameraHeight;
 
             // Fill the dropdown with the supported resolutions.
             AddResolutions();

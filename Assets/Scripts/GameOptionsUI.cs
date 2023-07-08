@@ -13,6 +13,7 @@ namespace JamCraft.GMTK2023.Code
         public const string PLAYER_PREFS_MUSIC_VOLUME = "MusicVolume";
         public const string PLAYER_PREFS_SFX_VOLUME = "SfxVolume";
         public const string PLAYER_PREFS_CAMERA_HEIGHT = "CameraHeightValue";
+        public const string PLAYER_PREFS_RESOLUTION = "ResolutionValue";
 
         public static GameOptionsUI Instance { get; private set; }
 
@@ -63,6 +64,7 @@ namespace JamCraft.GMTK2023.Code
                 PlayerPrefs.SetFloat(PLAYER_PREFS_MUSIC_VOLUME, SoundManager.Instance.MusicVolume);
                 PlayerPrefs.SetFloat(PLAYER_PREFS_SFX_VOLUME, SoundManager.Instance.SfxVolume);
                 PlayerPrefs.SetFloat(PLAYER_PREFS_CAMERA_HEIGHT, GameSettingsManager.Instance.CameraHeight);
+                PlayerPrefs.SetInt(PLAYER_PREFS_RESOLUTION, GameSettingsManager.Instance.ResolutionIndex);
                 PlayerPrefs.Save();
             });
 
@@ -87,13 +89,13 @@ namespace JamCraft.GMTK2023.Code
             _cameraHeightText.text = Mathf.Round(GameSettingsManager.Instance.CameraHeight * 10).ToString();
         }
 
-        private void SetResolution(int index)
+        public void SetResolution(int index)
         {
             Screen.SetResolution(_supportedResolutions[index].width, _supportedResolutions[index].height, FullScreenMode.ExclusiveFullScreen);
             _resolutionDropdown.value = index;
             _resolutionDropdown.RefreshShownValue();
-            
-            // TODO: Save to playerprefs.
+
+            GameSettingsManager.Instance.ResolutionIndex = _resolutionDropdown.value;
         }
 
         // Change the volume to the slider value and set the text accordingly.
@@ -180,9 +182,7 @@ namespace JamCraft.GMTK2023.Code
                 _resolutionDropdown.options.Add(new TMP_Dropdown.OptionData(ResolutionToString(resolutions[i])));
                 _supportedResolutions.Add(resolutions[i]);
             }
-
-            // TODO: Set dropdown value to the saved one.
-            //_resolutionDropdown.value = 
+            
             _resolutionDropdown.RefreshShownValue();
         }
 

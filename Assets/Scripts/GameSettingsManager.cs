@@ -9,6 +9,7 @@ namespace JamCraft.GMTK2023.Code
         public static GameSettingsManager Instance { get; private set; }
 
         public float CameraHeight = 2.3f;
+        public int ResolutionIndex;
 
         private Transform _mainCameraTransform;
 
@@ -23,6 +24,7 @@ namespace JamCraft.GMTK2023.Code
 
             // Get the saves values and set the properties accordingly.
             CameraHeight = PlayerPrefs.GetFloat(GameOptionsUI.PLAYER_PREFS_CAMERA_HEIGHT, 2.3f);
+            ResolutionIndex = PlayerPrefs.GetInt(GameOptionsUI.PLAYER_PREFS_RESOLUTION);
         }
 
         private void Start()
@@ -30,6 +32,8 @@ namespace JamCraft.GMTK2023.Code
             _mainCameraTransform = Camera.main.GetComponent<Transform>();
 
             ChangeCameraHeight(CameraHeight);
+
+            GameOptionsUI.Instance.SetResolution(ResolutionIndex);
         }
 
         public void ChangeCameraHeight(float value)

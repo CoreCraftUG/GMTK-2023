@@ -16,6 +16,7 @@ public class Table : MonoBehaviour
         {
             _rotation -= 90f;
             _playTable.transform.DORotate(_rotation * Vector3.up, _rotationTime);
+            EventManager.Instance.PlayAudio.Invoke(4, 0);
             Playermanager.Instance.TurnRight();
         }
         if (Input.GetKeyDown(KeyCode.D) && Playermanager.Instance.CanTurn)

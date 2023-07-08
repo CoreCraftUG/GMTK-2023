@@ -5,6 +5,7 @@ using UnityEngine;
 public class PointsManager : MonoBehaviour
 {
     public int TotalPoints;
+    public int TempPoints;
     public float PointMultiplyer;
     [SerializeField] private int _basePoints;
     [SerializeField] private int _match3Points;
@@ -13,15 +14,26 @@ public class PointsManager : MonoBehaviour
 
     private bool _wasMultiplied;
     private int _missedMultiplies;
+    private int _turn;
+    private int _previousTurn;
 
     private void Awake()
     {
         EventManager.Instance.MatchingCardsEvent.AddListener(PointMemory);
-        EventManager.Instance.TurnEvent.AddListener(Multiply);
+        EventManager.Instance.TurnEvent.AddListener(TurnEnd);
     }
 
     private void Multiply()
     {
+        TotalPoints += (int)(TempPoints * PointMultiplyer);
+        TempPoints = 0;
+
+        EventManager.Instance.PointsAddedEvent.Invoke(TotalPoints);
+    }
+
+    private void TurnEnd()
+    {
+        Multiply();
         if (!_wasMultiplied)
         {
             if (_multiplierIncrease < _maxMissedMultiplies)
@@ -41,14 +53,16 @@ public class PointsManager : MonoBehaviour
     private void PointMemory(bool match3)
     {
         if(match3)
-            TotalPoints += Mathf.FloorToInt(_match3Points * PointMultiplyer);
+            TempPoints += Mathf.FloorToInt(_match3Points * PointMultiplyer);
         else
-            TotalPoints += Mathf.FloorToInt(_basePoints * PointMultiplyer);
+            TempPoints += Mathf.FloorToInt(_basePoints * PointMultiplyer);
 
         PointMultiplyer += _multiplierIncrease;
+        EventManager.Instance.PointMultiplyEvent.Invoke(PointMultiplyer);
         _wasMultiplied = true;
         _missedMultiplies = 0;
-        EventManager.Instance.PointsAddedEvent.Invoke(TotalPoints);
+
+        EventManager.Instance.TempPointsEvent.Invoke(TempPoints);
     }
 
     public void ResetPoints()

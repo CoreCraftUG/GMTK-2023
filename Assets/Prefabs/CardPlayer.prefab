@@ -459,6 +459,14 @@ MonoBehaviour:
     Face: 0
   - Colour: 3
     Face: 3
+  - Colour: 4
+    Face: 0
+  - Colour: 4
+    Face: 1
+  - Colour: 4
+    Face: 2
+  - Colour: 4
+    Face: 3
   _cardHeight: 0.01
   IsSelected: 0
   Level: 0

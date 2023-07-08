@@ -28,24 +28,23 @@ public class Table : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.A)&&Playermanager.instance.CanTurn)
         {
-            
-            PlayTable.transform.Rotate(0, 90, 0);
-            Playermanager.instance.TurnLeft();
-        }
-        if (Input.GetKeyDown(KeyCode.D)&&Playermanager.instance.CanTurn)
-        {
             PlayTable.transform.Rotate(0, -90, 0);
             Playermanager.instance.TurnRight();
         }
-
-        if (Input.GetKeyDown(KeyCode.Space)) //TEST
+        if (Input.GetKeyDown(KeyCode.D)&&Playermanager.instance.CanTurn)
         {
-            isselected = true;
-            Invoke("TestInvoke", 5);
- 
+            PlayTable.transform.Rotate(0, 90, 0);
+            Playermanager.instance.TurnLeft();
         }
-        if(Input.GetKeyDown(KeyCode.Backspace)) //TEST
-            CancelInvoke();
+
+        //if (Input.GetKeyDown(KeyCode.Space)) //TEST
+        //{
+        //    isselected = true;
+        //    Invoke("TestInvoke", 5);
+ 
+        //}
+        //if(Input.GetKeyDown(KeyCode.Backspace)) //TEST
+        //    CancelInvoke();
 
         
     }

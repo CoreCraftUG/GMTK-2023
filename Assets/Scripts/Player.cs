@@ -15,17 +15,21 @@ public class Player : MonoBehaviour
     public bool IsSelected; //Is this player currently selected?
     public float SwapDelay; //Timer between slots changing
     private int _possibleSpots = 3;
-    public int SelectedSpot = 0; //Currently selected Grid spot
+    public int SelectedSpot; //Currently selected Grid spot
     float timer; //timer
     public CardGrid FacingGrid => Playermanager.instance.Grids[FacingArea]; //Grid
     public CardBase CurrentCard => (_deck.Peek().Equals(null)) ? null : _deck.Peek(); //Card
 
     private CardHolder _presentedCard;
+    [SerializeField] private Material _off;
+    [SerializeField] private Material _on;
+    [SerializeField] private List<GameObject> _slotIndicators = new List<GameObject>();
 
     
 
     private void Awake()
     {
+        SelectedSpot = Random.Range(1, 4);
         NewDeck();
     }
 
@@ -37,6 +41,7 @@ public class Player : MonoBehaviour
             if (timer > SwapDelay)
                 NextSpot();
         }
+
         //if (Input.GetKeyDown(KeyCode.Space))
         //    NewDeck();
     }
@@ -68,23 +73,33 @@ public class Player : MonoBehaviour
 
     public void NextSpot()
     {
+        _slotIndicators[SelectedSpot - 1].transform.GetComponent<MeshRenderer>().material = _off;
         SelectedSpot++;
         if (SelectedSpot > _possibleSpots)
             SelectedSpot = 1;
+        _slotIndicators[SelectedSpot - 1].transform.GetComponent<MeshRenderer>().material = _on;
         timer = 0;
+    }
+
+    public void ResetSlots()
+    {
+        foreach (GameObject obj in _slotIndicators)
+            obj.transform.GetComponent<MeshRenderer>().material = _off;
     }
 
     public void PreviewNextCard()
     {
         GameObject NewCard = Instantiate(_card, _cardPreview);
         _presentedCard = NewCard.GetComponent<CardHolder>();
-        _presentedCard.SetCard(_deck.Peek());
+        _presentedCard.SetCard(_deck.Pop());
     }
 
     public void PlayCard()
-    {
+     {
+
+        Debug.Log($"{_presentedCard == null}" + SelectedSpot + _presentedCard);
+        
         Playermanager.instance.CanTurn = false;
-         _deck.Pop();
         FacingGrid.AddCard(_presentedCard, SelectedSpot);
         if (_deck.Count == 0)
             NewDeck();

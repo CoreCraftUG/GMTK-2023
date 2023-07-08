@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using TMPro;
+using UnityEngine.UI;
 public class Playermanager : MonoBehaviour
 {
     public List<Player> Players = new List<Player>(); //List of all players
@@ -10,9 +11,11 @@ public class Playermanager : MonoBehaviour
     public List<CardGrid> Grids = new List<CardGrid>(); //List of all available Grids(Grid)
     public static Playermanager instance;
     public int turnCounter = 0; //Turn counter for possibly turning up current delay etc.
-    public bool CanTurn;
+    public bool CanTurn = true;
     public Material On;
     public Material Off;
+    public float timer;
+    [SerializeField] private Image timerCountdown;
 
     private void Awake()
     {
@@ -21,16 +24,26 @@ public class Playermanager : MonoBehaviour
     }
     public void BeginPlay()
     {
+        CanTurn = true;
         NextPlayer();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        //if(!CanTurn)
+        //    Debug.Log("Can turn =" + CanTurn);
+        timer += Time.deltaTime;
+        timerCountdown.fillAmount = (CurrentDelay - timer)/CurrentDelay;
+        if(timer >= CurrentDelay && CanTurn)
         {
             SelectedPlayerPlays();
-            CancelInvoke();
         }
+        else if (Input.GetKeyDown(KeyCode.Space)&&CanTurn)
+        {
+            SelectedPlayerPlays();
+            //CancelInvoke();
+        }
+
     }
 
     public void NextPlayer()
@@ -38,19 +51,20 @@ public class Playermanager : MonoBehaviour
         _randomPlayer = Random.Range(0, Players.Count);
         Players[_randomPlayer].IsSelected = true;
         Players[_randomPlayer].transform.GetComponent<MeshRenderer>().material = On;
-        Invoke("SelectedPlayerPlays", CurrentDelay);
-        Debug.Log(_randomPlayer);
+        //Invoke("SelectedPlayerPlays", CurrentDelay);
+        //Debug.Log(_randomPlayer);
     }
 
     
 
     public void SelectedPlayerPlays()
     {
+        //Debug.Log(_randomPlayer);
         Players[_randomPlayer].PlayCard();
         Players[_randomPlayer].IsSelected = false;
+        Players[_randomPlayer].ResetSlots();
         Players[_randomPlayer].transform.GetComponent<MeshRenderer>().material = Off;
         turnCounter++;
-        Debug.Log("Player Played");
         NextPlayer();
     }
 

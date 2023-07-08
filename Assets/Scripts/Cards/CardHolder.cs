@@ -29,7 +29,7 @@ public class CardHolder : MonoBehaviour
     {
         Debug.Log($"Moving Card: {this} from {transform.position} to {position}");
         transform.localRotation = Quaternion.identity;
-        transform.DOLocalMove(position, MoveTime).OnComplete(()=> Playermanager.instance.CanTurn = true);
+        transform.DOLocalMove(position, MoveTime);//.OnComplete(()=> Playermanager.instance.CanTurn = true);
         
     }
 

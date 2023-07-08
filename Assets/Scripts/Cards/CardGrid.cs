@@ -24,6 +24,8 @@ public class CardGrid : MonoBehaviour
     private CardHolder[,] _cardObjects;
     private Vector3[,] _cardPositions;
 
+    [SerializeField] private bool _wait;
+
     void Start()
     {
         _cardField = new CardBase[_gridWidth, _gridLength];
@@ -49,7 +51,7 @@ public class CardGrid : MonoBehaviour
 
     public void AddCard(CardHolder card, int slot)
     {
-        Debug.Log($"Card: {card} spawned at Slot: {slot}");
+        //Debug.Log($"Card: {card} spawned at Slot: {slot}");
         card.gameObject.transform.SetParent(this.transform);
         bool couldPlace = false;
         #region handle ERROR
@@ -86,7 +88,7 @@ public class CardGrid : MonoBehaviour
                             _cardField[slot - 1, j - 1] = null;
                             _cardObjects[slot - 1, j] = _cardObjects[slot - 1, j - 1];
                             _cardObjects[slot - 1, j - 1].MoveCard(_cardPositions[slot - 1, j]);
-                            Debug.Log($"Card: {_cardObjects[slot - 1, j - 1]} Moved to: {_cardPositions[slot - 1, j]}");
+                            //Debug.Log($"Card: {_cardObjects[slot - 1, j - 1]} Moved to: {_cardPositions[slot - 1, j]}");
                             _cardObjects[slot - 1, j - 1] = null;
                         }
                         else
@@ -109,11 +111,12 @@ public class CardGrid : MonoBehaviour
         }
 
         CheckForMatch();
+
     }
 
     private void CheckForMatch()
     {
-        Debug.Log($"Checking Matches");
+        //Debug.Log($"Checking Matches");
         for (int i = 0; i< _gridLength; i++)
         {
             int red = 0;
@@ -151,6 +154,8 @@ public class CardGrid : MonoBehaviour
                 return;
             }
         }
+        Playermanager.instance.CanTurn = true;
+        Playermanager.instance.timer = 0;
     }
 
     private IEnumerator RowMatch(int i)
@@ -176,6 +181,7 @@ public class CardGrid : MonoBehaviour
         StartCoroutine(ArrangeField());
 
         CheckForMatch();
+
     }
 
     private IEnumerator ArrangeField()

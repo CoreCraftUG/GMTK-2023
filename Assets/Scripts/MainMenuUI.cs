@@ -5,8 +5,11 @@ namespace JamCraft.GMTK2023.Code
 {
     public class MainMenuUI : MonoBehaviour
     {
+        public static MainMenuUI Instance { get; private set; }
+
         [Header("UI Buttons")] 
         [SerializeField] private Button _playButton;
+        [SerializeField] private Button _optionsButton;
         [SerializeField] private Button _quitButton;
         [SerializeField] private Button _coreCraftButton;
 
@@ -17,6 +20,13 @@ namespace JamCraft.GMTK2023.Code
 
         private void Awake()
         {
+            if (Instance != null)
+            {
+                Debug.LogError($"There is more than one {this} instance in the scene!");
+            }
+
+            Instance = this;
+
             SetupUIButtons();
 
             Time.timeScale = 1f;
@@ -33,6 +43,12 @@ namespace JamCraft.GMTK2023.Code
             _playButton.onClick.AddListener(() =>
             {
                 Loader.Load(Loader.Scene.game_scene);
+            });
+
+            // Show the options menu and hide the pause menu.
+            _optionsButton.onClick.AddListener(() =>
+            {
+                GameOptionsUI.Instance.Show();
             });
 
             // Show quit panel on click.

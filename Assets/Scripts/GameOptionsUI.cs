@@ -69,7 +69,11 @@ namespace JamCraft.GMTK2023.Code
             // Close options menu and show pause menu.
             _backButton.onClick.AddListener(() =>
             {
-                GamePauseUI.Instance.Show();
+                if (GamePauseUI.Instance != null)
+                {
+                    GamePauseUI.Instance.Show();
+                }
+                
                 Hide();
             });
 
@@ -118,7 +122,11 @@ namespace JamCraft.GMTK2023.Code
         private void Start()
         {
             // Subscribe to the unpause event.
-            GameStateManager.Instance.OnGameUnpaused += GameStateManager_OnOnGameUnpaused;
+
+            if (GameStateManager.Instance != null)
+            {
+                GameStateManager.Instance.OnGameUnpaused += GameStateManager_OnOnGameUnpaused;
+            }
 
             // Set the texts to the according values + some black magic so it looks correct.
             _mainVolumeText.text = Mathf.Round(SoundManager.Instance.MainVolume * 10).ToString();

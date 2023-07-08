@@ -28,13 +28,19 @@ namespace JamCraft.GMTK2023.Code
         private void Start()
         {
             _mainCameraTransform = Camera.main.GetComponent<Transform>();
+
+            ChangeCameraHeight(CameraHeight);
         }
 
         public void ChangeCameraHeight(float value)
         {
             // Set CameraHeight to the slider value display the value.
             CameraHeight = value;
-            _mainCameraTransform.localPosition = new Vector3(_mainCameraTransform.localPosition.x, CameraHeight, _mainCameraTransform.localPosition.z);
+
+            if (_mainCameraTransform != null)
+            { 
+                _mainCameraTransform.localPosition = new Vector3(_mainCameraTransform.localPosition.x, CameraHeight, _mainCameraTransform.localPosition.z);
+            }
         }
     }
 }

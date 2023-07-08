@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1135941000989024583
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5021654777876905801}
+  m_Layer: 0
+  m_Name: DebugHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5021654777876905801
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1135941000989024583}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8678386967596591430}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2121797749411364874
 GameObject:
   m_ObjectHideFlags: 0
@@ -30,6 +61,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1752882637652551507}
+  - {fileID: 5021654777876905801}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -47,14 +79,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gridLength: 5
   _gridWidth: 3
-  _fieldLengthSpacing: 2.1
-  _fieldWidthSpacing: 1.1
+  _fieldLengthSpacing: 0.21
+  _fieldWidthSpacing: 0.11
   _gridStartTransform: {fileID: 8678386967596591430}
   _cardObject: {fileID: 6811084896005803881, guid: 7b99fc5405a541342b5deb4ff5942e4a,
     type: 3}
   _gridSlot: {fileID: 5613682045183669760, guid: d82d6d1936f4e4b449395caecf8d87b7,
     type: 3}
   _gridVisualHolder: {fileID: 1752882637652551507}
+  _gridDebugHolder: {fileID: 5021654777876905801}
+  _wait: 0
   _testColour: 0
   _testFace: 0
 --- !u!1 &6358582241496865452

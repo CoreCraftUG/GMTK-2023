@@ -19,6 +19,7 @@ public class CardGrid : MonoBehaviour
     [SerializeField] private GameObject _cardObject;
     [SerializeField] private GameObject _gridSlot;
     [SerializeField] private Transform _gridVisualHolder;
+    [SerializeField] private Transform _gridDebugHolder;
 
     private CardBase[,] _cardField;
     private CardHolder[,] _cardObjects;
@@ -188,21 +189,32 @@ public class CardGrid : MonoBehaviour
     {
         float time = 0;
         Debug.Log($"Arranging Field");
-        for (int i  = 0; i < _gridWidth; i++)
+        for (int i  = 0; i < _gridLength; i++)
         {
-            for(int j =0; j < _gridLength; j++)
+            for(int j =0; j < _gridWidth; j++)
             {
-                if (_cardField[i,j] == null)
+                if (i + 1 < _gridLength && _cardField[j,i] == null)
                 {
-                    for(int k  = j; k < _gridLength - 1; k++)
+                    if (_cardField[j, i + 1] != null)
                     {
-                        if (_cardField[i, k + 1] != null)
-                        {
-                            _cardField[i, k] = _cardField[i, k + 1];
-                            _cardObjects[i, k + 1].MoveCard(_cardPositions[i, k]);
-                            time = _cardObjects[i, k + 1].MoveTime;
-                        }
+                        _cardField[j, i] = _cardField[j, i + 1];
+                        _cardField[j, i + 1] = null;
+                        _cardObjects[j, i + 1].MoveCard(_cardPositions[j, i]);
+                        time = _cardObjects[j, i + 1].MoveTime;
+                        _cardObjects[j, i] = _cardObjects[j, i + 1];
+                        _cardObjects[j, i + 1] = null;
                     }
+
+                    /*for(int k  = i; k < _gridWidth - 1; k++)
+                    {
+                        if (_cardField[j, k + 1] != null)
+                        {
+                            _cardField[j, k] = _cardField[j, k + 1];
+                            _cardField[j, k + 1] = null;
+                            _cardObjects[j, k + 1].MoveCard(_cardPositions[j, k]);
+                            time = _cardObjects[j, k + 1].MoveTime;
+                        }
+                    }*/
                 }
             }
         }
@@ -251,8 +263,10 @@ public class CardGrid : MonoBehaviour
             {
                 CardHolder holder = _cardObjects[i, j];
                 GameObject obj = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                obj.transform.SetParent(_gridDebugHolder.transform);
                 obj.transform.localPosition = _cardPositions[i, j];
-                obj.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
+                obj.transform.rotation = Quaternion.identity;
+                obj.transform.localScale = new Vector3(_fieldWidthSpacing / 2, _fieldWidthSpacing / 2, _fieldWidthSpacing / 2);
                 if (holder == null)
                     obj.GetComponent<MeshRenderer>().material.color = Color.black;
                 else

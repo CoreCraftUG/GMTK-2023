@@ -9,10 +9,10 @@ public class CardBase
 
 public enum ECardFace
 {
-    Star,
+    Club,
+    Diamond,
     Heart,
-    Circle,
-    Square
+    Spade
 }
 
 public enum ECardColour
@@ -20,5 +20,6 @@ public enum ECardColour
     Red,
     Green,
     Blue,
-    Yellow
+    Yellow,
+    White
 }

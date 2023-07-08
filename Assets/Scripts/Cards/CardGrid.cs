@@ -115,6 +115,7 @@ public class CardGrid : MonoBehaviour
             int blue = 0;
             int green = 0;
             int yellow = 0;
+            int white = 0;
             for (int k = i; k < _gridWidth; k++)
             {
                 if (_cardField[k, i] == null)
@@ -134,13 +135,16 @@ public class CardGrid : MonoBehaviour
                     case ECardColour.Yellow:
                         yellow++;
                         break;
+                    case ECardColour.White:
+                        white++;
+                        break;
                     default:
                         Debug.LogError($"Card on position {_cardField[k, i]} has an invalid colour");
                         break;
                 }
             }
 
-            if(red == _gridWidth || blue == _gridWidth || green == _gridWidth || yellow == _gridWidth)
+            if(red == _gridWidth || blue == _gridWidth || green == _gridWidth || yellow == _gridWidth || white == _gridWidth)
             {
                 
                 StartCoroutine(RowMatch(i));

@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.Audio;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace JamCraft.GMTK2023.Code
 {
@@ -17,7 +19,9 @@ namespace JamCraft.GMTK2023.Code
 
         [Header("Sound Mixer")] 
         [SerializeField] private AudioMixer _mainAudioMixer;
-
+        [SerializeField] private List<AudioClip> _allClips = new List<AudioClip>();
+        [SerializeField] private AudioSource _sfxSource;
+        
         private void Awake()
         {
             if (Instance != null)
@@ -31,6 +35,14 @@ namespace JamCraft.GMTK2023.Code
             MainVolume = PlayerPrefs.GetFloat(GameOptionsUI.PLAYER_PREFS_MAIN_VOLUME, 0.5000499f);
             MusicVolume = PlayerPrefs.GetFloat(GameOptionsUI.PLAYER_PREFS_MUSIC_VOLUME, 0.5000499f);
             SfxVolume = PlayerPrefs.GetFloat(GameOptionsUI.PLAYER_PREFS_SFX_VOLUME, 0.5000499f);
+            EventManager.Instance.PlayAudio.AddListener(PlaySFX);
+        }
+
+        public void PlaySFX(int clip, float volume)
+        {
+            _sfxSource.clip = _allClips[clip];
+            
+            _sfxSource.PlayDelayed(volume);
         }
 
         public void ChangeMainVolume(float value)

@@ -144,6 +144,7 @@ public class CardGrid : MonoBehaviour
 
             if(red == _gridWidth || blue == _gridWidth || green == _gridWidth || yellow == _gridWidth)
             {
+                
                 StartCoroutine(RowMatch(i));
                 return;
             }
@@ -154,11 +155,13 @@ public class CardGrid : MonoBehaviour
 
     private IEnumerator RowMatch(int i)
     {
+
         float time = _cardObjects[_gridWidth - 1, i].MoveTime;
         yield return new WaitForSeconds(time);
         Debug.Log(string.Format("<color=#{0:X2}{1:X2}{2:X2}>{3}</color>", (byte)(255f), (byte)(255f), (byte)(255f), $"Found Match"));
         ECardFace face = _cardObjects[_gridWidth - 1, i].Card.Face;
         bool faceMatch = true;
+        EventManager.Instance.PlayAudio.Invoke(3, 0);
         for (int j  = _gridWidth - 1; j >= 0; j--)
         {
             if(face != _cardObjects[j, i].Card.Face)

@@ -46,4 +46,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _coinVFXObject: {fileID: 2293779884053612679, guid: a5fc593965e62604fb530de8874aa5d5,
     type: 3}
+  _coinMatch3VFXObject: {fileID: 2293779884053612679, guid: a5fc593965e62604fb530de8874aa5d5,
+    type: 3}
   _coinVFXSpawnTransform: {fileID: 7968222934077964646}

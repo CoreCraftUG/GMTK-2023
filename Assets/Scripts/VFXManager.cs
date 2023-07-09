@@ -5,6 +5,7 @@ using UnityEngine;
 public class VFXManager : MonoBehaviour
 {
     [SerializeField] private GameObject _coinVFXObject;
+    [SerializeField] private GameObject _coinMatch3VFXObject;
     [SerializeField] private Transform _coinVFXSpawnTransform;
 
     private void Start()
@@ -16,7 +17,7 @@ public class VFXManager : MonoBehaviour
         EventManager.Instance.MatchingCardsEvent.AddListener((bool b) =>
         {
             if (b)
-                Instantiate(_coinVFXObject, _coinVFXSpawnTransform);
+                Instantiate(_coinMatch3VFXObject, _coinVFXSpawnTransform);
             else
                 Instantiate(_coinVFXObject, _coinVFXSpawnTransform);
         });

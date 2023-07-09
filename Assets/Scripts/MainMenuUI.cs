@@ -82,11 +82,10 @@ namespace JamCraft.GMTK2023.Code
             {
                 _quitPanel.SetActive(true);
             });
-
-            // TODO: Link to our website?
+            
             _coreCraftButton.onClick.AddListener(() =>
             {
-                
+                Credits.Instance.Show();
             });
 
             // Close the program.

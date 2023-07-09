@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using JamCraft.GMTK2023.Code;
 using UnityEngine;
 
 public class Table : MonoBehaviour
@@ -12,14 +13,14 @@ public class Table : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A) /*&& Playermanager.Instance.CanTurn*/)
+        if (Input.GetKeyDown(KeyCode.A) && !GameStateManager.Instance.IsGamePaused /*&& Playermanager.Instance.CanTurn*/)
         {
             _rotation -= 90f;
             _playTable.transform.DORotate(_rotation * Vector3.up, _rotationTime);
             EventManager.Instance.PlayAudio.Invoke(4, 0);
             Playermanager.Instance.TurnRight();
         }
-        if (Input.GetKeyDown(KeyCode.D) /*&& Playermanager.Instance.CanTurn*/)
+        if (Input.GetKeyDown(KeyCode.D) && !GameStateManager.Instance.IsGamePaused /*&& Playermanager.Instance.CanTurn*/)
         {
             _rotation += 90f;
             _playTable.transform.DORotate(_rotation * Vector3.up, _rotationTime);

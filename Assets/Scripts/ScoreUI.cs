@@ -32,7 +32,7 @@ namespace JamCraft.GMTK2023.Code
             EventManager.Instance.TempPointsEvent.AddListener(AddTemporaryScore);
             EventManager.Instance.StreakEndEvent.AddListener(StreakEndEvent);
             EventManager.Instance.MissedMultiplyEvent.AddListener(MissedMultiplierEvent);
-            
+
             for (int i = 0; i < 3; i++)
             {
                 _streaks.Add(Instantiate(_streakPrefab, _streakHolder.transform));
@@ -40,6 +40,28 @@ namespace JamCraft.GMTK2023.Code
 
             _scoreTween.SetAutoKill(false).Pause();
             _temporaryScoreTween.SetAutoKill(false).Pause();
+        }
+
+        private void OnDestroy()
+        {
+            if (!EventManager.Instance) return;
+
+            EventManager.Instance.PointsAddedEvent.RemoveAllListeners();
+            EventManager.Instance.PointMultiplyEvent.RemoveAllListeners();
+            EventManager.Instance.TempPointsEvent.RemoveAllListeners();
+            EventManager.Instance.StreakEndEvent.RemoveAllListeners();
+            EventManager.Instance.MissedMultiplyEvent.RemoveAllListeners();
+        }
+
+        private void OnApplicationQuit()
+        {
+            if (!EventManager.Instance) return;
+
+            EventManager.Instance.PointsAddedEvent.RemoveAllListeners();
+            EventManager.Instance.PointMultiplyEvent.RemoveListener(SetMultiplier);
+            EventManager.Instance.TempPointsEvent.RemoveAllListeners();
+            EventManager.Instance.StreakEndEvent.RemoveAllListeners();
+            EventManager.Instance.MissedMultiplyEvent.RemoveAllListeners();
         }
         
         private void AddScore(int value)

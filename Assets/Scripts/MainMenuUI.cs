@@ -37,6 +37,26 @@ namespace JamCraft.GMTK2023.Code
             _quitPanel.SetActive(false);
         }
 
+        private void OnDestroy()
+        {
+            _playButton.onClick.RemoveAllListeners();
+            _optionsButton.onClick.RemoveAllListeners();
+            _quitButton.onClick.RemoveAllListeners();
+            _coreCraftButton.onClick.RemoveAllListeners();
+            _yesButton.onClick.RemoveAllListeners();
+            _noButton.onClick.RemoveAllListeners();
+        }
+
+        private void OnApplicationQuit()
+        {
+            _playButton.onClick.RemoveAllListeners();
+            _optionsButton.onClick.RemoveAllListeners();
+            _quitButton.onClick.RemoveAllListeners();
+            _coreCraftButton.onClick.RemoveAllListeners();
+            _yesButton.onClick.RemoveAllListeners();
+            _noButton.onClick.RemoveAllListeners();
+        }
+
         private void SetupUIButtons()
         {
             // Load the game scene.

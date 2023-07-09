@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using CoreCraft.Core;
+using JamCraft.GMTK2023.Code;
 using Sirenix.OdinInspector;
 
 public class Playermanager : Singleton<Playermanager>
@@ -89,7 +90,7 @@ public class Playermanager : Singleton<Playermanager>
          {
             SelectedPlayerPlays();
         }
-        else if (Input.GetKeyDown(KeyCode.Space) && CanTurn)
+        else if (Input.GetKeyDown(KeyCode.Space) && CanTurn && !GameStateManager.Instance.IsGamePaused)
         {
             SelectedPlayerPlays();
             //CancelInvoke();

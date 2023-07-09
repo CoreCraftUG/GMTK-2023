@@ -79,6 +79,21 @@ namespace JamCraft.GMTK2023.Code
             // Unsubscribe from events in case of destruction.
             GameStateManager.Instance.OnGamePaused -= GameStateManager_OnOnGamePaused;
             GameStateManager.Instance.OnGameUnpaused -= GameStateManager_OnOnGameUnpaused;
+
+            _resumeButton.onClick.RemoveAllListeners();
+            _optionsButton.onClick.RemoveAllListeners();
+            _mainMenuButton.onClick.RemoveAllListeners();
+        }
+
+        private void OnApplicationQuit()
+        {
+            // Unsubscribe from events in case of quit.
+            GameStateManager.Instance.OnGamePaused -= GameStateManager_OnOnGamePaused;
+            GameStateManager.Instance.OnGameUnpaused -= GameStateManager_OnOnGameUnpaused;
+
+            _resumeButton.onClick.RemoveAllListeners();
+            _optionsButton.onClick.RemoveAllListeners();
+            _mainMenuButton.onClick.RemoveAllListeners();
         }
     }
 }

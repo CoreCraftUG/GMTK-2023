@@ -10,7 +10,7 @@ namespace JamCraft.GMTK2023.Code
         public event EventHandler OnGamePaused;
         public event EventHandler OnGameUnpaused;
 
-        private bool _isGamePaused = false;
+        public bool IsGamePaused = false;
 
         private void Awake()
         {
@@ -26,9 +26,9 @@ namespace JamCraft.GMTK2023.Code
         {
             // If game is paused set timeScale to 0f else 1f and notify OnGamePaused / OnGameUnpaused subscribers.
 
-            _isGamePaused = !_isGamePaused;
+            IsGamePaused = !IsGamePaused;
 
-            if (_isGamePaused)
+            if (IsGamePaused)
             {
                 Time.timeScale = 0;
                 OnGamePaused?.Invoke(this, EventArgs.Empty);

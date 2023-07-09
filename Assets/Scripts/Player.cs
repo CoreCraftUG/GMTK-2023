@@ -67,9 +67,6 @@ public class Player : MonoBehaviour
             if (timer > SwapDelay)
                 NextSpot();
         }
-
-        //if (Input.GetKeyDown(KeyCode.Space))
-        //    NewDeck();
     }
 
     private void NewDeck()
@@ -125,9 +122,6 @@ public class Player : MonoBehaviour
 
     public void PlayCard()
      {
-
-        Debug.Log($"{_presentedCard == null}" + SelectedSpot + _presentedCard);
-        
         Playermanager.Instance.CanTurn = false;
         FacingGrid.AddCard(_presentedCard, SelectedSpot);
         int i = Random.Range(0, 3);

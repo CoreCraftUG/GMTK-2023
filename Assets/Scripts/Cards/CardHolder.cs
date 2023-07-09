@@ -25,7 +25,6 @@ public class CardHolder : MonoBehaviour
 
     public void MoveCard(Vector3 position)
     {
-        Debug.Log($"Moving Card: {this} from {transform.position} to {position}");
         transform.localRotation = Quaternion.identity;
         EventManager.Instance.TimeStopEvent.Invoke();
         transform.DOLocalMove(position, MoveTime).OnComplete(() => EventManager.Instance.TimeStartEvent.Invoke());

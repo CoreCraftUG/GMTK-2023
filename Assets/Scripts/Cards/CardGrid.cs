@@ -41,7 +41,6 @@ public class CardGrid : MonoBehaviour
 
     public void AddCard(CardHolder card, int slot)
     {
-        //Debug.Log($"Card: {card} spawned at Slot: {slot}");
         card.gameObject.transform.SetParent(this.transform);
         bool couldPlace = false;
         #region handle ERROR
@@ -78,7 +77,6 @@ public class CardGrid : MonoBehaviour
                             _cardField[slot - 1, j - 1] = null;
                             _cardObjects[slot - 1, j] = _cardObjects[slot - 1, j - 1];
                             _cardObjects[slot - 1, j - 1].MoveCard(_cardPositions[slot - 1, j]);
-                            //Debug.Log($"Card: {_cardObjects[slot - 1, j - 1]} Moved to: {_cardPositions[slot - 1, j]}");
                             _cardObjects[slot - 1, j - 1] = null;
                         }
                         else
@@ -109,7 +107,6 @@ public class CardGrid : MonoBehaviour
 
     private void CheckForMatch()
     {
-        //Debug.Log($"Checking Matches");
         for (int i = 0; i < _gridLength; i++)
         {
             int red = 0;
@@ -161,7 +158,6 @@ public class CardGrid : MonoBehaviour
 
         float time = _cardObjects[_gridWidth - 1, i].MoveTime;
         yield return new WaitForSeconds(time);
-        Debug.Log(string.Format("<color=#{0:X2}{1:X2}{2:X2}>{3}</color>", (byte)(255f), (byte)(255f), (byte)(255f), $"Found Match"));
         ECardFace face = _cardObjects[_gridWidth - 1, i].Card.Face;
         bool faceMatch = true;
         EventManager.Instance.PlayAudio.Invoke(3, 0);
@@ -174,8 +170,6 @@ public class CardGrid : MonoBehaviour
         }
 
         EventManager.Instance.MatchingCardsEvent.Invoke(faceMatch);
-        if(faceMatch)
-            Debug.Log(string.Format("<color=#{0:X2}{1:X2}{2:X2}>{3}</color>", (byte)(255f), (byte)(255f), (byte)(255f), $"All Card Faces mach"));
 
         yield return new WaitForSeconds(time);
         StartCoroutine(ArrangeField());
@@ -187,7 +181,6 @@ public class CardGrid : MonoBehaviour
     private IEnumerator ArrangeField()
     {
         float time = 0;
-        Debug.Log($"Arranging Field");
         for (int i  = 0; i < _gridLength; i++)
         {
             for(int j =0; j < _gridWidth; j++)
@@ -203,17 +196,6 @@ public class CardGrid : MonoBehaviour
                         _cardObjects[j, i] = _cardObjects[j, i + 1];
                         _cardObjects[j, i + 1] = null;
                     }
-
-                    /*for(int k  = i; k < _gridWidth - 1; k++)
-                    {
-                        if (_cardField[j, k + 1] != null)
-                        {
-                            _cardField[j, k] = _cardField[j, k + 1];
-                            _cardField[j, k + 1] = null;
-                            _cardObjects[j, k + 1].MoveCard(_cardPositions[j, k]);
-                            time = _cardObjects[j, k + 1].MoveTime;
-                        }
-                    }*/
                 }
             }
         }
@@ -222,7 +204,6 @@ public class CardGrid : MonoBehaviour
 
     private void FailedToPlace()
     {
-        Debug.Log(string.Format("<color=#{0:X2}{1:X2}{2:X2}>{3}</color>", (byte)(255f), (byte)(0f), (byte)(0f), $"Failed To Place Card!"));
         EventManager.Instance.GameOverEvent.Invoke();
     }
 

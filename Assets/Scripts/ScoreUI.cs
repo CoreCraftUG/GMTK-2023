@@ -13,6 +13,7 @@ namespace JamCraft.GMTK2023.Code
         [SerializeField] private TextMeshProUGUI _scoreText;
         [SerializeField] private TextMeshProUGUI _temporaryScoreText;
         [SerializeField] private TextMeshProUGUI _multiplierText;
+        [SerializeField] private TextMeshProUGUI _levelText;
 
         [SerializeField] private GameObject _streakHolder;
         [SerializeField] private GameObject _streakPrefab;
@@ -23,6 +24,8 @@ namespace JamCraft.GMTK2023.Code
 
         public int NewScore = 0;
         public int NewTemporaryScore = 0;
+
+        public int Level = 1;
 
         private Tween _scoreTween;
         private Tween _temporaryScoreTween;
@@ -44,6 +47,7 @@ namespace JamCraft.GMTK2023.Code
             EventManager.Instance.TempPointsEvent.AddListener(AddTemporaryScore);
             EventManager.Instance.StreakEndEvent.AddListener(StreakEndEvent);
             EventManager.Instance.MissedMultiplyEvent.AddListener(MissedMultiplierEvent);
+            EventManager.Instance.LevelUpEvent.AddListener(LevelUpEvent);
 
             for (int i = 0; i < 3; i++)
             {
@@ -52,6 +56,12 @@ namespace JamCraft.GMTK2023.Code
 
             _scoreTween.SetAutoKill(false).Pause();
             _temporaryScoreTween.SetAutoKill(false).Pause();
+        }
+
+        private void LevelUpEvent(int value)
+        {
+            Level = value;
+            _levelText.text = "Level: " + value.ToString();
         }
 
         private void OnDestroy()

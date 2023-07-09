@@ -16,6 +16,8 @@ namespace JamCraft.GMTK2023.Code
         [SerializeField] private TextMeshProUGUI _finalScoreText;
         [SerializeField] private TextMeshProUGUI _finalLevelText;
 
+        private int _level;
+
         private void Awake()
         {
             if (Instance != null)
@@ -44,6 +46,7 @@ namespace JamCraft.GMTK2023.Code
                 // TODO: Fix the score system.
                 int finalScore = ScoreUI.Instance.NewScore + ScoreUI.Instance.NewTemporaryScore;
                 _finalScoreText.text = "Your final score is: " + finalScore.ToString();
+                _finalLevelText.text = "You reached level: " + ScoreUI.Instance.Level;
                 Show();
             });
 

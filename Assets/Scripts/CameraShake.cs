@@ -33,6 +33,16 @@ namespace JamCraft.GMTK2023.Code
                 else
                     ShakeCamera(_intensity, _time);
             });
+
+            EventManager.Instance.TurnLeftEvent.AddListener(() =>
+            {
+                ShakeCamera(.5f, 0.1f);
+            });
+
+            EventManager.Instance.TurnRightEvent.AddListener(() =>
+            {
+                ShakeCamera(.5f, 0.1f);
+            });
         }
 
         private void OnDestroy()
@@ -41,6 +51,7 @@ namespace JamCraft.GMTK2023.Code
             {
                 EventManager.Instance.PointsAddedEvent.RemoveAllListeners();
                 EventManager.Instance.MatchingCardsEvent.RemoveAllListeners();
+                EventManager.Instance.TurnLeftEvent.RemoveAllListeners();
             }
         }
 
@@ -50,6 +61,7 @@ namespace JamCraft.GMTK2023.Code
             {
                 EventManager.Instance.PointsAddedEvent.RemoveAllListeners();
                 EventManager.Instance.MatchingCardsEvent.RemoveAllListeners();
+                EventManager.Instance.TurnLeftEvent.RemoveAllListeners();
             }
         }
 

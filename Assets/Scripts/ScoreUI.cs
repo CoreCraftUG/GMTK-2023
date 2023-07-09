@@ -95,7 +95,7 @@ namespace JamCraft.GMTK2023.Code
 
         private void MissedMultiplierEvent(int value)
         {
-            Debug.Log("Missed a multiplier!");
+            if (value > 3) return;
 
             for (int i = 0; i < value; i++)
             {

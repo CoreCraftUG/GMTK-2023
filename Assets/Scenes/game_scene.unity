@@ -7695,7 +7695,7 @@ MonoBehaviour:
   _multiplierText: {fileID: 620593457}
   _levelText: {fileID: 1017607435}
   _streakHolder: {fileID: 1502205238}
-  _streakPrefab: {fileID: 896381378329517814, guid: 3cb539a04e7de7a46aa46b48e13f2981,
+  _streakPrefab: {fileID: 4345262941131731730, guid: 3cb539a04e7de7a46aa46b48e13f2981,
     type: 3}
   _streaks: []
   _postProcessing: {fileID: 11400000, guid: f1dba36e31b377d49851ee69352a4957, type: 2}

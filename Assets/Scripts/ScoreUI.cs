@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.Rendering;
 
 namespace JamCraft.GMTK2023.Code
 {
@@ -19,6 +20,9 @@ namespace JamCraft.GMTK2023.Code
         [SerializeField] private GameObject _streakPrefab;
         [SerializeField] private List<GameObject> _streaks = new List<GameObject>();
 
+        [SerializeField] private VolumeProfile _postProcessing;
+        private Beautify.Universal.Beautify _beautify;
+
         private int _oldScore = 0;
         private int _oldTemporaryScore = 0;
 
@@ -27,6 +31,9 @@ namespace JamCraft.GMTK2023.Code
 
         public int Level = 1;
 
+        private float _timer = 5f;
+        private float _timerTotal = 5f;
+        private float _startingSepia;
         private Tween _scoreTween;
         private Tween _temporaryScoreTween;
 
@@ -48,6 +55,13 @@ namespace JamCraft.GMTK2023.Code
             EventManager.Instance.StreakEndEvent.AddListener(StreakEndEvent);
             EventManager.Instance.MissedMultiplyEvent.AddListener(MissedMultiplierEvent);
             EventManager.Instance.LevelUpEvent.AddListener(LevelUpEvent);
+
+            if (_postProcessing.TryGet<Beautify.Universal.Beautify>(out _beautify))
+            {
+                _beautify.sepia.value = 0.746f;
+            }
+
+            _startingSepia = _beautify.sepia.value;
 
             for (int i = 0; i < 3; i++)
             {
@@ -121,6 +135,14 @@ namespace JamCraft.GMTK2023.Code
             _oldTemporaryScore = NewTemporaryScore;
             NewTemporaryScore = value;
 
+            if (_postProcessing.TryGet<Beautify.Universal.Beautify>(out _beautify))
+            {
+                _timer = 5f;
+                _timerTotal = 5f;
+                _beautify.sepia.value -= (_oldTemporaryScore + NewTemporaryScore) / 1000f;
+                _startingSepia = _beautify.sepia.value;
+            }
+
             _temporaryScoreTween = _temporaryScoreText.DOCounter(_oldTemporaryScore, NewTemporaryScore, 2f, false, null);
             //_temporaryScoreText.DOCounter(_oldTemporaryScore, NewTemporaryScore, 2f, false, null);
 
@@ -146,6 +168,19 @@ namespace JamCraft.GMTK2023.Code
             for (int i = 0; i < value; i++)
             {
                 _streaks[i].SetActive(false);
+            }
+        }
+
+        private void Update()
+        {
+            if (_timer > 0)
+            {
+                _timer -= Time.deltaTime;
+
+                if (_postProcessing.TryGet<Beautify.Universal.Beautify>(out _beautify))
+                {
+                    _beautify.sepia.value = Mathf.Lerp(_startingSepia, 0.746f, 1 - (_timer / _timerTotal));
+                }
             }
         }
     }

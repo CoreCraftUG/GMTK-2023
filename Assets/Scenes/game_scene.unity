@@ -7687,6 +7687,7 @@ MonoBehaviour:
   _streakPrefab: {fileID: 4882923351570636594, guid: 3cb539a04e7de7a46aa46b48e13f2981,
     type: 3}
   _streaks: []
+  _postProcessing: {fileID: 11400000, guid: f1dba36e31b377d49851ee69352a4957, type: 2}
   NewScore: 0
   NewTemporaryScore: 0
   Level: 0
@@ -9820,14 +9821,14 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'A to turn table left
+  m_text: 'A to turn table counter clock wise
 
 
-    D to turn table right
+    D to turn table clock wise
 
 
-    Space to place
-    card'
+    Space
+    to place card'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -9854,8 +9855,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25
-  m_fontSizeBase: 25
+  m_fontSize: 20
+  m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

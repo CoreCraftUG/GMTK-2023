@@ -1,18 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-404529320939780999
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 7
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
@@ -20,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_Card_fronzt
-  m_Shader: {fileID: -6465566751694194690, guid: 7b4587a31f503214eb655616ecb86d5a,
+  m_Name: M_Char_2
+  m_Shader: {fileID: -6465566751694194690, guid: c85fadcef1283d44fbdce399b562bbdf,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -38,15 +25,15 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseColor:
-        m_Texture: {fileID: 2800000, guid: fa43f20d25bda014eaa26b3326276cf1, type: 3}
+        m_Texture: {fileID: 2800000, guid: 43fa29bb67f86ac4d8048d39b73ce1bd, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
-        m_Texture: {fileID: 2800000, guid: f10a2b734bf85c04f868482c1efaa33b, type: 3}
+        m_Texture: {fileID: 2800000, guid: af2d1e48419fbe343b99888f15047573, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Reflectivity:
-        m_Texture: {fileID: 2800000, guid: 877e4db05232ca548ab53340a3eeff86, type: 3}
+        m_Texture: {fileID: 2800000, guid: 503335d9b07963b42bfd5df2aec82de0, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -63,12 +50,24 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _EmissiveIntensity: 0.5
-    - _HueShift: 24
+    - _HueShift: 0
     - _NormalStrength: 1
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Saturation: 1.4
-    - _Smooth: 0.1
+    - _Saturation: 1
+    - _Smoothness: 1
     m_Colors: []
   m_BuildTextureStacks: []
+--- !u!114 &8029737158024495533
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 7

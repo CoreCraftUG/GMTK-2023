@@ -46,7 +46,7 @@ public class PointsManager : MonoBehaviour
         if (TempPoints<=0)
             return;
 
-        TotalPoints += (int)(TempPoints * PointMultiplyer);
+        TotalPoints += Mathf.FloorToInt(TempPoints * PointMultiplyer);
         TempPoints = 0;
 
         EventManager.Instance.PointsAddedEvent.Invoke(TotalPoints);
@@ -75,9 +75,9 @@ public class PointsManager : MonoBehaviour
     private void PointMemory(bool match3)
     {
         if(match3)
-            TempPoints += Mathf.FloorToInt(_match3Points * PointMultiplyer);
+            TempPoints += _match3Points;
         else
-            TempPoints += Mathf.FloorToInt(_basePoints * PointMultiplyer);
+            TempPoints += _basePoints;
 
         PointMultiplyer += _multiplierIncrease;
         EventManager.Instance.PointMultiplyEvent.Invoke(PointMultiplyer);

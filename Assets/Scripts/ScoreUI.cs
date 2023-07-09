@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using DG.Tweening;
-using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 
 namespace JamCraft.GMTK2023.Code
 {

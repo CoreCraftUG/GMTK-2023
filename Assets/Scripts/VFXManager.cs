@@ -6,6 +6,7 @@ using UnityEngine;
 public class VFXManager : MonoBehaviour
 {
     [SerializeField] private GameObject _coinVFXObject;
+    [SerializeField] private GameObject _addTempPointsVFXObject;
     [SerializeField] private GameObject _coinMatch3VFXObject;
     [SerializeField] private Transform _coinVFXSpawnTransform;
 
@@ -13,7 +14,7 @@ public class VFXManager : MonoBehaviour
     {
         EventManager.Instance.PointsAddedEvent.AddListener((int i) =>
         {
-            //Instantiate(_coinVFXObject, _coinVFXSpawnTransform);
+            Instantiate(_addTempPointsVFXObject, _coinVFXSpawnTransform);
         });
         EventManager.Instance.MatchingCardsEvent.AddListener((bool b) =>
         {

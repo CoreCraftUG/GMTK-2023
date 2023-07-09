@@ -30,7 +30,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8207164885199212371
 MonoBehaviour:
@@ -46,6 +46,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _coinVFXObject: {fileID: 2293779884053612679, guid: a5fc593965e62604fb530de8874aa5d5,
     type: 3}
-  _coinMatch3VFXObject: {fileID: 2293779884053612679, guid: a5fc593965e62604fb530de8874aa5d5,
+  _addTempPointsVFXObject: {fileID: 2293779884053612679, guid: e6f5db70a7e22e3478678dbea8377ec4,
+    type: 3}
+  _coinMatch3VFXObject: {fileID: 2293779884053612679, guid: 922f5d08ea733d542835d519626d30ce,
     type: 3}
   _coinVFXSpawnTransform: {fileID: 7968222934077964646}

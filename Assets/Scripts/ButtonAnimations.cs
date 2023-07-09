@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 
 namespace JamCraft.GMTK2023.Code
 {
-    public class ButtonAnimations : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+    public class ButtonAnimations : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
     {
         private Sequence _buttonSequence;
         private Transform _buttonTransform;
@@ -25,6 +25,8 @@ namespace JamCraft.GMTK2023.Code
         public void OnPointerEnter(PointerEventData eventData)
         {
             _buttonSequence.PlayForward();
+            int i = Random.Range(0, 3);
+            SoundManager.Instance.PlaySFX(i);
         }
 
         // Smoothly rewind the animation if the cursor leaves the button. Flips the animation direction.
@@ -43,6 +45,12 @@ namespace JamCraft.GMTK2023.Code
         private void OnDisable()
         {
             _buttonSequence.Rewind();
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            int i = Random.Range(0, 3);
+            SoundManager.Instance.PlaySFX(i);
         }
     }
 }

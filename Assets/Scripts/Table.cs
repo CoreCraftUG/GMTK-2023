@@ -18,6 +18,7 @@ public class Table : MonoBehaviour
             _rotation -= 90f;
             _playTable.transform.DORotate(_rotation * Vector3.up, _rotationTime);
             EventManager.Instance.PlayAudio.Invoke(4, 0);
+            EventManager.Instance.TurnLeftEvent.Invoke();
             Playermanager.Instance.TurnRight();
         }
         if (Input.GetKeyDown(KeyCode.D) && !GameStateManager.Instance.IsGamePaused && !GameStateManager.Instance.IsGameOver /*&& Playermanager.Instance.CanTurn*/)
@@ -25,6 +26,7 @@ public class Table : MonoBehaviour
             _rotation += 90f;
             _playTable.transform.DORotate(_rotation * Vector3.up, _rotationTime);
             EventManager.Instance.PlayAudio.Invoke(4, 0);
+            EventManager.Instance.TurnRightEvent.Invoke();
             Playermanager.Instance.TurnLeft();
         }
     }

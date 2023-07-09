@@ -17,4 +17,6 @@ public class EventManager : Singleton<EventManager>
     public UnityEvent TimeStopEvent = new UnityEvent();
     public UnityEvent<int> MissedMultiplyEvent = new UnityEvent<int>(); 
     public UnityEvent StreakEndEvent = new UnityEvent(); 
+    public UnityEvent TurnRightEvent = new UnityEvent(); 
+    public UnityEvent TurnLeftEvent = new UnityEvent(); 
 }

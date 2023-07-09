@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6989540969845507538}
   - component: {fileID: 8224047275695092538}
   - component: {fileID: 4431943613138153355}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_karte 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 823504840504317044}
   - component: {fileID: 8730440096564213372}
   - component: {fileID: 8757174833121991295}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_karte 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -43,6 +43,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _QueueControl: 0
+    - _Smoothness: 1
     m_Colors: []
   m_BuildTextureStacks: []
 --- !u!114 &8029737158024495533

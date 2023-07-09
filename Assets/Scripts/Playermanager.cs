@@ -86,7 +86,7 @@ public class Playermanager : Singleton<Playermanager>
         timerCountdown.fillAmount = (_currentDelay - Timer)/_currentDelay;
 
         if(Timer >= _currentDelay && CanTurn)
-        {
+         {
             SelectedPlayerPlays();
         }
         else if (Input.GetKeyDown(KeyCode.Space) && CanTurn)

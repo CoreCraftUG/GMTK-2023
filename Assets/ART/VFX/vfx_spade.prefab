@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 86110856636786988}
   - component: {fileID: 8487482467823940495}
   m_Layer: 0
-  m_Name: vfx_club
+  m_Name: vfx_spade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4826,7 +4826,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 625c24be6a2e94244ac2b8dc66f1cf91, type: 2}
+  - {fileID: 2100000, guid: 1619ccb9aae86a946a2eac329f541770, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -7,6 +7,7 @@ public class CardHolder : MonoBehaviour
 {
     [SerializeField] public float MoveTime;
 
+    [SerializeField] private GameObject[] _vanishVFX = new GameObject[4];
     [SerializeField] private GameObject[] _cards = new GameObject[20];
 
     private CardBase _card;
@@ -30,8 +31,24 @@ public class CardHolder : MonoBehaviour
         transform.DOLocalMove(position, MoveTime).OnComplete(() => EventManager.Instance.TimeStartEvent.Invoke());
     }
 
+    [Tooltip("Club, Diamond, Heart, Spade")]
     public void VanishCard()
     {
+        switch (_card.Face)
+        {
+            case ECardFace.Club:
+                Instantiate(_vanishVFX[0], transform.position, Quaternion.identity);
+                break;
+            case ECardFace.Diamond:
+                Instantiate(_vanishVFX[1], transform.position, Quaternion.identity);
+                break;
+            case ECardFace.Heart:
+                Instantiate(_vanishVFX[2], transform.position, Quaternion.identity);
+                break;
+            case ECardFace.Spade:
+                Instantiate(_vanishVFX[3], transform.position, Quaternion.identity);
+                break;
+        }
         Destroy(this.gameObject);
     }
 

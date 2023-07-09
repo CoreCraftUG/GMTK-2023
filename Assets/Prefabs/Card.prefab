@@ -2570,6 +2570,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MoveTime: 0.5
+  _vanishVFX:
+  - {fileID: 6794221049148260916, guid: 48d42355ce0b0be44b92f2737b88b4c2, type: 3}
+  - {fileID: 6794221049148260916, guid: 0bdf961d1964fb849af254fc51566e5f, type: 3}
+  - {fileID: 6794221049148260916, guid: cc6de356f4745e34b804222004afaeec, type: 3}
+  - {fileID: 6794221049148260916, guid: c0177dfe391d8df4cbb0846dc88b700b, type: 3}
   _cards:
   - {fileID: 4645712420333121880}
   - {fileID: 4037613058057373885}

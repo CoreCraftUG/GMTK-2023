@@ -24,19 +24,19 @@ public class VFXManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (!EventManager.Instance)
-            return;
-
-        EventManager.Instance.PointsAddedEvent.RemoveAllListeners();
-        EventManager.Instance.MatchingCardsEvent.RemoveAllListeners();
+        if (EventManager.Instance != null)
+        {
+            EventManager.Instance.PointsAddedEvent.RemoveAllListeners();
+            EventManager.Instance.MatchingCardsEvent.RemoveAllListeners();
+        }
     }
 
     private void OnApplicationQuit()
     {
-        if (!EventManager.Instance)
-            return;
-
-        EventManager.Instance.PointsAddedEvent.RemoveAllListeners();
-        EventManager.Instance.MatchingCardsEvent.RemoveAllListeners();
+        if (EventManager.Instance != null)
+        {
+            EventManager.Instance.PointsAddedEvent.RemoveAllListeners();
+            EventManager.Instance.MatchingCardsEvent.RemoveAllListeners();
+        }
     }
 }

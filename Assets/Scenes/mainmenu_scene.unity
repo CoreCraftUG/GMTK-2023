@@ -2064,7 +2064,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &570991528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2365,8 +2365,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_NoiseProfile: {fileID: 11400000, guid: 46965f9cbaf525742a6da4c2172a99cd, type: 2}
   m_PivotOffset: {x: 0, y: 0, z: 0}
-  m_AmplitudeGain: 2
-  m_FrequencyGain: 0.5
+  m_AmplitudeGain: 1
+  m_FrequencyGain: 0.2
   mNoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!114 &607066937
 MonoBehaviour:
@@ -3184,7 +3184,7 @@ Camera:
   m_ShutterSpeed: 0.005
   m_Aperture: 16
   m_FocusDistance: 10
-  m_FocalLength: 50
+  m_FocalLength: 20.78461
   m_BladeCount: 5
   m_Curvature: {x: 2, y: 11}
   m_BarrelClipping: 0.25
@@ -3255,7 +3255,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -7362,6 +7362,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1182387227381377393, guid: 9671bf123cf315c4c9d78f729cb2915f,
+        type: 3}
+      propertyPath: VirtualCameraTransform
+      value: 
+      objectReference: {fileID: 570991529}
     - target: {fileID: 2554016549376676348, guid: 9671bf123cf315c4c9d78f729cb2915f,
         type: 3}
       propertyPath: m_Name

@@ -11,7 +11,7 @@ namespace JamCraft.GMTK2023.Code
         public float CameraHeight = 2.3f;
         public int ResolutionIndex;
 
-        private Transform _mainCameraTransform;
+        public Transform VirtualCameraTransform;
 
         private void Awake()
         {
@@ -29,7 +29,7 @@ namespace JamCraft.GMTK2023.Code
 
         private void Start()
         {
-            _mainCameraTransform = Camera.main.GetComponent<Transform>();
+            //VirtualCameraTransform = Camera.main.GetComponent<Transform>();
 
             ChangeCameraHeight(CameraHeight);
 
@@ -41,9 +41,9 @@ namespace JamCraft.GMTK2023.Code
             // Set CameraHeight to the slider value display the value.
             CameraHeight = value;
 
-            if (_mainCameraTransform != null)
+            if (VirtualCameraTransform != null)
             { 
-                _mainCameraTransform.localPosition = new Vector3(_mainCameraTransform.localPosition.x, CameraHeight, _mainCameraTransform.localPosition.z);
+                VirtualCameraTransform.localPosition = new Vector3(VirtualCameraTransform.localPosition.x, CameraHeight, VirtualCameraTransform.localPosition.z);
             }
         }
     }

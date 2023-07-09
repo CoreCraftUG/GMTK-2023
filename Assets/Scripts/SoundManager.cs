@@ -35,7 +35,7 @@ namespace JamCraft.GMTK2023.Code
             MainVolume = PlayerPrefs.GetFloat(GameOptionsUI.PLAYER_PREFS_MAIN_VOLUME, 0.5000499f);
             MusicVolume = PlayerPrefs.GetFloat(GameOptionsUI.PLAYER_PREFS_MUSIC_VOLUME, 0.5000499f);
             SfxVolume = PlayerPrefs.GetFloat(GameOptionsUI.PLAYER_PREFS_SFX_VOLUME, 0.5000499f);
-            EventManager.Instance.PlayAudio.AddListener(PlaySFX);
+            EventManager.Instance.PlayAudio.AddListener(PlaySFXDelayed);
         }
 
         private void OnDestroy()
@@ -54,11 +54,18 @@ namespace JamCraft.GMTK2023.Code
             }
         }
 
-        public void PlaySFX(int clip, float volume)
+        public void PlaySFXDelayed(int clip, float volume)
         {
             _sfxSource.clip = _allClips[clip];
-            
+
             _sfxSource.PlayDelayed(volume);
+        }
+
+        public void PlaySFX(int clip)
+        {
+            _sfxSource.clip = _allClips[clip];
+
+            _sfxSource.PlayOneShot(_allClips[clip]);
         }
 
         public void ChangeMainVolume(float value)

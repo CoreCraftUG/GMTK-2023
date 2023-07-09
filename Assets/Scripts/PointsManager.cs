@@ -1,3 +1,4 @@
+using JamCraft.GMTK2023.Code;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -60,6 +61,7 @@ public class PointsManager : MonoBehaviour
 
         EventManager.Instance.TempPointsEvent.Invoke(TempPoints);
         EventManager.Instance.PointsAddedEvent.Invoke(TotalPoints);
+        SoundManager.Instance.PlaySFX(6);
     }
 
     private void TurnEnd()

@@ -1,3 +1,4 @@
+using JamCraft.GMTK2023.Code;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,9 +18,15 @@ public class VFXManager : MonoBehaviour
         EventManager.Instance.MatchingCardsEvent.AddListener((bool b) =>
         {
             if (b)
+            {
                 Instantiate(_coinMatch3VFXObject, _coinVFXSpawnTransform);
+                SoundManager.Instance.PlaySFX(5);
+            }
             else
-                Instantiate(_coinVFXObject, _coinVFXSpawnTransform);
+            {
+                Instantiate(_coinMatch3VFXObject, _coinVFXSpawnTransform);
+                SoundManager.Instance.PlaySFX(5);
+            }
         });
     }
 

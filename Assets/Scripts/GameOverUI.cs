@@ -14,6 +14,7 @@ namespace JamCraft.GMTK2023.Code
 
         [Header("UI Texts")]
         [SerializeField] private TextMeshProUGUI _finalScoreText;
+        [SerializeField] private TextMeshProUGUI _finalLevelText;
 
         private void Awake()
         {

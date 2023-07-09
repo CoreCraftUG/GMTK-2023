@@ -39,18 +39,18 @@ public class Playermanager : Singleton<Playermanager>
 
     private void OnDestroy()
     {
-        if (!EventManager.Instance)
-            return;
-
-        EventManager.Instance.GameOverEvent.RemoveAllListeners();
+        if (EventManager.Instance != null)
+        {
+            EventManager.Instance.GameOverEvent.RemoveAllListeners();
+        }
     }
 
     private void OnApplicationQuit()
     {
-        if (!EventManager.Instance)
-            return;
-
-        EventManager.Instance.GameOverEvent.RemoveAllListeners();
+        if (EventManager.Instance != null)
+        {
+            EventManager.Instance.GameOverEvent.RemoveAllListeners();
+        }
     }
 
     public void BeginPlay()
@@ -90,7 +90,7 @@ public class Playermanager : Singleton<Playermanager>
          {
             SelectedPlayerPlays();
         }
-        else if (Input.GetKeyDown(KeyCode.Space) && CanTurn && !GameStateManager.Instance.IsGamePaused)
+        else if (Input.GetKeyDown(KeyCode.Space) && CanTurn && !GameStateManager.Instance.IsGamePaused && !GameStateManager.Instance.IsGameOver)
         {
             SelectedPlayerPlays();
             //CancelInvoke();

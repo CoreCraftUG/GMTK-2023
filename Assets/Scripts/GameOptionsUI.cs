@@ -88,24 +88,30 @@ namespace JamCraft.GMTK2023.Code
 
         private void OnDestroy()
         {
-            _mainVolumeSlider.onValueChanged.RemoveAllListeners();
-            _musicVolumeSlider.onValueChanged.RemoveAllListeners();
-            _sfxVolumeSlider.onValueChanged.RemoveAllListeners();
-            _cameraHeightSlider.onValueChanged.RemoveAllListeners();
-            _saveButton.onClick.RemoveAllListeners();
-            _backButton.onClick.RemoveAllListeners();
-            _resolutionDropdown.onValueChanged.RemoveAllListeners();
+            if (EventManager.Instance != null)
+            {
+                _mainVolumeSlider.onValueChanged.RemoveAllListeners();
+                _musicVolumeSlider.onValueChanged.RemoveAllListeners();
+                _sfxVolumeSlider.onValueChanged.RemoveAllListeners();
+                _cameraHeightSlider.onValueChanged.RemoveAllListeners();
+                _saveButton.onClick.RemoveAllListeners();
+                _backButton.onClick.RemoveAllListeners();
+                _resolutionDropdown.onValueChanged.RemoveAllListeners();
+            }
         }
 
         private void OnApplicationQuit()
         {
-            _mainVolumeSlider.onValueChanged.RemoveAllListeners();
-            _musicVolumeSlider.onValueChanged.RemoveAllListeners();
-            _sfxVolumeSlider.onValueChanged.RemoveAllListeners();
-            _cameraHeightSlider.onValueChanged.RemoveAllListeners();
-            _saveButton.onClick.RemoveAllListeners();
-            _backButton.onClick.RemoveAllListeners();
-            _resolutionDropdown.onValueChanged.RemoveAllListeners();
+            if (EventManager.Instance != null)
+            {
+                _mainVolumeSlider.onValueChanged.RemoveAllListeners();
+                _musicVolumeSlider.onValueChanged.RemoveAllListeners();
+                _sfxVolumeSlider.onValueChanged.RemoveAllListeners();
+                _cameraHeightSlider.onValueChanged.RemoveAllListeners();
+                _saveButton.onClick.RemoveAllListeners();
+                _backButton.onClick.RemoveAllListeners();
+                _resolutionDropdown.onValueChanged.RemoveAllListeners();
+            }
         }
 
         private void OnCameraHeightValueChanged(float value)

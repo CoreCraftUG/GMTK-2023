@@ -63,7 +63,6 @@ namespace JamCraft.GMTK2023.Code
             Show();
         }
 
-
         public void Show()
         {
             gameObject.SetActive(true);
@@ -76,24 +75,30 @@ namespace JamCraft.GMTK2023.Code
 
         private void OnDestroy()
         {
-            // Unsubscribe from events in case of destruction.
-            GameStateManager.Instance.OnGamePaused -= GameStateManager_OnOnGamePaused;
-            GameStateManager.Instance.OnGameUnpaused -= GameStateManager_OnOnGameUnpaused;
+            if (EventManager.Instance != null)
+            {
+                // Unsubscribe from events in case of destruction.
+                GameStateManager.Instance.OnGamePaused -= GameStateManager_OnOnGamePaused;
+                GameStateManager.Instance.OnGameUnpaused -= GameStateManager_OnOnGameUnpaused;
 
-            _resumeButton.onClick.RemoveAllListeners();
-            _optionsButton.onClick.RemoveAllListeners();
-            _mainMenuButton.onClick.RemoveAllListeners();
+                _resumeButton.onClick.RemoveAllListeners();
+                _optionsButton.onClick.RemoveAllListeners();
+                _mainMenuButton.onClick.RemoveAllListeners();
+            }
         }
 
         private void OnApplicationQuit()
         {
-            // Unsubscribe from events in case of quit.
-            GameStateManager.Instance.OnGamePaused -= GameStateManager_OnOnGamePaused;
-            GameStateManager.Instance.OnGameUnpaused -= GameStateManager_OnOnGameUnpaused;
+            if (EventManager.Instance != null)
+            {
+                // Unsubscribe from events in case of destruction.
+                GameStateManager.Instance.OnGamePaused -= GameStateManager_OnOnGamePaused;
+                GameStateManager.Instance.OnGameUnpaused -= GameStateManager_OnOnGameUnpaused;
 
-            _resumeButton.onClick.RemoveAllListeners();
-            _optionsButton.onClick.RemoveAllListeners();
-            _mainMenuButton.onClick.RemoveAllListeners();
+                _resumeButton.onClick.RemoveAllListeners();
+                _optionsButton.onClick.RemoveAllListeners();
+                _mainMenuButton.onClick.RemoveAllListeners();
+            }
         }
     }
 }

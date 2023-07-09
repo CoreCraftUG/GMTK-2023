@@ -40,18 +40,18 @@ namespace JamCraft.GMTK2023.Code
 
         private void OnDestroy()
         {
-            if (!EventManager.Instance)
-                return;
-
-            EventManager.Instance.PlayAudio.RemoveAllListeners();
+            if (EventManager.Instance != null)
+            {
+                EventManager.Instance.PlayAudio.RemoveAllListeners();
+            }
         }
 
         private void OnApplicationQuit()
         {
-            if (!EventManager.Instance)
-                return;
-
-            EventManager.Instance.PlayAudio.RemoveAllListeners();
+            if (EventManager.Instance != null)
+            {
+                EventManager.Instance.PlayAudio.RemoveAllListeners();
+            }
         }
 
         public void PlaySFX(int clip, float volume)

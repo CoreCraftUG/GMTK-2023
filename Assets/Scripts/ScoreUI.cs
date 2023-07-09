@@ -7,6 +7,8 @@ namespace JamCraft.GMTK2023.Code
 {
     public class ScoreUI : MonoBehaviour
     {
+        public static ScoreUI Instance { get; private set; }
+
         [Header("UI Texts")] 
         [SerializeField] private TextMeshProUGUI _scoreText;
         [SerializeField] private TextMeshProUGUI _temporaryScoreText;
@@ -19,11 +21,21 @@ namespace JamCraft.GMTK2023.Code
         private int _oldScore = 0;
         private int _oldTemporaryScore = 0;
 
-        private int _newScore = 0;
-        private int _newTemporaryScore = 0;
+        public int NewScore = 0;
+        public int NewTemporaryScore = 0;
 
         private Tween _scoreTween;
         private Tween _temporaryScoreTween;
+
+        private void Awake()
+        {
+            if (Instance != null)
+            {
+                Debug.LogError($"There is more than one {this} instance in the scene!");
+            }
+
+            Instance = this;
+        }
 
         private void Start()
         {
@@ -44,33 +56,35 @@ namespace JamCraft.GMTK2023.Code
 
         private void OnDestroy()
         {
-            if (!EventManager.Instance) return;
-
-            EventManager.Instance.PointsAddedEvent.RemoveAllListeners();
-            EventManager.Instance.PointMultiplyEvent.RemoveAllListeners();
-            EventManager.Instance.TempPointsEvent.RemoveAllListeners();
-            EventManager.Instance.StreakEndEvent.RemoveAllListeners();
-            EventManager.Instance.MissedMultiplyEvent.RemoveAllListeners();
+            if (EventManager.Instance != null)
+            {
+                EventManager.Instance.PointsAddedEvent.RemoveAllListeners();
+                EventManager.Instance.PointMultiplyEvent.RemoveListener(SetMultiplier);
+                EventManager.Instance.TempPointsEvent.RemoveAllListeners();
+                EventManager.Instance.StreakEndEvent.RemoveAllListeners();
+                EventManager.Instance.MissedMultiplyEvent.RemoveAllListeners();
+            }
         }
 
         private void OnApplicationQuit()
         {
-            if (!EventManager.Instance) return;
-
-            EventManager.Instance.PointsAddedEvent.RemoveAllListeners();
-            EventManager.Instance.PointMultiplyEvent.RemoveListener(SetMultiplier);
-            EventManager.Instance.TempPointsEvent.RemoveAllListeners();
-            EventManager.Instance.StreakEndEvent.RemoveAllListeners();
-            EventManager.Instance.MissedMultiplyEvent.RemoveAllListeners();
+            if (EventManager.Instance != null)
+            {
+                EventManager.Instance.PointsAddedEvent.RemoveAllListeners();
+                EventManager.Instance.PointMultiplyEvent.RemoveListener(SetMultiplier);
+                EventManager.Instance.TempPointsEvent.RemoveAllListeners();
+                EventManager.Instance.StreakEndEvent.RemoveAllListeners();
+                EventManager.Instance.MissedMultiplyEvent.RemoveAllListeners();
+            }
         }
         
         private void AddScore(int value)
         {
-            _oldScore = _newScore;
-            _newScore = value;
+            _oldScore = NewScore;
+            NewScore = value;
 
-            _scoreTween = _scoreText.DOCounter(_oldScore, _newScore, 2f, false, null);
-            //_scoreText.DOCounter(_oldScore, _newScore, 2f, false, null);
+            _scoreTween = _scoreText.DOCounter(_oldScore, NewScore, 2f, false, null);
+            //_scoreText.DOCounter(_oldScore, NewScore, 2f, false, null);
 
             if (_scoreTween.playedOnce)
             {
@@ -94,11 +108,11 @@ namespace JamCraft.GMTK2023.Code
 
         public void AddTemporaryScore(int value)
         {
-            _oldTemporaryScore = _newTemporaryScore;
-            _newTemporaryScore = value;
+            _oldTemporaryScore = NewTemporaryScore;
+            NewTemporaryScore = value;
 
-            _temporaryScoreTween = _temporaryScoreText.DOCounter(_oldTemporaryScore, _newTemporaryScore, 2f, false, null);
-            //_temporaryScoreText.DOCounter(_oldTemporaryScore, _newTemporaryScore, 2f, false, null);
+            _temporaryScoreTween = _temporaryScoreText.DOCounter(_oldTemporaryScore, NewTemporaryScore, 2f, false, null);
+            //_temporaryScoreText.DOCounter(_oldTemporaryScore, NewTemporaryScore, 2f, false, null);
 
             if (_temporaryScoreTween.playedOnce)
             {

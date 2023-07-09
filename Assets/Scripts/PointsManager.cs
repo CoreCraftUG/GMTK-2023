@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,6 +22,7 @@ public class PointsManager : MonoBehaviour
     {
         EventManager.Instance.MatchingCardsEvent.AddListener(PointMemory);
         EventManager.Instance.TurnEvent.AddListener(TurnEnd);
+        EventManager.Instance.GameOverEvent.AddListener(GameOver);
     }
 
     private void OnDestroy()
@@ -29,6 +31,7 @@ public class PointsManager : MonoBehaviour
         {
             EventManager.Instance.MatchingCardsEvent.RemoveAllListeners();
             EventManager.Instance.TurnEvent.RemoveAllListeners();
+            EventManager.Instance.GameOverEvent.RemoveAllListeners();
         }
     }
 
@@ -38,7 +41,13 @@ public class PointsManager : MonoBehaviour
         {
             EventManager.Instance.MatchingCardsEvent.RemoveAllListeners();
             EventManager.Instance.TurnEvent.RemoveAllListeners();
+            EventManager.Instance.GameOverEvent.RemoveAllListeners();
         }
+    }
+
+    private void GameOver()
+    {
+        Multiply();
     }
 
     private void Multiply()
@@ -49,6 +58,7 @@ public class PointsManager : MonoBehaviour
         TotalPoints += Mathf.FloorToInt(TempPoints * PointMultiplyer);
         TempPoints = 0;
 
+        EventManager.Instance.TempPointsEvent.Invoke(TempPoints);
         EventManager.Instance.PointsAddedEvent.Invoke(TotalPoints);
     }
 

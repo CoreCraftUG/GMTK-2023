@@ -44,8 +44,8 @@ namespace JamCraft.GMTK2023.Code
             {
                 GameStateManager.Instance.IsGameOver = true;
                 // TODO: Fix the score system.
-                int finalScore = ScoreUI.Instance.NewScore + ScoreUI.Instance.NewTemporaryScore;
-                _finalScoreText.text = "Your final score is: " + finalScore.ToString();
+
+                _finalScoreText.text = "Your final score is: " + ScoreUI.Instance.NewScore;
                 _finalLevelText.text = "You reached level: " + ScoreUI.Instance.Level;
                 Show();
             });

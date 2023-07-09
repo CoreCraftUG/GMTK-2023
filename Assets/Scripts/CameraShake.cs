@@ -5,8 +5,13 @@ namespace JamCraft.GMTK2023.Code
 {
     public class CameraShake : MonoBehaviour
     {
+        [Header("Getting Money Values")]
         [SerializeField] private float _intensity;
         [SerializeField] private float _time;
+
+        [Header("Turn Table Values")]
+        [SerializeField] private float _intensity2;
+        [SerializeField] private float _time2;
 
         private CinemachineVirtualCamera _virtualCamera;
         private CinemachineBasicMultiChannelPerlin _cinemachineMultiChannelPerlin;
@@ -36,12 +41,12 @@ namespace JamCraft.GMTK2023.Code
 
             EventManager.Instance.TurnLeftEvent.AddListener(() =>
             {
-                ShakeCamera(.5f, 0.1f);
+                ShakeCamera(_intensity2, _time2);
             });
 
             EventManager.Instance.TurnRightEvent.AddListener(() =>
             {
-                ShakeCamera(.5f, 0.1f);
+                ShakeCamera(_intensity2, _time2);
             });
         }
 

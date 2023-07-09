@@ -858,7 +858,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _intensity: 0.3
-  _time: 7
+  _time: 4
   _intensity2: 0.2
   _time2: 0.1
 --- !u!1 &416700617

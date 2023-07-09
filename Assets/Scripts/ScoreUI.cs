@@ -139,7 +139,7 @@ namespace JamCraft.GMTK2023.Code
             {
                 _timer = 5f;
                 _timerTotal = 5f;
-                _beautify.sepia.value -= (_oldTemporaryScore + NewTemporaryScore) / 1000f;
+                _beautify.sepia.value -= (_oldTemporaryScore + NewTemporaryScore) / 2000f;
                 _startingSepia = _beautify.sepia.value;
             }
 

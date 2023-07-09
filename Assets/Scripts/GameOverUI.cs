@@ -46,7 +46,7 @@ namespace JamCraft.GMTK2023.Code
                 // TODO: Fix the score system.
 
                 _finalScoreText.text = "Your final score is: " + ScoreUI.Instance.NewScore;
-                _finalLevelText.text = "You reached level: " + ScoreUI.Instance.Level;
+                _finalLevelText.text = "You've reached level: " + ScoreUI.Instance.Level;
                 Show();
             });
 

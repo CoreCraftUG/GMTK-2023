@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static UnityEngine.InputSystem.InputSettings;
 
@@ -116,7 +117,11 @@ namespace JamCraft.GMTK2023.Code
 
         private void OnCameraHeightValueChanged(float value)
         {
-            GameSettingsManager.Instance.ChangeCameraHeight(_cameraHeightSlider.value);
+            if (SceneManager.GetActiveScene().buildIndex == 2)
+            {
+                GameSettingsManager.Instance.ChangeCameraHeight(_cameraHeightSlider.value);
+            }
+            //GameSettingsManager.Instance.ChangeCameraHeight(_cameraHeightSlider.value);
             _cameraHeightText.text = Mathf.Round(GameSettingsManager.Instance.CameraHeight * 10).ToString();
         }
 

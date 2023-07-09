@@ -24,7 +24,7 @@ namespace JamCraft.GMTK2023.Code
             Instance = this;
 
             // Get the saves values and set the properties accordingly.
-            CameraHeight = PlayerPrefs.GetFloat(GameOptionsUI.PLAYER_PREFS_CAMERA_HEIGHT, 2.3f);
+            CameraHeight = PlayerPrefs.GetFloat(GameOptionsUI.PLAYER_PREFS_CAMERA_HEIGHT, 0.9f);
             ResolutionIndex = PlayerPrefs.GetInt(GameOptionsUI.PLAYER_PREFS_RESOLUTION);
         }
 
@@ -32,7 +32,7 @@ namespace JamCraft.GMTK2023.Code
         {
             //VirtualCameraTransform = Camera.main.GetComponent<Transform>();
 
-            if (SceneManager.GetActiveScene().ToString() == Loader.Scene.game_scene.ToString())
+            if (SceneManager.GetActiveScene().buildIndex == 2)
             {
                 ChangeCameraHeight(CameraHeight);
             }

@@ -9836,14 +9836,17 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'A to turn table counter clock wise
+  m_text: 'A - Turn table counter clock wise
 
 
-    D to turn table clock wise
+    D - Turn table clock wise
 
 
     Space
-    to place card'
+    - Place card
+
+
+    Esc - Pause'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

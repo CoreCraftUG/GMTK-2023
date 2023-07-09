@@ -19,4 +19,5 @@ public class EventManager : Singleton<EventManager>
     public UnityEvent StreakEndEvent = new UnityEvent(); 
     public UnityEvent TurnRightEvent = new UnityEvent(); 
     public UnityEvent TurnLeftEvent = new UnityEvent(); 
+    public UnityEvent<int> LevelUpEvent = new UnityEvent<int>(); 
 }

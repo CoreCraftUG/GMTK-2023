@@ -14,7 +14,7 @@ public class Playermanager : Singleton<Playermanager>
     [BoxGroup("Visual"), SerializeField] private Image timerCountdown;
 
     [BoxGroup("Gameplay"), SerializeField] int _endLevel;
-    [BoxGroup("Gameplay"), SerializeField] int _frameDelayTimePlace;
+    [BoxGroup("Gameplay"), SerializeField] float _timeDelayTimePlace;
     [BoxGroup("Gameplay"), SerializeField] float _startDelay;
     [BoxGroup("Gameplay"), SerializeField] float _delayIncrement;
     [BoxGroup("Gameplay"), SerializeField] float _delayIncreaseTime;
@@ -78,6 +78,7 @@ public class Playermanager : Singleton<Playermanager>
         {
             _delayTimer = 0;
             _delayLevel++;
+            EventManager.Instance.LevelUpEvent.Invoke(_delayLevel);
             _currentDelay -= _delayIncrement;
         }
         if(_delayTimer < _delayIncreaseTime)
@@ -86,10 +87,10 @@ public class Playermanager : Singleton<Playermanager>
         }
 
         Timer += Time.deltaTime;
-        timerCountdown.fillAmount = (_currentDelay - Timer)/_currentDelay;
+        timerCountdown.fillAmount = (_currentDelay - (Timer + 0.15f))/_currentDelay;
 
         if(Timer >= _currentDelay && CanTurn)
-         {
+        {
             _timePlaced = true;
             SelectedPlayerPlays();
             StartCoroutine(TimePlaceDelay());
@@ -106,12 +107,7 @@ public class Playermanager : Singleton<Playermanager>
 
     private IEnumerator TimePlaceDelay()
     {
-        int i = 0;
-        while(i < _frameDelayTimePlace)
-        {
-            i++;
-            yield return null;
-        }
+        yield return new WaitForSeconds(_timeDelayTimePlace);
         _timePlaced = false;
     }
 

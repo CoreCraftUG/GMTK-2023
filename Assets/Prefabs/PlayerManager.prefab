@@ -48,7 +48,7 @@ MonoBehaviour:
   Off: {fileID: 2100000, guid: b7818410529bd6a448b7d666e7a09e02, type: 2}
   timerCountdown: {fileID: 0}
   _endLevel: 15
-  _frameDelayTimePlace: 5
+  _timeDelayTimePlace: 0.1
   _startDelay: 5
   _delayIncrement: 0.25
   _delayIncreaseTime: 30

@@ -13,7 +13,7 @@ public class Table : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A) && !GameStateManager.Instance.IsGamePaused && !GameStateManager.Instance.IsGameOver/*&& Playermanager.Instance.CanTurn*/)
+        if (Input.GetKeyDown(KeyCode.A) && !GameStateManager.Instance.IsGamePaused && !GameStateManager.Instance.IsGameOver && Playermanager.Instance.CanTurn)
         {
             _rotation -= 90f;
             _playTable.transform.DORotate(_rotation * Vector3.up, _rotationTime);
@@ -21,7 +21,7 @@ public class Table : MonoBehaviour
             EventManager.Instance.TurnLeftEvent.Invoke();
             Playermanager.Instance.TurnRight();
         }
-        if (Input.GetKeyDown(KeyCode.D) && !GameStateManager.Instance.IsGamePaused && !GameStateManager.Instance.IsGameOver /*&& Playermanager.Instance.CanTurn*/)
+        if (Input.GetKeyDown(KeyCode.D) && !GameStateManager.Instance.IsGamePaused && !GameStateManager.Instance.IsGameOver && Playermanager.Instance.CanTurn)
         {
             _rotation += 90f;
             _playTable.transform.DORotate(_rotation * Vector3.up, _rotationTime);

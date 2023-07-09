@@ -122,7 +122,7 @@ namespace JamCraft.GMTK2023.Code
 
         public void SetMultiplier(float value)
         {
-            _multiplierText.text = "Multiplier: " + value.ToString("F1") + "x";
+            _multiplierText.text = value.ToString("F1");
 
             foreach (GameObject streak in _streaks)
             {
@@ -158,7 +158,7 @@ namespace JamCraft.GMTK2023.Code
 
         private void StreakEndEvent()
         {
-            _multiplierText.text = "Multiplier: 1x";
+            _multiplierText.text = "1";
         }
 
         private void MissedMultiplierEvent(int value)

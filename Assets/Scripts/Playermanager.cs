@@ -14,6 +14,7 @@ public class Playermanager : Singleton<Playermanager>
     [BoxGroup("Visual"), SerializeField] private Image timerCountdown;
 
     [BoxGroup("Gameplay"), SerializeField] int _endLevel;
+    [BoxGroup("Gameplay"), SerializeField] int _frameDelayTimePlace;
     [BoxGroup("Gameplay"), SerializeField] float _startDelay;
     [BoxGroup("Gameplay"), SerializeField] float _delayIncrement;
     [BoxGroup("Gameplay"), SerializeField] float _delayIncreaseTime;
@@ -21,6 +22,7 @@ public class Playermanager : Singleton<Playermanager>
     [BoxGroup("Gameplay"), SerializeField] private List<Player> Players = new List<Player>(); //List of all players
 
     private bool _gameover;
+    private bool _timePlaced;
     private int _randomPlayer = 0; //random player currently being selected(int)
     private int _delayLevel;
     private float _currentDelay; //Time it takes for one player to play a card automatically atm
@@ -88,14 +90,29 @@ public class Playermanager : Singleton<Playermanager>
 
         if(Timer >= _currentDelay && CanTurn)
          {
+            _timePlaced = true;
             SelectedPlayerPlays();
+            StartCoroutine(TimePlaceDelay());
         }
-        else if (Input.GetKeyDown(KeyCode.Space) && CanTurn && !GameStateManager.Instance.IsGamePaused && !GameStateManager.Instance.IsGameOver)
+        else if (Input.GetKeyDown(KeyCode.Space) && CanTurn && !GameStateManager.Instance.IsGamePaused && !GameStateManager.Instance.IsGameOver && !_timePlaced)
         {
+            _timePlaced = true;
             SelectedPlayerPlays();
+            StartCoroutine(TimePlaceDelay());
             //CancelInvoke();
         }
 
+    }
+
+    private IEnumerator TimePlaceDelay()
+    {
+        int i = 0;
+        while(i < _frameDelayTimePlace)
+        {
+            i++;
+            yield return null;
+        }
+        _timePlaced = false;
     }
 
     public void NextPlayer()

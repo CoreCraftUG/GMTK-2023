@@ -27,7 +27,7 @@ public class IKController : MonoBehaviour
         {
             if (_ikActive)
             {
-                Debug.Log(_handObj);
+
                 if(_lookObj != null)
                 {
                     animator.SetLookAtWeight(1);

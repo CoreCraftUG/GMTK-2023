@@ -33,6 +33,7 @@ public class Player : MonoBehaviour
     public CardGrid FacingGrid => Playermanager.Instance.Grids[FacingArea]; //Grid
     public CardBase CurrentCard => (_deck.Peek().Equals(null)) ? null : _deck.Peek(); //Card
     [SerializeField] private Transform _lookTarget;
+    public Transform LookTarget;
 
     
 
@@ -52,7 +53,7 @@ public class Player : MonoBehaviour
         if (TimeManager.Instance.TimeStop)
             return;
 
-        _lookTarget = Playermanager.Instance.ReturnLookTarget();
+        _lookTarget.position = Playermanager.Instance.ReturnLookTarget().position;
 
         if (_currentLevel < Level)
         {

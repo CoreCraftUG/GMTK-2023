@@ -63,7 +63,7 @@ public class Playermanager : Singleton<Playermanager>
 
     public Transform ReturnLookTarget()
     {
-            return (Players[_randomPlayer].transform);
+            return (Players[_randomPlayer].GetComponent<Player>().LookTarget);
     }
 
     private void Update()

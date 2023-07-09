@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using DG.Tweening;
+using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 
 namespace JamCraft.GMTK2023.Code
 {
@@ -136,7 +137,7 @@ namespace JamCraft.GMTK2023.Code
 
         private void StreakEndEvent()
         {
-            SetMultiplier(1);
+            _multiplierText.text = "Multiplier: 1x";
         }
 
         private void MissedMultiplierEvent(int value)

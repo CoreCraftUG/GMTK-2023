@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace JamCraft.GMTK2023.Code
 {
@@ -31,7 +32,10 @@ namespace JamCraft.GMTK2023.Code
         {
             //VirtualCameraTransform = Camera.main.GetComponent<Transform>();
 
-            ChangeCameraHeight(CameraHeight);
+            if (SceneManager.GetActiveScene().ToString() == Loader.Scene.game_scene.ToString())
+            {
+                ChangeCameraHeight(CameraHeight);
+            }
 
             GameOptionsUI.Instance.SetResolution(ResolutionIndex);
         }

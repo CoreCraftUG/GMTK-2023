@@ -1,3 +1,4 @@
+using HeathenEngineering.SteamworksIntegration;
 using JamCraft.GMTK2023.Code;
 using System;
 using System.Collections;
@@ -13,6 +14,7 @@ public class PointsManager : MonoBehaviour
     [SerializeField] private int _match3Points;
     [SerializeField] private float _multiplierIncrease;
     [SerializeField] private int _maxMissedMultiplies;
+    [SerializeField] private LeaderboardObject _leaderboardObject;
 
     private bool _wasMultiplied;
     private int _missedMultiplies;
@@ -49,6 +51,8 @@ public class PointsManager : MonoBehaviour
     private void GameOver()
     {
         Multiply();
+
+        _leaderboardObject.KeepBestUploadScore(TotalPoints);
     }
 
     private void Multiply()

@@ -51,3 +51,5 @@ MonoBehaviour:
   _match3Points: 1000
   _multiplierIncrease: 0.2
   _maxMissedMultiplies: 3
+  _leaderboardObject: {fileID: 5663685033367865513, guid: d7af0d342511f4043a987c7c513c387c,
+    type: 2}

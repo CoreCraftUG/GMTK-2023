@@ -109,11 +109,7 @@ public class Playermanager : Singleton<Playermanager>
 
     }
 
-    private IEnumerator TimerReset()
-    {
-        yield return new WaitForEndOfFrame();
-        CardTimer.CardAnimator.SetBool("Outer", true);
-    }
+
     private IEnumerator TimePlaceDelay()
     {
         yield return new WaitForSeconds(_timeDelayTimePlace);

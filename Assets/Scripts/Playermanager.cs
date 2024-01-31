@@ -12,6 +12,7 @@ public class Playermanager : Singleton<Playermanager>
     [BoxGroup("Visual"), SerializeField] private Material On;
     [BoxGroup("Visual"), SerializeField] private Material Off;
     [BoxGroup("Visual"), SerializeField] private Image timerCountdown;
+    [BoxGroup("Visual"), SerializeField] private CardAnimation CardTimer;
 
     [BoxGroup("Gameplay"), SerializeField] int _endLevel;
     [BoxGroup("Gameplay"), SerializeField] float _timeDelayTimePlace;
@@ -58,7 +59,7 @@ public class Playermanager : Singleton<Playermanager>
     public void BeginPlay()
     {
         CanTurn = true;
-        NextPlayer();
+        NextPlayer(true);
     }
 
     public Transform ReturnLookTarget()
@@ -97,37 +98,56 @@ public class Playermanager : Singleton<Playermanager>
         }
         else if (Input.GetKeyDown(KeyCode.Space) && CanTurn && !GameStateManager.Instance.IsGamePaused && !GameStateManager.Instance.IsGameOver && !_timePlaced)
         {
+            CardTimer.CardAnimator.Play("Idle");
+            CardTimer.CardAnimator.SetBool("Outer", false);
             _timePlaced = true;
             SelectedPlayerPlays();
+            
             StartCoroutine(TimePlaceDelay());
             //CancelInvoke();
         }
 
     }
 
+    private IEnumerator TimerReset()
+    {
+        yield return new WaitForEndOfFrame();
+        CardTimer.CardAnimator.SetBool("Outer", true);
+    }
     private IEnumerator TimePlaceDelay()
     {
         yield return new WaitForSeconds(_timeDelayTimePlace);
         _timePlaced = false;
+        CardTimer.CardAnimator.SetBool("Outer", true);
     }
 
-    public void NextPlayer()
+    public void NextPlayer(bool first)
     {
         _randomPlayer = Random.Range(0, Players.Count);
         Players[_randomPlayer].IsSelected = true;
         Players[_randomPlayer].Level = _delayLevel;
         Players[_randomPlayer].TurnLight.SetActive(true);
+        if (!first)
+        {
+            CardTimer.CardAnimator.SetBool("Outer", false);
+            Vector3 CardPos = Players[_randomPlayer].GetPresentedCard().transform.position;
+            CardTimer.gameObject.transform.position = new Vector3(CardPos.x, CardPos.y -.03f, CardPos.z);
+            CardTimer.gameObject.transform.rotation = Players[_randomPlayer].GetPresentedCard().transform.rotation;
+            CardTimer.gameObject.transform.parent = Players[_randomPlayer].GetPresentedCard().transform;
+            CardTimer.StartTimer(_currentDelay);
+        }
     }
 
     
 
     public void SelectedPlayerPlays()
     {
+        
         Players[_randomPlayer].PlayCard();
         Players[_randomPlayer].IsSelected = false;
         Players[_randomPlayer].ResetSlots();
         Players[_randomPlayer].TurnLight.SetActive(false);
-        NextPlayer();
+        NextPlayer(false);
     }
 
     public void TurnRight()

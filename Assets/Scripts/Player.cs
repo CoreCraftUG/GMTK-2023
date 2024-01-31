@@ -120,6 +120,10 @@ public class Player : MonoBehaviour
         _presentedCard.SetCard(_deck.Pop());
     }
 
+    public CardHolder GetPresentedCard()
+    {
+        return _presentedCard;
+    }
     public void PlayCard()
      {
         Playermanager.Instance.CanTurn = false;

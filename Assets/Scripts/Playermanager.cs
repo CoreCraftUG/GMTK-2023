@@ -128,8 +128,9 @@ public class Playermanager : Singleton<Playermanager>
             CardTimer.CardAnimator.SetBool("Outer", false);
             Vector3 CardPos = Players[_randomPlayer].GetPresentedCard().transform.position;
             CardTimer.gameObject.transform.position = new Vector3(CardPos.x, CardPos.y -.03f, CardPos.z);
-            CardTimer.gameObject.transform.rotation = Players[_randomPlayer].GetPresentedCard().transform.rotation;
+            
             CardTimer.gameObject.transform.parent = Players[_randomPlayer].GetPresentedCard().transform;
+            CardTimer.gameObject.transform.localRotation = Quaternion.Euler(0, 180, 0);
             CardTimer.StartTimer(_currentDelay);
         }
     }

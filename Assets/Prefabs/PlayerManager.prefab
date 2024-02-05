@@ -71,6 +71,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CardTimer
       objectReference: {fileID: 0}
+    - target: {fileID: 2687091470595093432, guid: d6a631400a68b9a47bc984193571b3f1,
+        type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9063644445500198320, guid: d6a631400a68b9a47bc984193571b3f1,
         type: 3}
       propertyPath: m_RootOrder
@@ -94,22 +99,22 @@ PrefabInstance:
     - target: {fileID: 9063644445500198320, guid: d6a631400a68b9a47bc984193571b3f1,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9063644445500198320, guid: d6a631400a68b9a47bc984193571b3f1,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9063644445500198320, guid: d6a631400a68b9a47bc984193571b3f1,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9063644445500198320, guid: d6a631400a68b9a47bc984193571b3f1,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9063644445500198320, guid: d6a631400a68b9a47bc984193571b3f1,
         type: 3}
@@ -119,7 +124,7 @@ PrefabInstance:
     - target: {fileID: 9063644445500198320, guid: d6a631400a68b9a47bc984193571b3f1,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 9063644445500198320, guid: d6a631400a68b9a47bc984193571b3f1,
         type: 3}

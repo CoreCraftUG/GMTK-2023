@@ -60,7 +60,7 @@ Material:
     - _DecalMeshViewBias: 0
     - _DrawOrder: 0
     - _Emissive: 1
-    - _Filled: 1
+    - _Filled: 0
     - _MS_1: 0
     - _NormalStrength: 5
     - _Normal_1: 0

@@ -33,6 +33,8 @@ public class EventManager : Singleton<EventManager>
     public UnityEvent<ECentreGridLevel> CentreLevelUpEvent = new UnityEvent<ECentreGridLevel>();
     public UnityEvent RimExplosionCardDeletedEvent = new UnityEvent();
     public UnityEvent<CardGrid,int> RimExplosionEvent = new UnityEvent<CardGrid, int>();
+    public UnityEvent<int> RimExplosionExplodedCardsEvent = new UnityEvent<int>();
+    public UnityEvent MatchFromNeighbourEvent = new UnityEvent();
 
 #if UNITY_EDITOR
     public UnityEvent ClearAllAchievements = new UnityEvent();

@@ -2601,7 +2601,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66b2e0773dae4f041baaa31660990c63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveTime: 0.5
+  MoveTime: 0.25
   _vanishVFX:
   - {fileID: 6794221049148260916, guid: 48d42355ce0b0be44b92f2737b88b4c2, type: 3}
   - {fileID: 6794221049148260916, guid: 0bdf961d1964fb849af254fc51566e5f, type: 3}

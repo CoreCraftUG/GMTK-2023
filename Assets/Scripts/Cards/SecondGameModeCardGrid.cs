@@ -9,6 +9,8 @@ public class SecondGameModeCardGrid : CardGrid
     [SerializeField] private SecondGameModeCardGrid _oppositeGrid;
     [SerializeField] private CentreGrid _centreGrid;
 
+    protected bool _gotACard;
+
     public override void AddCard(CardHolder card, int slot)
     {
         card.gameObject.transform.SetParent(this.transform);
@@ -104,6 +106,7 @@ public class SecondGameModeCardGrid : CardGrid
 
     protected bool AddCardFromTop(CardHolder card, int slot) //TODO: check for match
     {
+        _gotACard = true;
         card.gameObject.transform.SetParent(this.transform);
         slot = _gridLength - (slot - 1);
 
@@ -134,5 +137,17 @@ public class SecondGameModeCardGrid : CardGrid
         EventManager.Instance.TurnEvent.Invoke();
         CheckForMatch();
         return true;
+    }
+
+    protected override void CheckForMatch()
+    {
+        base.CheckForMatch();
+        _gotACard = false;
+    }
+
+    protected override void StartRowMatch(int row)
+    {
+        base.StartRowMatch(row);
+        EventManager.Instance.MatchFromNeighbourEvent.Invoke();
     }
 }

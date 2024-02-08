@@ -44,10 +44,10 @@ public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
     [FoldoutGroup("Clear Row with one Card"), Header("5 Rows"), SerializeField] private AchievementObject _5Rows;
 
     // Center Symbols Achievements
-    [FoldoutGroup("Center Symbols"), Header("Bronze Center"), SerializeField] private AchievementObject _bronzeCenter; //TODO
-    [FoldoutGroup("Center Symbols"), Header("Silver Center"), SerializeField] private AchievementObject _silverCenter; //TODO
-    [FoldoutGroup("Center Symbols"), Header("Gold Center"), SerializeField] private AchievementObject _goldCenter; //TODO
-    [FoldoutGroup("Center Symbols"), Header("Success Center"), SerializeField] private AchievementObject _successCenter; //TODO
+    [FoldoutGroup("Center Symbols"), Header("Bronze Center"), SerializeField] private AchievementObject _bronzeCenter;
+    [FoldoutGroup("Center Symbols"), Header("Silver Center"), SerializeField] private AchievementObject _silverCenter;
+    [FoldoutGroup("Center Symbols"), Header("Gold Center"), SerializeField] private AchievementObject _goldCenter;
+    [FoldoutGroup("Center Symbols"), Header("Success Center"), SerializeField] private AchievementObject _successCenter;
 
     [Header("Match Tree"), SerializeField] private AchievementObject _matchTree;
 
@@ -55,15 +55,16 @@ public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
 
     [Header("Deko Slots"), SerializeField] private AchievementObject _decoSlots;
 
-    [Header("Clear Neighbour Row"), SerializeField] private AchievementObject _clearNeighbourRow; //TODO
+    [Header("Clear Neighbour Row"), SerializeField] private AchievementObject _clearNeighbourRow;
 
     [Header("Fill Grids"), SerializeField] private AchievementObject _fillGrids;
 
-    [Header("Rim Explosion"), SerializeField] private AchievementObject _rimExplosion; //TODO
+    [Header("Rim Explosion"), SerializeField] private AchievementObject _rimExplosion;
 
     private ECardColour? _lastCardColour;
     private int _clearRowStreakCount;
     private List<CardGrid> _fullCardGrids = new List<CardGrid>();
+    private int _rimExplosionCounter;
 
 
     private void Start()
@@ -171,6 +172,7 @@ public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
         EventManager.Instance.TurnEvent.AddListener(() =>
         {
             _clearRowStreakCount = 0;
+            _rimExplosionCounter = 0;
         });
 
         EventManager.Instance.RowStreakAchievementEvent.AddListener((colour) =>
@@ -224,6 +226,44 @@ public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
         {
             if (_fullCardGrids != null && _fullCardGrids.Any(cg => cg == grid))
                 _fullCardGrids.Remove(grid);
+        });
+
+        EventManager.Instance.RimExplosionEvent.AddListener((CardGrid grid, int row) =>
+        {
+            _rimExplosionCounter++;
+        });
+
+        EventManager.Instance.RimExplosionExplodedCardsEvent.AddListener((count) =>
+        {
+            if(count >= 3)
+                _rimExplosionCounter++;
+
+            if (_rimExplosionCounter >= 4)
+                UnlockRimExplosion();
+        });
+
+        EventManager.Instance.MatchFromNeighbourEvent.AddListener(() =>
+        {
+            UnlockClearNeighbourRow();
+        });
+
+        EventManager.Instance.CentreLevelUpEvent.AddListener((level) =>
+        {
+            switch (level)
+            {
+                case ECentreGridLevel.None:
+                    UnlockBronzeCentre();
+                    break;
+                case ECentreGridLevel.Bronze:
+                    UnlockSilverCentre();
+                    break;
+                case ECentreGridLevel.Silver:
+                    UnlockGoldCentre();
+                    break;
+                case ECentreGridLevel.Gold:
+                    UnlockSuccessCentre();
+                    break;
+            }
         });
     }
 
@@ -414,6 +454,45 @@ public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
     {
         if (_fillGrids != null && !_fillGrids.IsAchieved)
             _fillGrids.Unlock();
+    }
+    #endregion
+
+    #region Rim Explosion
+    private void UnlockRimExplosion()
+    {
+        if (_rimExplosion != null && !_rimExplosion.IsAchieved)
+            _rimExplosion.Unlock();
+    }
+    #endregion
+
+    #region Clear Neighbour Row
+    private void UnlockClearNeighbourRow()
+    {
+        if (_clearNeighbourRow != null && !_clearNeighbourRow.IsAchieved)
+            _clearNeighbourRow.Unlock();
+    }
+    #endregion
+
+    #region Clear Neighbour Row
+    private void UnlockBronzeCentre()
+    {
+        if (_bronzeCenter != null && !_bronzeCenter.IsAchieved)
+            _bronzeCenter.Unlock();
+    }
+    private void UnlockSilverCentre()
+    {
+        if (_silverCenter != null && !_silverCenter.IsAchieved)
+            _silverCenter.Unlock();
+    }
+    private void UnlockGoldCentre()
+    {
+        if (_goldCenter != null && !_goldCenter.IsAchieved)
+            _goldCenter.Unlock();
+    }
+    private void UnlockSuccessCentre()
+    {
+        if (_successCenter != null && !_successCenter.IsAchieved)
+            _successCenter.Unlock();
     }
     #endregion
 }

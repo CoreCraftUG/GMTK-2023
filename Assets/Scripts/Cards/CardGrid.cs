@@ -5,6 +5,7 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 using Random = UnityEngine.Random;
 using Codice.Client.Common;
+using HeathenEngineering.SteamworksIntegration;
 
 public class CardGrid : MonoBehaviour
 {
@@ -114,7 +115,7 @@ public class CardGrid : MonoBehaviour
 
     }
 
-    protected void CheckForMatch() // TODO: On match wait for match to complete before continue
+    protected virtual void CheckForMatch()
     {
         int red = 0;
         int blue = 0;
@@ -161,7 +162,7 @@ public class CardGrid : MonoBehaviour
             if(red == _gridWidth || blue == _gridWidth || green == _gridWidth || yellow == _gridWidth || white == _gridWidth)
             {
                 match = true;
-                StartCoroutine(RowMatch(i));
+                StartRowMatch(i);
                 break;
             }
 
@@ -183,6 +184,11 @@ public class CardGrid : MonoBehaviour
             Playermanager.Instance.CanTurn = true;
             Playermanager.Instance.Timer = 0;
         }
+    }
+
+    protected virtual void StartRowMatch(int row)
+    {
+        StartCoroutine(RowMatch(row));
     }
 
     protected IEnumerator RowMatch(int i)
@@ -246,17 +252,21 @@ public class CardGrid : MonoBehaviour
     protected IEnumerator RimExplosion(int i)
     {
         float time = cardTime;
+        int explodedCardsCounter = 0;
         yield return new WaitForSeconds(time);
         EventManager.Instance.PlayAudio.Invoke(3, 0);
         for (int j = _gridWidth - 1; j >= i; j--)
         {
-            if (_cardObjects[j, i] != null)
+            if (_cardObjects[j, i] != null && _cardField[j, i] != null)
+            {
                 _cardObjects[j, i].VanishCard();
-            if (_cardField[j, i] != null)
                 _cardField[j, i] = null;
+                explodedCardsCounter++;
+            }
         }
 
         EventManager.Instance.RimExplosionCardDeletedEvent.Invoke();
+        EventManager.Instance.RimExplosionExplodedCardsEvent.Invoke(explodedCardsCounter);
 
         yield return new WaitForSeconds(time);
         StartCoroutine(ArrangeField());

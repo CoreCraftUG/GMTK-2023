@@ -30,7 +30,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2190791516816918335
 MonoBehaviour:
@@ -50,6 +50,7 @@ MonoBehaviour:
   _basePoints: 100
   _match3Points: 1000
   _multiplierIncrease: 0.2
+  _secondGameModeSilverIncrease: 0.2
+  _secondGameModeGoldIncrease: 0.2
+  _secondGameModeSuccessIncrease: 1
   _maxMissedMultiplies: 3
-  _leaderboardObject: {fileID: 5663685033367865513, guid: d7af0d342511f4043a987c7c513c387c,
-    type: 2}

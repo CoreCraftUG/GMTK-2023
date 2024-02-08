@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5516216789493180750}
   - component: {fileID: 5398393362980118390}
+  - component: {fileID: 1877677956771670973}
   m_Layer: 0
   m_Name: EventManager
   m_TagString: Untagged
@@ -42,5 +43,59 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ab857040079911d42a77f768c61720ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MatchingCardsEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  GameOverEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  TurnEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  PointsAddedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  TempPointsEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  PointMultiplyEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  PlayAudio:
+    m_PersistentCalls:
+      m_Calls: []
+  TimeStartEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  TimeStopEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  MissedMultiplyEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  StreakEndEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  TurnRightEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  TurnLeftEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  LevelUpEvent:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1877677956771670973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1967301489230858687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6dc6bc8e4bb2834e80531c648886d13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

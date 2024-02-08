@@ -30,6 +30,13 @@ namespace CoreCraft.Core
             BootTimerEvent.Invoke(4f);
             yield return new WaitForSeconds(1f);
 
+            yield return new WaitUntil(() =>
+            {
+                return EventManager.Instance != null && SteamAchievementHelper.Instance != null;
+            });
+            Debug.Log($"EventManager is ready!");
+            SteamAchievementHelper.Instance.EventManagerReady = true;
+
             // Visualize Timer
             BootTimerEvent.Invoke(3f);
             yield return new WaitForSeconds(1f);

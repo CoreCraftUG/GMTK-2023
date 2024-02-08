@@ -50,7 +50,7 @@ MonoBehaviour:
   timerCountdown: {fileID: 0}
   CardTimer: {fileID: 5521062194045025885}
   _endLevel: 15
-  _timeDelayTimePlace: 0.1
+  _timeDelayTimePlace: 0.2
   _startDelay: 5
   _delayIncrement: 0.25
   _delayIncreaseTime: 30

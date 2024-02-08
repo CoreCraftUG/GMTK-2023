@@ -82,6 +82,7 @@ MonoBehaviour:
   _fieldLengthSpacing: 0.21
   _fieldWidthSpacing: 0.11
   _gridStartTransform: {fileID: 8678386967596591430}
+  cardTime: 0.5
   _cardObject: {fileID: 6811084896005803881, guid: 7b99fc5405a541342b5deb4ff5942e4a,
     type: 3}
   _gridSlot: {fileID: 5613682045183669760, guid: d82d6d1936f4e4b449395caecf8d87b7,
@@ -91,6 +92,7 @@ MonoBehaviour:
   _wait: 0
   _testColour: 0
   _testFace: 0
+  _gridVisualizeObjects: []
 --- !u!1 &6358582241496865452
 GameObject:
   m_ObjectHideFlags: 0

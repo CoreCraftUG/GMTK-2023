@@ -13,8 +13,10 @@ public class PointsManager : MonoBehaviour
     [SerializeField] private int _basePoints;
     [SerializeField] private int _match3Points;
     [SerializeField] private float _multiplierIncrease;
+    [SerializeField] private float _secondGameModeSilverIncrease;
+    [SerializeField] private float _secondGameModeGoldIncrease;
+    [SerializeField] private float _secondGameModeSuccessIncrease;
     [SerializeField] private int _maxMissedMultiplies;
-    [SerializeField] private LeaderboardObject _leaderboardObject;
 
     private bool _wasMultiplied;
     private int _missedMultiplies;
@@ -26,6 +28,7 @@ public class PointsManager : MonoBehaviour
         EventManager.Instance.MatchingCardsEvent.AddListener(PointMemory);
         EventManager.Instance.TurnEvent.AddListener(TurnEnd);
         EventManager.Instance.GameOverEvent.AddListener(GameOver);
+        EventManager.Instance.CentreLevelUpEvent.AddListener(CentreMultiply);
     }
 
     private void OnDestroy()
@@ -52,7 +55,7 @@ public class PointsManager : MonoBehaviour
     {
         Multiply();
 
-        _leaderboardObject.KeepBestUploadScore(TotalPoints);
+        EventManager.Instance.FinalScoreEvent.Invoke(TotalPoints);
     }
 
     private void Multiply()
@@ -97,6 +100,31 @@ public class PointsManager : MonoBehaviour
 
         PointMultiplyer += _multiplierIncrease;
         EventManager.Instance.PointMultiplyEvent.Invoke(PointMultiplyer);
+        _wasMultiplied = true;
+        _missedMultiplies = 0;
+
+        EventManager.Instance.TempPointsEvent.Invoke(TempPoints);
+    }
+
+    private void CentreMultiply(ECentreGridLevel level)
+    {
+        switch (level)
+        {
+            case ECentreGridLevel.None:
+                //PointMultiplyer += _secondGameModeBronzeIncrease;
+                break;
+            case ECentreGridLevel.Bronze:
+                PointMultiplyer += _secondGameModeSilverIncrease;
+                break;
+            case ECentreGridLevel.Silver:
+                PointMultiplyer += _secondGameModeGoldIncrease;
+                break;
+            case ECentreGridLevel.Gold:
+                PointMultiplyer += _secondGameModeSuccessIncrease;
+                break;
+        }
+        EventManager.Instance.PointMultiplyEvent.Invoke(PointMultiplyer);
+
         _wasMultiplied = true;
         _missedMultiplies = 0;
 

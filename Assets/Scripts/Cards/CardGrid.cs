@@ -4,27 +4,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using Random = UnityEngine.Random;
+using Codice.Client.Common;
 
 public class CardGrid : MonoBehaviour
 {
-    [SerializeField] private int _gridLength;
-    [SerializeField] private int _gridWidth;
-    [SerializeField] private float _fieldLengthSpacing;
-    [SerializeField] private float _fieldWidthSpacing;
-    [SerializeField] private Transform _gridStartTransform;
+    [SerializeField] protected int _gridLength;
+    [SerializeField] protected int _gridWidth;
+    [SerializeField] protected float _fieldLengthSpacing;
+    [SerializeField] protected float _fieldWidthSpacing;
+    [SerializeField] protected Transform _gridStartTransform;
+    [SerializeField] protected float cardTime;
 
-    [SerializeField] private GameObject _cardObject;
-    [SerializeField] private GameObject _gridSlot;
-    [SerializeField] private Transform _gridVisualHolder;
-    [SerializeField] private Transform _gridDebugHolder;
+    [SerializeField] protected GameObject _cardObject;
+    [SerializeField] protected GameObject _gridSlot;
+    [SerializeField] protected Transform _gridVisualHolder;
+    [SerializeField] protected Transform _gridDebugHolder;
 
-    private CardBase[,] _cardField;
-    private CardHolder[,] _cardObjects;
-    private Vector3[,] _cardPositions;
+    protected CardBase[,] _cardField;
+    protected CardHolder[,] _cardObjects;
+    protected Vector3[,] _cardPositions;
 
-    [SerializeField] private bool _wait;
+    [SerializeField] protected bool _wait;
 
-    void Start()
+    protected void Start()
     {
         _cardField = new CardBase[_gridWidth, _gridLength];
         _cardObjects = new CardHolder[_gridWidth, _gridLength];
@@ -37,9 +39,16 @@ public class CardGrid : MonoBehaviour
                 _cardPositions[x, z] = new Vector3(x * _fieldWidthSpacing, 0, z * _fieldLengthSpacing);
             }
         }
+
+        EventManager.Instance.RimExplosionEvent.AddListener((grid, i)=>
+        {
+            if (grid == this)
+                return;
+            StartCoroutine(RimExplosion(i));
+        });
     }
 
-    public void AddCard(CardHolder card, int slot)
+    public virtual void AddCard(CardHolder card, int slot)
     {
         card.gameObject.transform.SetParent(this.transform);
         bool couldPlace = false;
@@ -105,19 +114,25 @@ public class CardGrid : MonoBehaviour
 
     }
 
-    private void CheckForMatch()
+    protected void CheckForMatch() // TODO: On match wait for match to complete before continue
     {
+        int red = 0;
+        int blue = 0;
+        int green = 0;
+        int yellow = 0;
+        int white = 0;
+
+        bool gridFull = true;
+
         for (int i = 0; i < _gridLength; i++)
         {
-            int red = 0;
-            int blue = 0;
-            int green = 0;
-            int yellow = 0;
-            int white = 0;
             for (int k = 0; k < _gridWidth; k++)
             {
                 if (_cardField[k, i] == null)
+                {
+                    gridFull = false;
                     continue;
+                }
 
                 switch (_cardField[k, i].Colour)
                 {
@@ -147,18 +162,31 @@ public class CardGrid : MonoBehaviour
                 StartCoroutine(RowMatch(i));
                 break;
             }
+
+            red = 0;
+            blue = 0;
+            green = 0;
+            yellow = 0;
+            white = 0;
         }
+
+        if (gridFull)
+            EventManager.Instance.GridFullEvent.Invoke(this);
+        else
+            EventManager.Instance.GridNoLongerFullEvent.Invoke(this);
+
         EventManager.Instance.TimeStartEvent.Invoke();
         Playermanager.Instance.CanTurn = true;
         Playermanager.Instance.Timer = 0;
     }
 
-    private IEnumerator RowMatch(int i)
+    protected IEnumerator RowMatch(int i)
     {
 
         float time = _cardObjects[_gridWidth - 1, i].MoveTime;
         yield return new WaitForSeconds(time);
         ECardFace face = _cardObjects[_gridWidth - 1, i].Card.Face;
+        ECardColour color = _cardObjects[_gridWidth - 1, i].Card.Colour;
         bool faceMatch = true;
         EventManager.Instance.PlayAudio.Invoke(3, 0);
         for (int j  = _gridWidth - 1; j >= 0; j--)
@@ -169,16 +197,19 @@ public class CardGrid : MonoBehaviour
             _cardField[j, i] = null;
         }
 
+        if (faceMatch)
+            EventManager.Instance.RimExplosionEvent.Invoke(this, i);
+
         EventManager.Instance.MatchingCardsEvent.Invoke(faceMatch);
+        EventManager.Instance.RowStreakAchievementEvent.Invoke(color);
 
         yield return new WaitForSeconds(time);
         StartCoroutine(ArrangeField());
 
         CheckForMatch();
-
     }
 
-    private IEnumerator ArrangeField()
+    protected IEnumerator ArrangeField()
     {
         float time = 0;
         for (int i  = 0; i < _gridLength; i++)
@@ -202,34 +233,53 @@ public class CardGrid : MonoBehaviour
         yield return new WaitForSeconds(time);
     }
 
-    private void FailedToPlace()
+    protected void FailedToPlace()
     {
         EventManager.Instance.GameOverEvent.Invoke();
     }
 
+    protected IEnumerator RimExplosion(int i)
+    {
+        float time = cardTime;
+        yield return new WaitForSeconds(time);
+        EventManager.Instance.PlayAudio.Invoke(3, 0);
+        for (int j = _gridWidth - 1; j >= i; j--)
+        {
+            if (_cardObjects[j, i] != null)
+                _cardObjects[j, i].VanishCard();
+            if (_cardField[j, i] != null)
+                _cardField[j, i] = null;
+        }
+
+        EventManager.Instance.RimExplosionCardDeletedEvent.Invoke();
+
+        yield return new WaitForSeconds(time);
+        StartCoroutine(ArrangeField());
+    }
+
     [Button("Test Card Slot 1")]
-    private void TestAt1()
+    protected void TestAt1()
     {
         TestCard(1);
     }
 
     [Button("Test Card Slot 2")]
-    private void TestAt2()
+    protected void TestAt2()
     {
         TestCard(2);
     }
 
     [Button("Test Card Slot 3")]
-    private void TestAt3()
+    protected void TestAt3()
     {
         TestCard(3);
     }
 
-    [SerializeField] private ECardColour _testColour;
-    [SerializeField] private ECardFace _testFace;
+    [SerializeField] protected ECardColour _testColour;
+    [SerializeField] protected ECardFace _testFace;
     List<GameObject> _gridDebugObjects = new List<GameObject>();
     [Button("DebugGrid")]
-    private void DebugGrid()
+    protected void DebugGrid()
     {
         for(int l = _gridDebugObjects.Count - 1; l >= 0; l--)
         {
@@ -259,7 +309,7 @@ public class CardGrid : MonoBehaviour
 
     [SerializeField] List<GameObject> _gridVisualizeObjects = new List<GameObject>();
     [Button("Visualize Grid")]
-    private void VisualizeGrid()
+    protected void VisualizeGrid()
     {
         _cardPositions = new Vector3[_gridWidth, _gridLength];
 
@@ -280,7 +330,7 @@ public class CardGrid : MonoBehaviour
     }
 
     [Button("Devisualize Grid")]
-    private void DevisualizeGrid()
+    protected void DevisualizeGrid()
     {
         foreach (GameObject obj in _gridVisualizeObjects)
         {
@@ -289,7 +339,7 @@ public class CardGrid : MonoBehaviour
         _gridVisualizeObjects = new List<GameObject>();
     }
 
-    private void TestCard(int slot)
+    protected void TestCard(int slot)
     {
         GameObject obj = Instantiate(_cardObject, transform);
         CardHolder holder = obj.GetComponent<CardHolder>();

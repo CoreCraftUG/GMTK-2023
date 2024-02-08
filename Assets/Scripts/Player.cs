@@ -35,12 +35,17 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform _lookTarget;
     public Transform LookTarget;
 
+    private bool _ready;
+    public bool Ready { get => _ready; private set => _ready = value; }
+
     
 
     private void Awake()
     {
         SelectedSpot = Random.Range(1, 4);
         NewDeck();
+
+        _ready = true;
     }
 
     public Transform ReturnPresentedCard()
@@ -91,7 +96,6 @@ public class Player : MonoBehaviour
             _deck.Push(card);
         _cards = tempcards;
         PreviewNextCard();
-
     }
 
     public void NextSpot()

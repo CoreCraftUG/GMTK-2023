@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CardAnimation : MonoBehaviour
 {
-    public Animator CardAnimator;
+    public Animator CardAnimator => GetComponent<Animator>();
 
     public void StartTimer(float timer)
     {
@@ -18,15 +18,14 @@ public class CardAnimation : MonoBehaviour
         //StartCoroutine(WaitForCards());
     }
 
+    public void SetTimerProgress(float progress)
+    {
+        CardAnimator.Play("CardRotation", -1, progress);
+    }
+
     IEnumerator WaitForCards()
     {
         yield return new WaitForSeconds(.2f);
         CardAnimator.SetBool("Outer", false);
     }
-
-    public GameObject ReturnObject()
-    {
-        return this.gameObject;
-    }
 }
-

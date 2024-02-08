@@ -6,12 +6,12 @@ using UnityEngine.UI;
 using CoreCraft.Core;
 using JamCraft.GMTK2023.Code;
 using Sirenix.OdinInspector;
+using System.Linq;
 
 public class Playermanager : Singleton<Playermanager>
 {
     [BoxGroup("Visual"), SerializeField] private Material On;
     [BoxGroup("Visual"), SerializeField] private Material Off;
-    //[BoxGroup("Visual"), SerializeField] private Image timerCountdown;
     [BoxGroup("Visual"), SerializeField] private CardAnimation CardTimer;
 
     [BoxGroup("Gameplay"), SerializeField] int _endLevel;
@@ -35,7 +35,7 @@ public class Playermanager : Singleton<Playermanager>
     private void Awake()
     {
         EventManager.Instance.GameOverEvent.AddListener(() => _gameover = true);
-        BeginPlay();
+        StartCoroutine(BeginPlay());
         _currentDelay = _startDelay;
 
     }
@@ -56,8 +56,16 @@ public class Playermanager : Singleton<Playermanager>
         }
     }
 
-    public void BeginPlay()
+    public IEnumerator BeginPlay()
     {
+        yield return new WaitUntil(() =>
+        {
+            while(Players.Any(p => !p.Ready))
+            {
+                return false;
+            }
+            return true;
+        });
         CanTurn = true;
         NextPlayer(true);
     }
@@ -88,9 +96,10 @@ public class Playermanager : Singleton<Playermanager>
         }
 
         Timer += Time.deltaTime;
-        //timerCountdown.fillAmount = (_currentDelay - (Timer + 0.15f))/_currentDelay;
 
-        if(Timer >= _currentDelay && CanTurn)
+        CardTimer.SetTimerProgress(Timer / _currentDelay);
+
+        if (Timer >= _currentDelay && CanTurn)
         {
             _timePlaced = true;
             SelectedPlayerPlays();
@@ -98,8 +107,6 @@ public class Playermanager : Singleton<Playermanager>
         }
         else if (Input.GetKeyDown(KeyCode.Space) && CanTurn && !GameStateManager.Instance.IsGamePaused && !GameStateManager.Instance.IsGameOver && !_timePlaced)
         {
-            CardTimer.CardAnimator.Play("Idle");
-            CardTimer.CardAnimator.SetBool("Outer", false);
             _timePlaced = true;
             SelectedPlayerPlays();
             
@@ -114,7 +121,6 @@ public class Playermanager : Singleton<Playermanager>
     {
         yield return new WaitForSeconds(_timeDelayTimePlace);
         _timePlaced = false;
-        CardTimer.CardAnimator.SetBool("Outer", true);
     }
 
     public void NextPlayer(bool first)
@@ -123,15 +129,13 @@ public class Playermanager : Singleton<Playermanager>
         Players[_randomPlayer].IsSelected = true;
         Players[_randomPlayer].Level = _delayLevel;
         Players[_randomPlayer].TurnLight.SetActive(true);
-        if (!first)
+
         {
-            CardTimer.CardAnimator.SetBool("Outer", false);
             Vector3 CardPos = Players[_randomPlayer].GetPresentedCard().transform.position;
-            CardTimer.gameObject.transform.position = new Vector3(CardPos.x, CardPos.y -.03f, CardPos.z);
-            
+            CardTimer.gameObject.transform.position = new Vector3(CardPos.x, CardPos.y - .03f, CardPos.z);
+
             CardTimer.gameObject.transform.parent = Players[_randomPlayer].GetPresentedCard().transform;
             CardTimer.gameObject.transform.localRotation = Quaternion.Euler(0, 180, 0);
-            CardTimer.StartTimer(_currentDelay);
         }
     }
 

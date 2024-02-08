@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,7 +18,6 @@ namespace JamCraft.GMTK2023.Code
 
             Instance = this;
 
-            // Close options menu and show pause menu.
             _backButton.onClick.AddListener(() =>
             {
                 Hide();
@@ -56,6 +53,7 @@ namespace JamCraft.GMTK2023.Code
         public void Hide()
         {
             gameObject.SetActive(false);
+            MainMenuUI.Instance.Show();
         }
     }
 }

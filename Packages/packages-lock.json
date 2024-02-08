@@ -5,14 +5,14 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "b870d64b5704a764fd03aaccb11f2dbe652b1756"
+      "hash": "0a9cf7a1809a289ca7bedecee594cdf256e26935"
     },
     "com.coffee.ui-effect": {
       "version": "https://github.com/mob-sakai/UIEffect.git",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "b43e40508b167d143330d8b9eff0d5c9965cdf3c"
+      "hash": "332340e7bc2f8257816dd28784607a1edf6b6c2a"
     },
     "com.heathen.systemcore": {
       "version": "https://github.com/heathen-engineering/SystemCore.git?path=/com.heathen.systemcore",

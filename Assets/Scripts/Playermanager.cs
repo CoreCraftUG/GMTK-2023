@@ -11,7 +11,7 @@ public class Playermanager : Singleton<Playermanager>
 {
     [BoxGroup("Visual"), SerializeField] private Material On;
     [BoxGroup("Visual"), SerializeField] private Material Off;
-    [BoxGroup("Visual"), SerializeField] private Image timerCountdown;
+    //[BoxGroup("Visual"), SerializeField] private Image timerCountdown;
     [BoxGroup("Visual"), SerializeField] private CardAnimation CardTimer;
 
     [BoxGroup("Gameplay"), SerializeField] int _endLevel;
@@ -88,7 +88,7 @@ public class Playermanager : Singleton<Playermanager>
         }
 
         Timer += Time.deltaTime;
-        timerCountdown.fillAmount = (_currentDelay - (Timer + 0.15f))/_currentDelay;
+        //timerCountdown.fillAmount = (_currentDelay - (Timer + 0.15f))/_currentDelay;
 
         if(Timer >= _currentDelay && CanTurn)
         {

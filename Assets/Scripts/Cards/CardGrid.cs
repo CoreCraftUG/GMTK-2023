@@ -123,6 +123,7 @@ public class CardGrid : MonoBehaviour
         int white = 0;
 
         bool gridFull = true;
+        bool match = false;
 
         for (int i = 0; i < _gridLength; i++)
         {
@@ -159,6 +160,7 @@ public class CardGrid : MonoBehaviour
 
             if(red == _gridWidth || blue == _gridWidth || green == _gridWidth || yellow == _gridWidth || white == _gridWidth)
             {
+                match = true;
                 StartCoroutine(RowMatch(i));
                 break;
             }
@@ -175,9 +177,12 @@ public class CardGrid : MonoBehaviour
         else
             EventManager.Instance.GridNoLongerFullEvent.Invoke(this);
 
-        EventManager.Instance.TimeStartEvent.Invoke();
-        Playermanager.Instance.CanTurn = true;
-        Playermanager.Instance.Timer = 0;
+        if (!match)
+        {
+            EventManager.Instance.TimeStartEvent.Invoke();
+            Playermanager.Instance.CanTurn = true;
+            Playermanager.Instance.Timer = 0;
+        }
     }
 
     protected IEnumerator RowMatch(int i)

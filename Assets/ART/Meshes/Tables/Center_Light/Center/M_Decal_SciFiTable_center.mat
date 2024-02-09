@@ -60,7 +60,7 @@ Material:
     - _NormalStrength: 1
     - _Normal_1: 0
     m_Colors:
-    - _ColorShift: {r: 4.130783, g: 4.130783, b: 4.130783, a: 0}
+    - _ColorShift: {r: 1.3787298, g: 1.3787298, b: 1.3787298, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &7492177420289399743
 MonoBehaviour:

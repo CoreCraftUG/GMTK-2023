@@ -122,7 +122,7 @@ namespace JamCraft.GMTK2023.Code
 
         private void OnCameraHeightValueChanged(float value)
         {
-            if (SceneManager.GetActiveScene().buildIndex == 2)
+            if (SceneManager.GetActiveScene().name == "game_scene")
             {
                 GameSettingsManager.Instance.ChangeCameraHeight(_cameraHeightSlider.value);
             }

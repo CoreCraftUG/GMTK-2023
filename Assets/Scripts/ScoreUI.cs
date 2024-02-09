@@ -11,7 +11,7 @@ namespace JamCraft.GMTK2023.Code
         public static ScoreUI Instance { get; private set; }
 
         [Header("UI Texts")] 
-        [SerializeField] private TextMeshProUGUI _scoreText;
+        //[SerializeField] private TextMeshProUGUI _scoreText;
         [SerializeField] private TextMeshProUGUI _temporaryScoreText;
         [SerializeField] private TextMeshProUGUI _multiplierText;
         [SerializeField] private TextMeshProUGUI _levelText;
@@ -107,17 +107,17 @@ namespace JamCraft.GMTK2023.Code
             _oldScore = NewScore;
             NewScore = value;
 
-            _scoreTween = _scoreText.DOCounter(_oldScore, NewScore, 2f, false, null);
+            //_scoreTween = _scoreText.DOCounter(_oldScore, NewScore, 2f, false, null);
             //_scoreText.DOCounter(_oldScore, NewScore, 2f, false, null);
 
-            if (_scoreTween.playedOnce)
-            {
-                _scoreTween.Restart();
-            }
-            else
-            {
-                _scoreTween.Play();
-            }
+            //if (_scoreTween.playedOnce)
+            //{
+            //    _scoreTween.Restart();
+            //}
+            //else
+            //{
+            //    _scoreTween.Play();
+            //}
         }
 
         public void SetMultiplier(float value)

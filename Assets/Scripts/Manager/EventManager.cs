@@ -11,6 +11,7 @@ public class EventManager : Singleton<EventManager>
     public UnityEvent GameOverEvent = new UnityEvent();
     public UnityEvent TurnEvent = new UnityEvent();
     public UnityEvent<int> PointsAddedEvent = new UnityEvent<int>();
+    public UnityEvent OnPointsChanged = new UnityEvent();
     public UnityEvent<int> TempPointsEvent = new UnityEvent<int>();
     public UnityEvent<float> PointMultiplyEvent = new UnityEvent<float>();
     public UnityEvent<int, float> PlayAudio = new UnityEvent<int, float>();

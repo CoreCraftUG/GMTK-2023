@@ -5,7 +5,6 @@ using UnityEngine;
 
 namespace JamCraft.GMTK2023.Code
 {
-    [ExecuteInEditMode]
     public class UI_PointsDisplay : MonoBehaviour
     {
         public enum Points
@@ -22,7 +21,7 @@ namespace JamCraft.GMTK2023.Code
             Nine
         }
 
-        private Dictionary<Points, Vector3> _pointsToVector3 = new Dictionary<Points, Vector3>()
+        private readonly Dictionary<Points, Vector3> _pointsToVector3 = new Dictionary<Points, Vector3>()
         {
             { Points.Zero, new Vector3(0, 90, 75) },
             { Points.One, new Vector3(0, 90, 110.75f) },
@@ -39,7 +38,7 @@ namespace JamCraft.GMTK2023.Code
         [SerializeField] private Points _point;
 
         private Transform _transform => GetComponent<Transform>();
-        private Vector3 _defaultRotation = new Vector3(0, 90, 75);
+        private readonly Vector3 _defaultRotation = new Vector3(0, 90, 75);
 
         private void RotateDisplay()
         {

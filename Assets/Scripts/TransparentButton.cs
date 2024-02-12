@@ -1,10 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TransparentButton : MonoBehaviour
+namespace JamCraft.GMTK2023.Code
 {
-    private void Start()
+    public class TransparentButton : MonoBehaviour
     {
-        GetComponent<Image>().alphaHitTestMinimumThreshold = 0.5f;
+        private void Start()
+        {
+            GetComponent<Image>().alphaHitTestMinimumThreshold = 0.5f;
+        }
     }
 }

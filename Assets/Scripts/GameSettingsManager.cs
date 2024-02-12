@@ -9,10 +9,10 @@ namespace JamCraft.GMTK2023.Code
     {
         public static GameSettingsManager Instance { get; private set; }
 
-        public float CameraHeight = 2.3f;
-        public int ResolutionIndex;
+        public float CameraHeight { get; set; } = 2.3f;
+        public int ResolutionIndex { get; set; }
 
-        public Transform VirtualCameraTransform;
+        public Transform VirtualCameraTransform { get; }
 
         private void Awake()
         {
@@ -30,9 +30,7 @@ namespace JamCraft.GMTK2023.Code
 
         private void Start()
         {
-            //VirtualCameraTransform = Camera.main.GetComponent<Transform>();
-
-            if (SceneManager.GetActiveScene().buildIndex == 2)
+            if (SceneManager.GetActiveScene().name == "game_scene")
             {
                 ChangeCameraHeight(CameraHeight);
             }

@@ -18,10 +18,7 @@ namespace JamCraft.GMTK2023.Code
 
             Instance = this;
 
-            _backButton.onClick.AddListener(() =>
-            {
-                Hide();
-            });
+            _backButton.onClick.AddListener(Hide);
         }
 
         private void OnDestroy()

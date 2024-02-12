@@ -34,19 +34,19 @@ namespace JamCraft.GMTK2023.Code
 
         private void Start()
         {
-            _quitPanel?.SetActive(false);
+            _quitPanel.SetActive(false);
         }
 
         private void OnDestroy()
         {
             if (EventManager.Instance != null)
             {
-                _playButton?.onClick.RemoveAllListeners();
-                _optionsButton?.onClick.RemoveAllListeners();
-                _quitButton?.onClick.RemoveAllListeners();
-                _coreCraftButton?.onClick.RemoveAllListeners();
-                _quitYesButton?.onClick.RemoveAllListeners();
-                _quitNoButton?.onClick.RemoveAllListeners();
+                _playButton.onClick.RemoveAllListeners();
+                _optionsButton.onClick.RemoveAllListeners();
+                _quitButton.onClick.RemoveAllListeners();
+                _coreCraftButton.onClick.RemoveAllListeners();
+                _quitYesButton.onClick.RemoveAllListeners();
+                _quitNoButton.onClick.RemoveAllListeners();
             }
         }
 
@@ -54,46 +54,45 @@ namespace JamCraft.GMTK2023.Code
         {
             if (EventManager.Instance != null)
             {
-                _playButton?.onClick.RemoveAllListeners();
-                _optionsButton?.onClick.RemoveAllListeners();
-                _quitButton?.onClick.RemoveAllListeners();
-                _coreCraftButton?.onClick.RemoveAllListeners();
-                _quitYesButton?.onClick.RemoveAllListeners();
-                _quitNoButton?.onClick.RemoveAllListeners();
+                _playButton.onClick.RemoveAllListeners();
+                _optionsButton.onClick.RemoveAllListeners();
+                _quitButton.onClick.RemoveAllListeners();
+                _coreCraftButton.onClick.RemoveAllListeners();
+                _quitYesButton.onClick.RemoveAllListeners();
+                _quitNoButton.onClick.RemoveAllListeners();
             }
         }
 
         private void SetupUIButtons()
         {
             // Load the game scene.
-            _playButton?.onClick.AddListener(() =>
+            _playButton.onClick.AddListener(() =>
             {
                 Loader.Load(Loader.Scene.game_scene);
             });
 
             // Show the options menu and hide the pause menu.
-            _optionsButton?.onClick.AddListener(() =>
+            _optionsButton.onClick.AddListener(() =>
             {
-                GameOptionsUI.Instance?.Show();
+                GameOptionsUI.Instance.Show();
                 Hide();
             });
 
             // Show quit panel on click.
-            _quitButton?.onClick.AddListener(() =>
+            _quitButton.onClick.AddListener(() =>
             {
-                _quitPanel?.SetActive(true);
+                _quitPanel.SetActive(true);
             });
             
             _coreCraftButton.onClick.AddListener(() =>
             {
-                Credits.Instance?.Show();
+                Credits.Instance.Show();
                 Hide();
             });
 
             // Close the program.
-            _quitYesButton?.onClick.AddListener(() =>
+            _quitYesButton.onClick.AddListener(() =>
             {
-                // TODO: Add Game Jam page. Application.OpenURL("url").
 #if UNITY_EDITOR
                 UnityEditor.EditorApplication.isPlaying = false;
 #else
@@ -102,9 +101,9 @@ namespace JamCraft.GMTK2023.Code
             });
 
             // Close the quit panel.
-            _quitNoButton?.onClick.AddListener(() =>
+            _quitNoButton.onClick.AddListener(() =>
             {
-                _quitPanel?.SetActive(false);
+                _quitPanel.SetActive(false);
             });
         }
 

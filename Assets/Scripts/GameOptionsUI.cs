@@ -50,16 +50,16 @@ namespace JamCraft.GMTK2023.Code
             Instance = this;
 
             // Add functions to the sliders.
-            _mainVolumeSlider?.onValueChanged.AddListener(OnMainVolumeValueChanged);
+            _mainVolumeSlider.onValueChanged.AddListener(OnMainVolumeValueChanged);
 
-            _musicVolumeSlider?.onValueChanged.AddListener(OnMusicVolumeValueChanged);
+            _musicVolumeSlider.onValueChanged.AddListener(OnMusicVolumeValueChanged);
 
-            _sfxVolumeSlider?.onValueChanged.AddListener(OnSfxVolumeValueChanged);
+            _sfxVolumeSlider.onValueChanged.AddListener(OnSfxVolumeValueChanged);
 
-            _cameraHeightSlider?.onValueChanged.AddListener(OnCameraHeightValueChanged);
+            _cameraHeightSlider.onValueChanged.AddListener(OnCameraHeightValueChanged);
 
             // Save sound values.
-            _saveButton?.onClick.AddListener(() =>
+            _saveButton.onClick.AddListener(() =>
             {
                 PlayerPrefs.SetFloat(PLAYER_PREFS_MAIN_VOLUME, SoundManager.Instance.MainVolume);
                 PlayerPrefs.SetFloat(PLAYER_PREFS_MUSIC_VOLUME, SoundManager.Instance.MusicVolume);
@@ -70,7 +70,7 @@ namespace JamCraft.GMTK2023.Code
             });
 
             // Close options menu and show pause menu.
-            _backButton?.onClick.AddListener(() =>
+            _backButton.onClick.AddListener(() =>
             {
                 if (GamePauseUI.Instance != null)
                 {
@@ -89,20 +89,20 @@ namespace JamCraft.GMTK2023.Code
             AddResolutions();
 
             // Add function to the resolution dropdown.
-            _resolutionDropdown?.onValueChanged.AddListener(SetResolution);
+            _resolutionDropdown.onValueChanged.AddListener(SetResolution);
         }
 
         private void OnDestroy()
         {
             if (EventManager.Instance != null)
             {
-                _mainVolumeSlider?.onValueChanged.RemoveAllListeners();
-                _musicVolumeSlider?.onValueChanged.RemoveAllListeners();
-                _sfxVolumeSlider?.onValueChanged.RemoveAllListeners();
-                _cameraHeightSlider?.onValueChanged.RemoveAllListeners();
-                _saveButton?.onClick.RemoveAllListeners();
-                _backButton?.onClick.RemoveAllListeners();
-                _resolutionDropdown?.onValueChanged.RemoveAllListeners();
+                _mainVolumeSlider.onValueChanged.RemoveAllListeners();
+                _musicVolumeSlider.onValueChanged.RemoveAllListeners();
+                _sfxVolumeSlider.onValueChanged.RemoveAllListeners();
+                _cameraHeightSlider.onValueChanged.RemoveAllListeners();
+                _saveButton.onClick.RemoveAllListeners();
+                _backButton.onClick.RemoveAllListeners();
+                _resolutionDropdown.onValueChanged.RemoveAllListeners();
             }
         }
 
@@ -110,13 +110,13 @@ namespace JamCraft.GMTK2023.Code
         {
             if (EventManager.Instance != null)
             {
-                _mainVolumeSlider?.onValueChanged.RemoveAllListeners();
-                _musicVolumeSlider?.onValueChanged.RemoveAllListeners();
-                _sfxVolumeSlider?.onValueChanged.RemoveAllListeners();
-                _cameraHeightSlider?.onValueChanged.RemoveAllListeners();
-                _saveButton?.onClick.RemoveAllListeners();
-                _backButton?.onClick.RemoveAllListeners();
-                _resolutionDropdown?.onValueChanged.RemoveAllListeners();
+                _mainVolumeSlider.onValueChanged.RemoveAllListeners();
+                _musicVolumeSlider.onValueChanged.RemoveAllListeners();
+                _sfxVolumeSlider.onValueChanged.RemoveAllListeners();
+                _cameraHeightSlider.onValueChanged.RemoveAllListeners();
+                _saveButton.onClick.RemoveAllListeners();
+                _backButton.onClick.RemoveAllListeners();
+                _resolutionDropdown.onValueChanged.RemoveAllListeners();
             }
         }
 
@@ -126,7 +126,7 @@ namespace JamCraft.GMTK2023.Code
             {
                 GameSettingsManager.Instance.ChangeCameraHeight(_cameraHeightSlider.value);
             }
-            //GameSettingsManager.Instance.ChangeCameraHeight(_cameraHeightSlider.value);
+            
             _cameraHeightText.text = Mathf.Round(GameSettingsManager.Instance.CameraHeight * 10).ToString();
         }
 
@@ -217,16 +217,16 @@ namespace JamCraft.GMTK2023.Code
 
             for (int i = 0; i < resolutions.Length; i++)
             {
-                _resolutionDropdown?.options.Add(new TMP_Dropdown.OptionData(ResolutionToString(resolutions[i])));
+                _resolutionDropdown.options.Add(new TMP_Dropdown.OptionData(ResolutionToString(resolutions[i])));
                 _supportedResolutions?.Add(resolutions[i]);
             }
             
-            _resolutionDropdown?.RefreshShownValue();
+            _resolutionDropdown.RefreshShownValue();
         }
 
         private string ResolutionToString(Resolution res)
         {
-            return res.width + " x " + res.height + " @ " + res.refreshRate + " Hz";
+            return res.width + " x " + res.height + " @ " + res.refreshRateRatio + " Hz";
         }
     }
 }

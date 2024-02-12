@@ -7,18 +7,17 @@ namespace JamCraft.GMTK2023.Code
     public class ButtonAnimations : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
     {
         private Sequence _buttonSequence;
-        private Transform _buttonTransform;
 
         private void Start()
         {
             // Setup the DOTween Sequence.
             _buttonSequence = DOTween.Sequence().SetUpdate(true).SetAutoKill(false).Pause();
 
-            _buttonTransform = GetComponent<Transform>();
+            Transform buttonTransform = GetComponent<Transform>();
 
             // Function of the Sequence.
-            _buttonSequence.Append(_buttonTransform.DOScale(new Vector3(1.1f, 1.1f, 1.1f), 0.5f))
-                .Join(_buttonTransform.DOPunchRotation(Vector3.one, 0.5f));
+            _buttonSequence.Append(buttonTransform.DOScale(new Vector3(1.1f, 1.1f, 1.1f), 0.5f))
+                .Join(buttonTransform.DOPunchRotation(Vector3.one, 0.5f));
         }
 
         // Play the animation forward if the cursor enters the button. Forward because "SmoothRewind" flips the animation.

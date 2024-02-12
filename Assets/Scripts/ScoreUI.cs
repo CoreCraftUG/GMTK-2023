@@ -11,30 +11,24 @@ namespace JamCraft.GMTK2023.Code
         public static ScoreUI Instance { get; private set; }
 
         [Header("UI Texts")] 
-        //[SerializeField] private TextMeshProUGUI _scoreText;
         [SerializeField] private TextMeshProUGUI _temporaryScoreText;
         [SerializeField] private TextMeshProUGUI _multiplierText;
         [SerializeField] private TextMeshProUGUI _levelText;
 
         [SerializeField] private GameObject _streakHolder;
         [SerializeField] private GameObject _streakPrefab;
-        [SerializeField] private List<GameObject> _streaks = new List<GameObject>();
+        [SerializeField] private readonly List<GameObject> _streaks = new List<GameObject>();
 
         [SerializeField] private VolumeProfile _postProcessing;
         private Beautify.Universal.Beautify _beautify;
 
-        private int _oldScore = 0;
-        private int _oldTemporaryScore = 0;
-
-        public int NewScore = 0;
-        public int NewTemporaryScore = 0;
-
-        public int Level = 1;
+        public int NewScore { get; private set; } = 0;
+        public int NewTemporaryScore { get; private set; } = 0;
+        public int Level { get; private set; } = 1;
 
         private float _timer = 5f;
         private float _timerTotal = 5f;
         private float _startingSepia;
-        private Tween _scoreTween;
         private Tween _temporaryScoreTween;
 
         private void Awake()
@@ -68,7 +62,6 @@ namespace JamCraft.GMTK2023.Code
                 _streaks.Add(Instantiate(_streakPrefab, _streakHolder.transform));
             }
 
-            _scoreTween.SetAutoKill(false).Pause();
             _temporaryScoreTween.SetAutoKill(false).Pause();
         }
 
@@ -103,21 +96,8 @@ namespace JamCraft.GMTK2023.Code
         }
         
         private void AddScore(int value)
-        {
-            _oldScore = NewScore;
+        { 
             NewScore = value;
-
-            //_scoreTween = _scoreText.DOCounter(_oldScore, NewScore, 2f, false, null);
-            //_scoreText.DOCounter(_oldScore, NewScore, 2f, false, null);
-
-            //if (_scoreTween.playedOnce)
-            //{
-            //    _scoreTween.Restart();
-            //}
-            //else
-            //{
-            //    _scoreTween.Play();
-            //}
         }
 
         public void SetMultiplier(float value)
@@ -132,19 +112,18 @@ namespace JamCraft.GMTK2023.Code
 
         public void AddTemporaryScore(int value)
         {
-            _oldTemporaryScore = NewTemporaryScore;
+            int oldTemporaryScore = NewTemporaryScore;
             NewTemporaryScore = value;
 
             if (_postProcessing.TryGet<Beautify.Universal.Beautify>(out _beautify))
             {
                 _timer = 5f;
                 _timerTotal = 5f;
-                _beautify.sepia.value -= (_oldTemporaryScore + NewTemporaryScore) / 2000f;
+                _beautify.sepia.value -= (oldTemporaryScore + NewTemporaryScore) / 2000f;
                 _startingSepia = _beautify.sepia.value;
             }
 
-            _temporaryScoreTween = _temporaryScoreText.DOCounter(_oldTemporaryScore, NewTemporaryScore, 2f, false, null);
-            //_temporaryScoreText.DOCounter(_oldTemporaryScore, NewTemporaryScore, 2f, false, null);
+            _temporaryScoreTween = _temporaryScoreText.DOCounter(oldTemporaryScore, NewTemporaryScore, 2f, false, null);
 
             if (_temporaryScoreTween.playedOnce)
             {

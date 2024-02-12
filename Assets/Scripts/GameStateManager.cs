@@ -10,8 +10,8 @@ namespace JamCraft.GMTK2023.Code
         public event EventHandler OnGamePaused;
         public event EventHandler OnGameUnpaused;
 
-        public bool IsGamePaused = false;
-        public bool IsGameOver = false;
+        public bool IsGamePaused { get; set; } = false;
+        public bool IsGameOver { get; set; } = false;
 
         private void Awake()
         {

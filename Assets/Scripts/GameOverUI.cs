@@ -16,8 +16,6 @@ namespace JamCraft.GMTK2023.Code
         [SerializeField] private TextMeshProUGUI _finalScoreText;
         [SerializeField] private TextMeshProUGUI _finalLevelText;
 
-        private int _level;
-
         private void Awake()
         {
             if (Instance != null)
@@ -43,7 +41,6 @@ namespace JamCraft.GMTK2023.Code
             EventManager.Instance.GameOverEvent.AddListener(() =>
             {
                 GameStateManager.Instance.IsGameOver = true;
-                // TODO: Fix the score system.
 
                 _finalScoreText.text = "Your final score is: " + ScoreUI.Instance.NewScore;
                 _finalLevelText.text = "You've reached level: " + ScoreUI.Instance.Level;

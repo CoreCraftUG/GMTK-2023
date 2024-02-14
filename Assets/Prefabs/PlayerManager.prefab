@@ -47,13 +47,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   On: {fileID: 2100000, guid: 9d9dbba213b92304ebf7c129535ae319, type: 2}
   Off: {fileID: 2100000, guid: b7818410529bd6a448b7d666e7a09e02, type: 2}
-  timerCountdown: {fileID: 0}
   CardTimer: {fileID: 5521062194045025885}
-  _endLevel: 15
+  EndLevel: 20
+  LevelTime:
+  - 5
+  - 4.87
+  - 4.74
+  - 4.61
+  - 4.48
+  - 4.35
+  - 4.22
+  - 4.09
+  - 3.96
+  - 3.83
+  - 3.6
+  - 3.47
+  - 3.34
+  - 3.21
+  - 3
+  - 2.8
+  - 2.6
+  - 2.4
+  - 2.2
+  - 2
+  _maxPuppyProtection: 3
+  _hardCoreLevel: 15
   _timeDelayTimePlace: 0.2
-  _startDelay: 5
-  _delayIncrement: 0.25
-  _delayIncreaseTime: 30
+  _nextLevelTime: 20
+  _hardCoreNextLevelTime: 60
   Grids: []
   Players: []
   CanTurn: 1

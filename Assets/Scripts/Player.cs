@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     [BoxGroup("Gameplay"), SerializeField] private int _randomCardAmount; //Amount of random Cards being added to the Base Deck amount
     [BoxGroup("Gameplay"), SerializeField] private int _deckSize => 16 + _randomCardAmount; //Cards
     [BoxGroup("Gameplay"), SerializeField] private float SwapDelay; //Timer between slots changing
+    [BoxGroup("Gameplay"), SerializeField] private int SwapsPerTurn; //Times the position Swaps per Turn
     [BoxGroup("Gameplay"), SerializeField] private float SwapDelayIncrement; //Timer between slots changing
     [BoxGroup("Gameplay"), SerializeField] public int FacingArea; //Number of the Grid that is currently being faced
     [BoxGroup("Gameplay"), SerializeField] private GameObject _card;
@@ -63,7 +64,7 @@ public class Player : MonoBehaviour
         if (_currentLevel < Level)
         {
             _currentLevel = Level;
-            SwapDelay -= SwapDelayIncrement;
+            SwapDelay = (Playermanager.Instance.LevelTime.Length >= _currentLevel?   Playermanager.Instance.LevelTime[_currentLevel - 1] : Playermanager.Instance.LevelTime[Playermanager.Instance.LevelTime.Length - 1]) / SwapsPerTurn;
         }
 
         if (IsSelected)

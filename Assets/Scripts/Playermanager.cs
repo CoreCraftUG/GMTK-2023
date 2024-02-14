@@ -14,11 +14,13 @@ public class Playermanager : Singleton<Playermanager>
     [BoxGroup("Visual"), SerializeField] private Material Off;
     [BoxGroup("Visual"), SerializeField] private CardAnimation CardTimer;
 
-    [BoxGroup("Gameplay"), SerializeField] int _endLevel;
-    [BoxGroup("Gameplay"), SerializeField] float _timeDelayTimePlace;
-    [BoxGroup("Gameplay"), SerializeField] float _startDelay;
-    [BoxGroup("Gameplay"), SerializeField] float _delayIncrement;
-    [BoxGroup("Gameplay"), SerializeField] float _delayIncreaseTime;
+    [BoxGroup("Gameplay"), SerializeField] public int EndLevel;
+    [BoxGroup("Gameplay"), SerializeField] public float[] LevelTime;
+    [BoxGroup("Gameplay"), SerializeField] private int _maxPuppyProtection;
+    [BoxGroup("Gameplay"), SerializeField] private int _hardCoreLevel;
+    [BoxGroup("Gameplay"), SerializeField] private float _timeDelayTimePlace;
+    [BoxGroup("Gameplay"), SerializeField] private float _nextLevelTime;
+    [BoxGroup("Gameplay"), SerializeField] private float _hardCoreNextLevelTime;
     [BoxGroup("Gameplay"), SerializeField] public List<CardGrid> Grids = new List<CardGrid>(); //List of all available Grids(Grid)
     [BoxGroup("Gameplay"), SerializeField] private List<Player> Players = new List<Player>(); //List of all players
 
@@ -26,6 +28,8 @@ public class Playermanager : Singleton<Playermanager>
     private bool _timePlaced;
     private int _randomPlayer = 0; //random player currently being selected(int)
     private int _delayLevel;
+    private int _puppyProtection;
+    private float _currentNextLevelTime;
     private float _currentDelay; //Time it takes for one player to play a card automatically atm
     private float _delayTimer;
 
@@ -36,8 +40,8 @@ public class Playermanager : Singleton<Playermanager>
     {
         EventManager.Instance.GameOverEvent.AddListener(() => _gameover = true);
         StartCoroutine(BeginPlay());
-        _currentDelay = _startDelay;
-
+        _currentDelay = LevelTime[0];
+        _currentNextLevelTime = _nextLevelTime;
     }
 
     private void OnDestroy()
@@ -83,23 +87,28 @@ public class Playermanager : Singleton<Playermanager>
         if (TimeManager.Instance.TimeStop)
             return;
 
-        if(_delayLevel < _endLevel && _delayTimer >= _delayIncreaseTime)
+        if (_puppyProtection > _maxPuppyProtection)
         {
-            _delayTimer = 0;
-            _delayLevel++;
-            EventManager.Instance.LevelUpEvent.Invoke(_delayLevel);
-            _currentDelay -= _delayIncrement;
-        }
-        if(_delayTimer < _delayIncreaseTime)
-        {
-            _delayTimer += Time.deltaTime;
+            if (_delayLevel < EndLevel && _delayTimer >= _nextLevelTime)
+            {
+                _delayTimer = 0;
+                _delayLevel++;
+                if (_delayLevel >= _hardCoreLevel)
+                    _currentNextLevelTime = _hardCoreNextLevelTime;
+                EventManager.Instance.LevelUpEvent.Invoke(_delayLevel);
+                _currentDelay = _delayLevel >= LevelTime.Length ? LevelTime[LevelTime.Length - 1] : LevelTime[_delayLevel - 1];
+            }
+            if (_delayTimer < _nextLevelTime)
+            {
+                _delayTimer += Time.deltaTime;
+            }
         }
 
         Timer += Time.deltaTime;
 
         CardTimer.SetTimerProgress(Timer / _currentDelay);
 
-        if (Timer >= _currentDelay && CanTurn)
+        if (Timer >= _currentDelay && CanTurn && _puppyProtection > _maxPuppyProtection)
         {
             _timePlaced = true;
             SelectedPlayerPlays();
@@ -125,6 +134,9 @@ public class Playermanager : Singleton<Playermanager>
 
     public void NextPlayer(bool first)
     {
+        if (_puppyProtection <= _maxPuppyProtection)
+            _puppyProtection++;
+
         _randomPlayer = Random.Range(0, Players.Count);
         Players[_randomPlayer].IsSelected = true;
         Players[_randomPlayer].Level = _delayLevel;

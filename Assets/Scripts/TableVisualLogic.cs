@@ -12,7 +12,7 @@ public class TableVisualLogic : MonoBehaviour
 
     void Start()
     {
-        if(TableVisualManager.Instance == null)
+        if(TableVisualManager.Instance == null || TableVisualManager.Instance.TableVisuals.TableTop == null || TableVisualManager.Instance.TableVisuals.TableFrame == null)
         {
             _baseTop.SetActive(true);
             _baseFrame.SetActive(true);

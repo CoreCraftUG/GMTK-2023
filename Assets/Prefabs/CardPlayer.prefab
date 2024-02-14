@@ -454,7 +454,8 @@ MonoBehaviour:
   TurnLight: {fileID: 3112690218170521719}
   _randomCardAmount: 8
   SwapDelay: 1
-  SwapDelayIncrement: 0.05
+  SwapsPerTurn: 6
+  SwapDelayIncrement: 0.04
   FacingArea: 0
   _card: {fileID: 6811084896005803881, guid: 7b99fc5405a541342b5deb4ff5942e4a, type: 3}
   _cardPreview: {fileID: 4539635088612159543}

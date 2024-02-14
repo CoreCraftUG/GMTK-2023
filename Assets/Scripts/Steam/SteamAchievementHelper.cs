@@ -4,12 +4,15 @@ using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 using UnityEngine;
 
 public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
 {
     public bool EventManagerReady;
+    public bool? SteamOnline;
 
     // Score Achievements
     [FoldoutGroup("Score"), Header("Score 1.000"), SerializeField] private AchievementObject _score1000Achievement;
@@ -66,18 +69,51 @@ public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
     private List<CardGrid> _fullCardGrids = new List<CardGrid>();
     private int _rimExplosionCounter;
 
+    private string _savePath;
+    private string _saveKey = "OfflineAchievementsSave"; //DO NOT CHANGE THIS
+    private string _encryptionPassword = "CoreCraftsSuperSavePassword"; //DO NOT CHANGE THIS
+    private ES3Settings _settings;
+
+    [FoldoutGroup("Offline Save"), SerializeField] private string _saveLocationFolderName;
+    [FoldoutGroup("Offline Save"), SerializeField, ReadOnly] private OfflineAchievementSave _offlineAchievementSave = new OfflineAchievementSave();
+
+    public OfflineAchievementSave OfflineAchievementsSave { get { return _offlineAchievementSave; } }
+
 
     private void Start()
     {
+        _savePath = $"{Application.dataPath}/{_saveLocationFolderName}/{_saveKey}";
+        _settings = new ES3Settings() { encryptionType = ES3.EncryptionType.AES, encryptionPassword = _encryptionPassword, compressionType = ES3.CompressionType.Gzip, bufferSize = 250000};
         StartCoroutine(SetUpCoroutine());
+    }
+
+    private void OnDestroy()
+    {
+        ES3.Save(_saveLocationFolderName, _offlineAchievementSave, _savePath, _settings);
+    }
+
+    private void OnApplicationQuit()
+    {
+        ES3.Save(_saveLocationFolderName, _offlineAchievementSave, _savePath, _settings);
     }
 
     private IEnumerator SetUpCoroutine()
     {
         yield return new WaitUntil(() =>
         {
-            return EventManagerReady;
+            return EventManagerReady && SteamOnline != null;
         });
+
+        if (ES3.KeyExists(_saveKey,_savePath,_settings))
+            _offlineAchievementSave = ES3.Load<OfflineAchievementSave>(_saveKey,_savePath,_settings);
+        else
+            _offlineAchievementSave = new OfflineAchievementSave();
+
+        if(SteamOnline != null && SteamOnline.Value == true)
+        {
+            GetAllSteamAchievements();
+            UnlockOfflineAchievements();
+        }
 
 #if UNITY_EDITOR
         EventManager.Instance.ClearAllAchievements.AddListener(() =>
@@ -189,11 +225,11 @@ public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
             _clearRowStreakCount++;
 
             if (_clearRowStreakCount >= 2)
-                ClearRowStreak2();
+                UnlockClearRowStreak2();
             if (_clearRowStreakCount >= 3)
-                ClearRowStreak3();
+                UnlockClearRowStreak3();
             if (_clearRowStreakCount >= 5)
-                ClearRowStreak5();
+                UnlockClearRowStreak5();
         });
 
         EventManager.Instance.MatchingCardsEvent.AddListener((faceMatch) =>
@@ -265,11 +301,21 @@ public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
                     break;
             }
         });
+
+        EventManager.Instance.GameOverEvent.AddListener(() =>
+        {
+            ES3.Save(_saveLocationFolderName, _offlineAchievementSave, _savePath, _settings);
+        });
     }
 
     #region Score
     public void UnlockScore1000()
     {
+        _offlineAchievementSave.Score1000Achievement = true;
+
+        if (SteamOnline == null || SteamOnline.Value == false)
+            return;
+
         if(_score1000Achievement != null && !_score1000Achievement.IsAchieved)
         {
             _score1000Achievement.Unlock();
@@ -278,7 +324,12 @@ public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
 
     public void UnlockScore2500()
     {
-        if(_score2500Achievement != null && !_score2500Achievement.IsAchieved)
+        _offlineAchievementSave.Score2500Achievement = true;
+
+        if (SteamOnline == null || SteamOnline.Value == false)
+            return;
+
+        if (_score2500Achievement != null && !_score2500Achievement.IsAchieved)
         {
             _score2500Achievement.Unlock();
         }
@@ -286,7 +337,12 @@ public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
 
     public void UnlockScore10000()
     {
-        if(_score10000Achievement != null && !_score10000Achievement.IsAchieved)
+        _offlineAchievementSave.Score10000Achievement = true;
+
+        if (SteamOnline == null || SteamOnline.Value == false)
+            return;
+
+        if (_score10000Achievement != null && !_score10000Achievement.IsAchieved)
         {
             _score10000Achievement.Unlock();
         }
@@ -294,7 +350,12 @@ public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
 
     public void UnlockScore20000()
     {
-        if(_score20000Achievement != null && !_score20000Achievement.IsAchieved)
+        _offlineAchievementSave.Score20000Achievement = true;
+
+        if (SteamOnline == null || SteamOnline.Value == false)
+            return;
+
+        if (_score20000Achievement != null && !_score20000Achievement.IsAchieved)
         {
             _score20000Achievement.Unlock();
         }
@@ -302,7 +363,12 @@ public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
 
     public void UnlockScore100000()
     {
-        if(_score100000Achievement != null && !_score100000Achievement.IsAchieved)
+        _offlineAchievementSave.Score100000Achievement = true;
+
+        if (SteamOnline == null || SteamOnline.Value == false)
+            return;
+
+        if (_score100000Achievement != null && !_score100000Achievement.IsAchieved)
         {
             _score100000Achievement.Unlock();
         }
@@ -312,6 +378,11 @@ public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
     #region Level
     private void UnlockLevel5()
     {
+        _offlineAchievementSave.Level5 = true;
+
+        if (SteamOnline == null || SteamOnline.Value == false)
+            return;
+
         if (_level5 != null && !_level5.IsAchieved)
         {
             _level5.Unlock();
@@ -319,6 +390,11 @@ public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
     }
     private void UnlockLevel10()
     {
+        _offlineAchievementSave.Level10 = true;
+
+        if (SteamOnline == null || SteamOnline.Value == false)
+            return;
+
         if (_level10 != null && !_level10.IsAchieved)
         {
             _level10.Unlock();
@@ -326,6 +402,11 @@ public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
     }
     private void UnlockLevel15()
     {
+        _offlineAchievementSave.Level15 = true;
+
+        if (SteamOnline == null || SteamOnline.Value == false)
+            return;
+
         if (_level15 != null && !_level15.IsAchieved)
         {
             _level15.Unlock();
@@ -333,6 +414,11 @@ public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
     }
     private void UnlockLevel20()
     {
+        _offlineAchievementSave.Level20 = true;
+
+        if (SteamOnline == null || SteamOnline.Value == false)
+            return;
+
         if (_level20 != null && !_level20.IsAchieved)
         {
             _level20.Unlock();
@@ -343,6 +429,11 @@ public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
     #region Multiply
     private void UnlockMultiply2()
     {
+        _offlineAchievementSave.Multiply2 = true;
+
+        if (SteamOnline == null || SteamOnline.Value == false)
+            return;
+
         if (_multiply2 != null && !_multiply2.IsAchieved)
         {
             _multiply2.Unlock();
@@ -350,6 +441,11 @@ public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
     }
     private void UnlockMultiply3()
     {
+        _offlineAchievementSave.Multiply3 = true;
+
+        if (SteamOnline == null || SteamOnline.Value == false)
+            return;
+
         if (_multiply3 != null && !_multiply3.IsAchieved)
         {
             _multiply3.Unlock();
@@ -357,6 +453,11 @@ public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
     }
     private void UnlockMultiply4()
     {
+        _offlineAchievementSave.Multiply4 = true;
+
+        if (SteamOnline == null || SteamOnline.Value == false)
+            return;
+
         if (_multiply4 != null && !_multiply4.IsAchieved)
         {
             _multiply4.Unlock();
@@ -364,6 +465,11 @@ public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
     }
     private void UnlockMultiply5()
     {
+        _offlineAchievementSave.Multiply5 = true;
+
+        if (SteamOnline == null || SteamOnline.Value == false)
+            return;
+
         if (_multiply5 != null && !_multiply5.IsAchieved)
         {
             _multiply5.Unlock();
@@ -371,6 +477,11 @@ public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
     }
     private void UnlockMultiply10()
     {
+        _offlineAchievementSave.Multiply10 = true;
+
+        if (SteamOnline == null || SteamOnline.Value == false)
+            return;
+
         if (_multiply10 != null && !_multiply10.IsAchieved)
         {
             _multiply10.Unlock();
@@ -384,22 +495,47 @@ public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
         switch (colour)
         {
             case ECardColour.Red:
-                if(_redRow != null && !_redRow.IsAchieved)
+                _offlineAchievementSave.RedRow = true;
+
+                if (SteamOnline == null || SteamOnline.Value == false)
+                    return;
+
+                if (_redRow != null && !_redRow.IsAchieved)
                     _redRow.Unlock();
                 break;
             case ECardColour.Green:
+                _offlineAchievementSave.GreenRow = true;
+
+                if (SteamOnline == null || SteamOnline.Value == false)
+                    return;
+
                 if (_greenRow != null && !_greenRow.IsAchieved)
                     _greenRow.Unlock();
                 break;
             case ECardColour.Blue:
+                _offlineAchievementSave.BlueRow = true;
+
+                if (SteamOnline == null || SteamOnline.Value == false)
+                    return;
+
                 if (_blueRow != null && !_blueRow.IsAchieved)
                     _blueRow.Unlock();
                 break;
             case ECardColour.Yellow:
+                _offlineAchievementSave.YellowRow = true;
+
+                if (SteamOnline == null || SteamOnline.Value == false)
+                    return;
+
                 if (_yellowRow != null && !_yellowRow.IsAchieved)
                     _yellowRow.Unlock();
                 break;
-            case ECardColour.White:
+            case ECardColour.Purple:
+                _offlineAchievementSave.PurpleRow = true;
+
+                if (SteamOnline == null || SteamOnline.Value == false)
+                    return;
+
                 if (_purpleRow != null && !_purpleRow.IsAchieved)
                     _purpleRow.Unlock();
                 break;
@@ -408,18 +544,33 @@ public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
     #endregion
 
     #region Clear Row Streak
-    private void ClearRowStreak2()
+    private void UnlockClearRowStreak2()
     {
-        if(_2Rows != null && !_2Rows.IsAchieved)
+        _offlineAchievementSave.Rows2 = true;
+
+        if (SteamOnline == null || SteamOnline.Value == false)
+            return;
+
+        if (_2Rows != null && !_2Rows.IsAchieved)
             _2Rows.Unlock();
     }
-    private void ClearRowStreak3()
+    private void UnlockClearRowStreak3()
     {
+        _offlineAchievementSave.Rows3 = true;
+
+        if (SteamOnline == null || SteamOnline.Value == false)
+            return;
+
         if (_3Rows != null && !_3Rows.IsAchieved)
             _3Rows.Unlock();
     }
-    private void ClearRowStreak5()
+    private void UnlockClearRowStreak5()
     {
+        _offlineAchievementSave.Rows5 = true;
+
+        if (SteamOnline == null || SteamOnline.Value == false)
+            return;
+
         if (_5Rows != null && !_5Rows.IsAchieved)
             _5Rows.Unlock();
     }
@@ -428,6 +579,11 @@ public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
     #region Match Three
     private void UnlockMatchTree()
     {
+        _offlineAchievementSave.MatchTree = true;
+
+        if (SteamOnline == null || SteamOnline.Value == false)
+            return;
+
         if (_matchTree != null && !_matchTree.IsAchieved)
             _matchTree.Unlock();
     }
@@ -436,6 +592,11 @@ public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
     #region TutorialCleared
     private void UnlockTutorialCleared()
     {
+        _offlineAchievementSave.TutorialCleared = true;
+
+        if (SteamOnline == null || SteamOnline.Value == false)
+            return;
+
         if (_tutorialCleared != null && !_tutorialCleared.IsAchieved)
             _tutorialCleared.Unlock();
     }
@@ -444,6 +605,11 @@ public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
     #region Deco Slots
     private void UnlockDecoSlots()
     {
+        _offlineAchievementSave.DecoSlots = true;
+
+        if (SteamOnline == null || SteamOnline.Value == false)
+            return;
+
         if (_decoSlots != null && !_decoSlots.IsAchieved)
             _decoSlots.Unlock();
     }
@@ -452,6 +618,11 @@ public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
     #region Fill All Grids
     private void UnlockFillAllGrids()
     {
+        _offlineAchievementSave.FillGrids = true;
+
+        if (SteamOnline == null || SteamOnline.Value == false)
+            return;
+
         if (_fillGrids != null && !_fillGrids.IsAchieved)
             _fillGrids.Unlock();
     }
@@ -460,6 +631,11 @@ public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
     #region Rim Explosion
     private void UnlockRimExplosion()
     {
+        _offlineAchievementSave.RimExplosion = true;
+
+        if (SteamOnline == null || SteamOnline.Value == false)
+            return;
+
         if (_rimExplosion != null && !_rimExplosion.IsAchieved)
             _rimExplosion.Unlock();
     }
@@ -468,6 +644,11 @@ public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
     #region Clear Neighbour Row
     private void UnlockClearNeighbourRow()
     {
+        _offlineAchievementSave.ClearNeighbourRow = true;
+
+        if (SteamOnline == null || SteamOnline.Value == false)
+            return;
+
         if (_clearNeighbourRow != null && !_clearNeighbourRow.IsAchieved)
             _clearNeighbourRow.Unlock();
     }
@@ -476,23 +657,241 @@ public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
     #region Clear Neighbour Row
     private void UnlockBronzeCentre()
     {
+        _offlineAchievementSave.BronzeCenter = true;
+
+        if (SteamOnline == null || SteamOnline.Value == false)
+            return;
+
         if (_bronzeCenter != null && !_bronzeCenter.IsAchieved)
             _bronzeCenter.Unlock();
     }
     private void UnlockSilverCentre()
     {
+        _offlineAchievementSave.SilverCenter = true;
+
+        if (SteamOnline == null || SteamOnline.Value == false)
+            return;
+
         if (_silverCenter != null && !_silverCenter.IsAchieved)
             _silverCenter.Unlock();
     }
     private void UnlockGoldCentre()
     {
+        _offlineAchievementSave.GoldCenter = true;
+
+        if (SteamOnline == null || SteamOnline.Value == false)
+            return;
+
         if (_goldCenter != null && !_goldCenter.IsAchieved)
             _goldCenter.Unlock();
     }
     private void UnlockSuccessCentre()
     {
+        _offlineAchievementSave.SuccessCenter = true;
+
+        if (SteamOnline == null || SteamOnline.Value == false)
+            return;
+
         if (_successCenter != null && !_successCenter.IsAchieved)
             _successCenter.Unlock();
     }
     #endregion
+
+    #region Unlock Offline Achievements
+    private void UnlockOfflineAchievements()
+    {
+        // Score Achievements
+        if (_offlineAchievementSave.Score1000Achievement)
+            UnlockScore1000();
+        if (_offlineAchievementSave.Score2500Achievement)
+            UnlockScore2500();
+        if (_offlineAchievementSave.Score10000Achievement)
+            UnlockScore10000();
+        if (_offlineAchievementSave.Score20000Achievement)
+            UnlockScore20000();
+        if (_offlineAchievementSave.Score100000Achievement)
+            UnlockScore100000();
+
+        // Multiply Achievements
+        if (_offlineAchievementSave.Multiply2)
+            UnlockMultiply2();
+        if (_offlineAchievementSave.Multiply3)
+            UnlockMultiply3();
+        if (_offlineAchievementSave.Multiply4)
+            UnlockMultiply4();
+        if (_offlineAchievementSave.Multiply5)
+            UnlockMultiply5();
+        if (_offlineAchievementSave.Multiply10)
+            UnlockMultiply10();
+
+        // Levele Achievements
+        if (_offlineAchievementSave.Level5)
+            UnlockLevel5();
+        if (_offlineAchievementSave.Level10)
+            UnlockLevel10();
+        if (_offlineAchievementSave.Level15)
+            UnlockLevel15();
+        if (_offlineAchievementSave.Level20)
+            UnlockLevel20();
+
+        // Row Streak Achievements
+        if (_offlineAchievementSave.RedRow)
+            UnlockRowStreak(ECardColour.Red);
+        if (_offlineAchievementSave.GreenRow)
+            UnlockRowStreak(ECardColour.Green);
+        if (_offlineAchievementSave.BlueRow)
+            UnlockRowStreak(ECardColour.Blue);
+        if (_offlineAchievementSave.YellowRow)
+            UnlockRowStreak(ECardColour.Yellow);
+        if (_offlineAchievementSave.PurpleRow)
+            UnlockRowStreak(ECardColour.Purple);
+
+        // Clear Row with one Card Achievements
+        if (_offlineAchievementSave.Rows2)
+            UnlockClearRowStreak2();
+        if (_offlineAchievementSave.Rows3)
+            UnlockClearRowStreak3();
+        if (_offlineAchievementSave.Rows5)
+            UnlockClearRowStreak5();
+
+        // Center Symbols Achievements
+        if (_offlineAchievementSave.BronzeCenter)
+            UnlockBronzeCentre();
+        if (_offlineAchievementSave.SilverCenter)
+            UnlockSilverCentre();
+        if (_offlineAchievementSave.GoldCenter)
+            UnlockGoldCentre();
+        if (_offlineAchievementSave.SuccessCenter)
+            UnlockSuccessCentre();
+
+        if (_offlineAchievementSave.MatchTree)
+            UnlockMatchTree();
+
+        if (_offlineAchievementSave.TutorialCleared)
+            UnlockTutorialCleared();
+
+        if (_offlineAchievementSave.DecoSlots)
+            UnlockDecoSlots();
+
+        if (_offlineAchievementSave.ClearNeighbourRow)
+            UnlockClearNeighbourRow();
+
+        if (_offlineAchievementSave.FillGrids)
+            UnlockFillAllGrids();
+
+        if (_offlineAchievementSave.RimExplosion)
+            UnlockRimExplosion();
+
+        ES3.Save(_saveLocationFolderName, _offlineAchievementSave, _savePath, _settings);
+    }
+    #endregion
+
+    #region Get All Steam Achievements
+    private void GetAllSteamAchievements()
+    {
+        // Score Achievements
+        _offlineAchievementSave.Score1000Achievement    = _score1000Achievement.IsAchieved      ? true : _offlineAchievementSave.Score1000Achievement;
+        _offlineAchievementSave.Score2500Achievement    = _score2500Achievement.IsAchieved      ? true : _offlineAchievementSave.Score2500Achievement;
+        _offlineAchievementSave.Score10000Achievement   = _score10000Achievement.IsAchieved     ? true : _offlineAchievementSave.Score10000Achievement;
+        _offlineAchievementSave.Score20000Achievement   = _score20000Achievement.IsAchieved     ? true : _offlineAchievementSave.Score20000Achievement;
+        _offlineAchievementSave.Score100000Achievement  = _score100000Achievement.IsAchieved    ? true : _offlineAchievementSave.Score100000Achievement;
+
+        // Multiply Achievements
+        _offlineAchievementSave.Multiply2               = _multiply2.IsAchieved                 ? true : _offlineAchievementSave.Multiply2;
+        _offlineAchievementSave.Multiply3               = _multiply3.IsAchieved                 ? true : _offlineAchievementSave.Multiply3;
+        _offlineAchievementSave.Multiply4               = _multiply4.IsAchieved                 ? true : _offlineAchievementSave.Multiply4;
+        _offlineAchievementSave.Multiply5               = _multiply5.IsAchieved                 ? true : _offlineAchievementSave.Multiply5;
+        _offlineAchievementSave.Multiply10              = _multiply10.IsAchieved                ? true : _offlineAchievementSave.Multiply10;
+
+        // Levele Achievements
+        _offlineAchievementSave.Level5                  = _level5.IsAchieved                    ? true : _offlineAchievementSave.Level5;
+        _offlineAchievementSave.Level10                 = _level10.IsAchieved                   ? true : _offlineAchievementSave.Level10;
+        _offlineAchievementSave.Level15                 = _level15.IsAchieved                   ? true : _offlineAchievementSave.Level15;
+        _offlineAchievementSave.Level20                 = _level20.IsAchieved                   ? true : _offlineAchievementSave.Level20;
+
+        // Row Streak Achievements
+        _offlineAchievementSave.RedRow                  = _redRow.IsAchieved                    ? true : _offlineAchievementSave.RedRow;
+        _offlineAchievementSave.GreenRow                = _greenRow.IsAchieved                  ? true : _offlineAchievementSave.GreenRow;
+        _offlineAchievementSave.BlueRow                 = _blueRow.IsAchieved                   ? true : _offlineAchievementSave.BlueRow;
+        _offlineAchievementSave.YellowRow               = _yellowRow.IsAchieved                 ? true : _offlineAchievementSave.YellowRow;
+        _offlineAchievementSave.PurpleRow               = _purpleRow.IsAchieved                 ? true : _offlineAchievementSave.PurpleRow;
+
+        // Clear Row with one Card Achievements
+        _offlineAchievementSave.Rows2                   = _2Rows.IsAchieved                     ? true : _offlineAchievementSave.Rows2;
+        _offlineAchievementSave.Rows3                   = _3Rows.IsAchieved                     ? true : _offlineAchievementSave.Rows3;
+        _offlineAchievementSave.Rows5                   = _5Rows.IsAchieved                     ? true : _offlineAchievementSave.Rows5;
+
+        // Center Symbols Achievements
+        _offlineAchievementSave.BronzeCenter            = _bronzeCenter.IsAchieved              ? true : _offlineAchievementSave.BronzeCenter;
+        _offlineAchievementSave.SilverCenter            = _silverCenter.IsAchieved              ? true : _offlineAchievementSave.SilverCenter;
+        _offlineAchievementSave.GoldCenter              = _goldCenter.IsAchieved                ? true : _offlineAchievementSave.GoldCenter;
+        _offlineAchievementSave.SuccessCenter           = _successCenter.IsAchieved             ? true : _offlineAchievementSave.SuccessCenter;
+
+        _offlineAchievementSave.MatchTree               = _matchTree.IsAchieved                 ? true : _offlineAchievementSave.MatchTree;
+
+        _offlineAchievementSave.TutorialCleared         = _tutorialCleared.IsAchieved           ? true : _offlineAchievementSave.TutorialCleared;
+
+        _offlineAchievementSave.DecoSlots               = _decoSlots.IsAchieved                 ? true : _offlineAchievementSave.DecoSlots;
+
+        _offlineAchievementSave.ClearNeighbourRow       = _clearNeighbourRow.IsAchieved         ? true : _offlineAchievementSave.ClearNeighbourRow;
+
+        _offlineAchievementSave.FillGrids               = _fillGrids.IsAchieved                 ? true : _offlineAchievementSave.FillGrids;
+
+        _offlineAchievementSave.RimExplosion            = _rimExplosion.IsAchieved              ? true : _offlineAchievementSave.RimExplosion;
+    }
+    #endregion
+
+    [Serializable]
+    public struct OfflineAchievementSave
+    {
+        // Score Achievements
+        [FoldoutGroup("Score"), Header("Score 1.000"), SerializeField] public bool Score1000Achievement;
+        [FoldoutGroup("Score"), Header("Score 2.500"), SerializeField] public bool Score2500Achievement;
+        [FoldoutGroup("Score"), Header("Score 10.000"), SerializeField] public bool Score10000Achievement;
+        [FoldoutGroup("Score"), Header("Score 20.000"), SerializeField] public bool Score20000Achievement;
+        [FoldoutGroup("Score"), Header("Score 100.000"), SerializeField] public bool Score100000Achievement;
+
+        // Multiply Achievements
+        [FoldoutGroup("Multiply"), Header("Multiply x2"), SerializeField] public bool Multiply2;
+        [FoldoutGroup("Multiply"), Header("Multiply x3"), SerializeField] public bool Multiply3;
+        [FoldoutGroup("Multiply"), Header("Multiply x4"), SerializeField] public bool Multiply4;
+        [FoldoutGroup("Multiply"), Header("Multiply x5"), SerializeField] public bool Multiply5;
+        [FoldoutGroup("Multiply"), Header("Multiply x10"), SerializeField] public bool Multiply10;
+
+        // Levele Achievements
+        [FoldoutGroup("Level"), Header("Level 5"), SerializeField] public bool Level5;
+        [FoldoutGroup("Level"), Header("Level 10"), SerializeField] public bool Level10;
+        [FoldoutGroup("Level"), Header("Level 15"), SerializeField] public bool Level15;
+        [FoldoutGroup("Level"), Header("Level 20"), SerializeField] public bool Level20;
+
+        // Row Streak Achievements
+        [FoldoutGroup("Row Streak"), Header("Red Row"), SerializeField] public bool RedRow;
+        [FoldoutGroup("Row Streak"), Header("Green Row"), SerializeField] public bool GreenRow;
+        [FoldoutGroup("Row Streak"), Header("Blue Row"), SerializeField] public bool BlueRow;
+        [FoldoutGroup("Row Streak"), Header("Yellow Row"), SerializeField] public bool YellowRow;
+        [FoldoutGroup("Row Streak"), Header("Purple Row"), SerializeField] public bool PurpleRow;
+
+        // Clear Row with one Card Achievements
+        [FoldoutGroup("Clear Row with one Card"), Header("2 Rows"), SerializeField] public bool Rows2;
+        [FoldoutGroup("Clear Row with one Card"), Header("3 Rows"), SerializeField] public bool Rows3;
+        [FoldoutGroup("Clear Row with one Card"), Header("5 Rows"), SerializeField] public bool Rows5;
+
+        // Center Symbols Achievements
+        [FoldoutGroup("Center Symbols"), Header("Bronze Center"), SerializeField] public bool BronzeCenter;
+        [FoldoutGroup("Center Symbols"), Header("Silver Center"), SerializeField] public bool SilverCenter;
+        [FoldoutGroup("Center Symbols"), Header("Gold Center"), SerializeField] public bool GoldCenter;
+        [FoldoutGroup("Center Symbols"), Header("Success Center"), SerializeField] public bool SuccessCenter;
+
+        [Header("Match Tree"), SerializeField] public bool MatchTree;
+
+        [Header("Clear Tutorial"), SerializeField] public bool TutorialCleared;
+
+        [Header("Deko Slots"), SerializeField] public bool DecoSlots;
+
+        [Header("Clear Neighbour Row"), SerializeField] public bool ClearNeighbourRow;
+
+        [Header("Fill Grids"), SerializeField] public bool FillGrids;
+
+        [Header("Rim Explosion"), SerializeField] public bool RimExplosion;
+    }
 }

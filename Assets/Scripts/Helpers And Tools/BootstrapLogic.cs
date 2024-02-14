@@ -1,7 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 using HeathenEngineering.SteamworksIntegration;
 using AppClient = HeathenEngineering.SteamworksIntegration.API.App.Client;
@@ -32,10 +30,9 @@ namespace CoreCraft.Core
 
             yield return new WaitUntil(() =>
             {
-                return EventManager.Instance != null && SteamAchievementHelper.Instance != null;
+                return EventManager.Instance != null && SteamAchievementHelper.Instance != null && SteamInitializationErrorHandler.Instance != null;
             });
             Debug.Log($"EventManager is ready!");
-            SteamAchievementHelper.Instance.EventManagerReady = true;
 
             // Visualize Timer
             BootTimerEvent.Invoke(3f);
@@ -46,8 +43,18 @@ namespace CoreCraft.Core
             yield return new WaitForSeconds(1f);
 
             // Initialize Steam
-            yield return new WaitUntil(() => SteamSettings.Initialized);
-            Debug.Log($"Steam API is initialized as App {AppClient.BuildId} starting Scene Load!");
+            yield return new WaitUntil(() => SteamSettings.Initialized || SteamSettings.HasInitializationError);
+
+            if (SteamSettings.Initialized)
+                SteamAchievementHelper.Instance.SteamOnline = true;
+            else if (SteamSettings.HasInitializationError)
+            {
+                SteamAchievementHelper.Instance.SteamOnline = false;
+
+                yield return StartCoroutine(SteamInitializationErrorHandler.Instance.StartHasInitializationError());
+            }
+
+            SteamAchievementHelper.Instance.EventManagerReady = true;
 
             // Visualize Timer
             BootTimerEvent.Invoke(1f);

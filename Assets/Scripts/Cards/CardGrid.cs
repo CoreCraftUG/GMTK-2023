@@ -150,7 +150,7 @@ public class CardGrid : MonoBehaviour
                     case ECardColour.Yellow:
                         yellow++;
                         break;
-                    case ECardColour.White:
+                    case ECardColour.Purple:
                         white++;
                         break;
                     default:

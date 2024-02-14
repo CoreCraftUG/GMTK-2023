@@ -109,7 +109,7 @@ public class CardHolder : MonoBehaviour
                         break;
                 }
                 break;
-            case ECardColour.White:
+            case ECardColour.Purple:
                 switch (_card.Face)
                 {
                     case ECardFace.Club:

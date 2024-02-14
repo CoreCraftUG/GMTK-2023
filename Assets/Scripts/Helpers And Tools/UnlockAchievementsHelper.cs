@@ -26,18 +26,18 @@ public class UnlockAchievementsHelper : MonoBehaviour
         _unlock2RowMatchButton.onClick.AddListener(() =>
         {
             EventManager.Instance.RowStreakAchievementEvent.Invoke(ECardColour.Red);
-            EventManager.Instance.RowStreakAchievementEvent.Invoke(ECardColour.White);
+            EventManager.Instance.RowStreakAchievementEvent.Invoke(ECardColour.Purple);
         });
         _unlock3RowMatchButton.onClick.AddListener(() =>
         {
             EventManager.Instance.RowStreakAchievementEvent.Invoke(ECardColour.Red);
-            EventManager.Instance.RowStreakAchievementEvent.Invoke(ECardColour.White);
+            EventManager.Instance.RowStreakAchievementEvent.Invoke(ECardColour.Purple);
             EventManager.Instance.RowStreakAchievementEvent.Invoke(ECardColour.Blue);
         });
         _unlock5RowMatchButton.onClick.AddListener(() =>
         {
             EventManager.Instance.RowStreakAchievementEvent.Invoke(ECardColour.Red);
-            EventManager.Instance.RowStreakAchievementEvent.Invoke(ECardColour.White);
+            EventManager.Instance.RowStreakAchievementEvent.Invoke(ECardColour.Purple);
             EventManager.Instance.RowStreakAchievementEvent.Invoke(ECardColour.Yellow);
             EventManager.Instance.RowStreakAchievementEvent.Invoke(ECardColour.Blue);
             EventManager.Instance.RowStreakAchievementEvent.Invoke(ECardColour.Green);
@@ -65,8 +65,8 @@ public class UnlockAchievementsHelper : MonoBehaviour
         });
         _unlockPurpleRowButton.onClick.AddListener(() =>
         {
-            EventManager.Instance.RowStreakAchievementEvent.Invoke(ECardColour.White);
-            EventManager.Instance.RowStreakAchievementEvent.Invoke(ECardColour.White);
+            EventManager.Instance.RowStreakAchievementEvent.Invoke(ECardColour.Purple);
+            EventManager.Instance.RowStreakAchievementEvent.Invoke(ECardColour.Purple);
         });
     }
 

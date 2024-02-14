@@ -21,5 +21,5 @@ public enum ECardColour
     Green,
     Blue,
     Yellow,
-    White
+    Purple
 }

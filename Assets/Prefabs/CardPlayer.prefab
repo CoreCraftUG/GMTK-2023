@@ -75,11 +75,11 @@ Light:
   serializedVersion: 10
   m_Type: 0
   m_Shape: 0
-  m_Color: {r: 1, g: 0.9398585, b: 0.5990566, a: 1}
-  m_Intensity: 6
+  m_Color: {r: 1, g: 0.98288935, b: 0.8836478, a: 1}
+  m_Intensity: 20
   m_Range: 1.5
-  m_SpotAngle: 70.31248
-  m_InnerSpotAngle: 70.31248
+  m_SpotAngle: 85
+  m_InnerSpotAngle: 77.0757
   m_CookieSize: 10
   m_Shadows:
     m_Type: 0
@@ -107,7 +107,7 @@ Light:
       e32: 0
       e33: 1
     m_UseCullingMatrixOverride: 0
-  m_Cookie: {fileID: 2800000, guid: 3ed6bab7bb116b744ad904027d499637, type: 3}
+  m_Cookie: {fileID: 2800000, guid: 4c5eedd5b64788a4c90654265cb9a28f, type: 3}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
   m_RenderMode: 0
@@ -1248,6 +1248,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SK_SuperDude_Rigged
       objectReference: {fileID: 0}
+    - target: {fileID: 1722269218416503102, guid: bc0a4b9bd5ebedf4c8363239a1d883ff,
+        type: 3}
+      propertyPath: m_Data.m_MaintainTargetPositionOffset
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5637201636433115890, guid: bc0a4b9bd5ebedf4c8363239a1d883ff,
         type: 3}
       propertyPath: m_RootOrder
@@ -1302,6 +1307,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6491309866663939756, guid: bc0a4b9bd5ebedf4c8363239a1d883ff,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.697
+      objectReference: {fileID: 0}
+    - target: {fileID: 6491309866663939756, guid: bc0a4b9bd5ebedf4c8363239a1d883ff,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.302
       objectReference: {fileID: 0}
     - target: {fileID: 8915151015151103884, guid: bc0a4b9bd5ebedf4c8363239a1d883ff,
         type: 3}

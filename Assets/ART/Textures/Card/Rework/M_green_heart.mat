@@ -71,7 +71,8 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _EmissiveIntensity: 0.1
+    - _EmissiveIntensity: 0.5
+    - _FrameIntensity: 0.5
     - _HueShift: 0
     - _NormalStrength: 1
     - _QueueControl: 0

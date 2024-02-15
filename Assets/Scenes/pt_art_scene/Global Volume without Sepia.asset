@@ -21,10 +21,10 @@ MonoBehaviour:
     m_Value: 1
   intensity:
     m_OverrideState: 1
-    m_Value: 0.332
+    m_Value: 0.548
   clamp:
     m_OverrideState: 1
-    m_Value: 0.05
+    m_Value: 0.0503
 --- !u!114 &-4427974855235302660
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -169,7 +169,7 @@ MonoBehaviour:
     m_Value: 0
   sharpenIntensity:
     m_OverrideState: 0
-    m_Value: 3.2
+    m_Value: 6.13
   sharpenDepthThreshold:
     m_OverrideState: 0
     m_Value: 0.035
@@ -253,7 +253,7 @@ MonoBehaviour:
     dimension: 1
   bloomIntensity:
     m_OverrideState: 1
-    m_Value: 0.55
+    m_Value: 0.45
   bloomThreshold:
     m_OverrideState: 1
     m_Value: 0.75
@@ -261,8 +261,8 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 0
   bloomSpread:
-    m_OverrideState: 0
-    m_Value: 0.5
+    m_OverrideState: 1
+    m_Value: 0.2
   bloomMaxBrightness:
     m_OverrideState: 0
     m_Value: 1000
@@ -332,10 +332,10 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: {r: 0.5, g: 0.5, b: 1, a: 0}
   anamorphicFlaresIntensity:
-    m_OverrideState: 0
-    m_Value: 0.17
+    m_OverrideState: 1
+    m_Value: 0.03
   anamorphicFlaresThreshold:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 0.75
   anamorphicFlaresConservativeThreshold:
     m_OverrideState: 0
@@ -347,8 +347,8 @@ MonoBehaviour:
     m_OverrideState: 1
     m_Value: 1
   anamorphicFlaresSpread:
-    m_OverrideState: 0
-    m_Value: 1
+    m_OverrideState: 1
+    m_Value: 0.348
   anamorphicFlaresDepthAtten:
     m_OverrideState: 0
     m_Value: 0
@@ -512,10 +512,10 @@ MonoBehaviour:
     m_Value: 0
   depthOfField:
     m_OverrideState: 0
-    m_Value: 0
+    m_Value: 1
   depthOfFieldFocusMode:
-    m_OverrideState: 0
-    m_Value: 0
+    m_OverrideState: 1
+    m_Value: 2
   depthOfFieldAutofocusMinDistance:
     m_OverrideState: 0
     m_Value: 0
@@ -543,14 +543,14 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 10
   depthOfFieldCameraSettings:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 0
   depthOfFieldFocalLength:
-    m_OverrideState: 0
-    m_Value: 0.05
+    m_OverrideState: 1
+    m_Value: 0.5
   depthOfFieldAperture:
-    m_OverrideState: 0
-    m_Value: 2.8
+    m_OverrideState: 1
+    m_Value: 1.5
   depthOfFieldFocalLengthReal:
     m_OverrideState: 0
     m_Value: 50
@@ -649,11 +649,11 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 0.15
   vignettingOuterRing:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 0.76
   vignettingInnerRing:
-    m_OverrideState: 0
-    m_Value: 0
+    m_OverrideState: 1
+    m_Value: 0.867
   vignettingFade:
     m_OverrideState: 1
     m_Value: 0.454
@@ -671,9 +671,9 @@ MonoBehaviour:
     m_Value: 0
   vignettingBlinkStyle:
     m_OverrideState: 0
-    m_Value: 0
+    m_Value: 1
   vignettingCenter:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: {x: 0.5, y: 0.5}
   vignettingColor:
     m_OverrideState: 0

@@ -82,7 +82,10 @@ public class Playermanager : Singleton<Playermanager>
     private void Update()
     {
         if (_gameover)
+        {
+            CardTimer.CardAnimator.enabled = false;
             return;
+        }
 
         if (TimeManager.Instance.TimeStop)
             return;

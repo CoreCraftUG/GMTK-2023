@@ -81,7 +81,7 @@ Material:
     - _Smooth: 0.1
     - _SymbolAlpha: 0.67
     m_Colors:
-    - _Color: {r: 1, g: 0.8078432, b: 0.3333333, a: 0}
+    - _Color: {r: 1, g: 0.7577631, b: 0.33333337, a: 0}
     - _FrameColor: {r: 2.0000002, g: 2.0000002, b: 2.0000002, a: 0}
     - _SymbolColor: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_Card_fronzt
+  m_Name: OldCard_Old
   m_Shader: {fileID: -6465566751694194690, guid: 7b4587a31f503214eb655616ecb86d5a,
     type: 3}
   m_Parent: {fileID: 0}

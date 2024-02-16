@@ -252,10 +252,10 @@ MonoBehaviour:
     m_Value: {fileID: 0}
     dimension: 1
   bloomIntensity:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 0.55
   bloomThreshold:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 0.75
   bloomConservativeThreshold:
     m_OverrideState: 0
@@ -653,12 +653,12 @@ MonoBehaviour:
     m_Value: 0.76
   vignettingInnerRing:
     m_OverrideState: 0
-    m_Value: 0
+    m_Value: 0.867
   vignettingFade:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 0.454
   vignettingCircularShape:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 1
   vignettingCircularShapeFitMode:
     m_OverrideState: 0

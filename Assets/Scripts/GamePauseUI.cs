@@ -38,7 +38,7 @@ namespace JamCraft.GMTK2023.Code
             // Got to main menu.
             _mainMenuButton.onClick.AddListener(() =>
             {
-                Loader.Load(Loader.Scene.mainmenu_scene);
+                Loader.Load("mainmenu_scene");
             });
         }
 

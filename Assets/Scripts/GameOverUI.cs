@@ -27,12 +27,12 @@ namespace JamCraft.GMTK2023.Code
             
             _retryButton.onClick.AddListener(() =>
             {
-                Loader.Load(Loader.Scene.game_scene);
+                Loader.Load("game_scene");
             });
 
             _mainMenuButton.onClick.AddListener(() =>
             {
-                Loader.Load(Loader.Scene.mainmenu_scene);
+                Loader.Load("mainmenu_scene");
             });
         }
 

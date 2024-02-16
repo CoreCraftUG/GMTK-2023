@@ -23,34 +23,53 @@ namespace JamCraft.GMTK2023.Code
 
         private readonly Dictionary<Points, Vector3> _pointsToVector3 = new Dictionary<Points, Vector3>()
         {
-            { Points.Zero, new Vector3(0, 90, 75) },
-            { Points.One, new Vector3(0, 90, 110.75f) },
-            { Points.Two, new Vector3(0, 90, 146.75f) },
-            { Points.Three, new Vector3(0, 90, 182.5f) },
-            { Points.Four, new Vector3(0, 90, 218.75f) },
-            { Points.Five, new Vector3(0, 90, 254.5f) },
-            { Points.Six, new Vector3(0, 90, 290.25f) },
-            { Points.Seven, new Vector3(0, 90, 326.75f) },
-            { Points.Eight, new Vector3(0, 90, 362.25f) },
-            { Points.Nine, new Vector3(0, 90, 398.25f) }
+            { Points.Zero, new Vector3(0, 0, 180) },
+            { Points.One, new Vector3(-34.49f, 0, 180) },
+            { Points.Two, new Vector3(-71.427f, 0, 180) },
+            { Points.Three, new Vector3(-106.902f, 0, 180) },
+            { Points.Four, new Vector3(-143.595f, 0, 180) },
+            { Points.Five, new Vector3(-180.048f, 0, 180) },
+            { Points.Six, new Vector3(-216.226f, 0, 180) },
+            { Points.Seven, new Vector3(-250.839f, 0, 180) },
+            { Points.Eight, new Vector3(-287.938f, 0, 180) },
+            { Points.Nine, new Vector3(-323.702f, 0, 180) }
         };
 
         [SerializeField] private Points _point;
 
         private Transform _transform => GetComponent<Transform>();
-        private readonly Vector3 _defaultRotation = new Vector3(0, 90, 75);
+        private Material _material => GetComponent<Renderer>().material;
+
+        private readonly Vector3 _defaultRotation = new Vector3(0, 0, 180);
 
         private void RotateDisplay()
         {
             // InElastic / OutElastic / InOutElastic / OutBounce good
-            _transform.DOLocalRotate(new Vector3(0, 0, 360), .5f, RotateMode.LocalAxisAdd).SetLoops(3, LoopType.Restart).SetEase(Ease.Linear).OnComplete(() => _transform.DOLocalRotate(_pointsToVector3[_point], .5f, RotateMode.FastBeyond360).SetEase(Ease.OutBounce));
+            _transform.DOLocalRotate(new Vector3(360, 0, 0), 1f, RotateMode.LocalAxisAdd).SetLoops(3, LoopType.Restart)
+                .SetEase(Ease.Linear)
+                .OnStart(() => _material.SetFloat("_InMovement", 1))
+                .OnStepComplete(RotateDisplayOnStepCompleteCallback)
+                .OnComplete(RotateDisplayOnCompleteCallback);
+        }
+
+        private void RotateDisplayOnStepCompleteCallback()
+        {
+            _material.SetFloat("_InMovementFast", 1);
+            _material.SetFloat("_InMovement", 0);
+        }
+
+        private void RotateDisplayOnCompleteCallback()
+        {
+            _material.SetFloat("_InMovement", 0);
+            _material.SetFloat("_InMovementFast", 0);
+            _transform.DOLocalRotate(_pointsToVector3[_point], 1f, RotateMode.FastBeyond360).SetEase(Ease.OutBounce);
         }
 
         [Button("Reset to default")]
         private void Reset()
         {
             Debug.Log("Resetting to default!");
-            _transform.DOLocalRotate(_defaultRotation, .5f, RotateMode.FastBeyond360).SetEase(Ease.InOutQuad);
+            _transform.DOLocalRotate(_defaultRotation, 1f, RotateMode.FastBeyond360).SetEase(Ease.InOutQuad);
         }
 
         public void AssignPoint(Points point)

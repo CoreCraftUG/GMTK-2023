@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using JamCraft.GMTK2023.Code;
 using UnityEngine;
 
 public class CardAnimation : MonoBehaviour

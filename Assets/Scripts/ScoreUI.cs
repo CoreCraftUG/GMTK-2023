@@ -14,10 +14,8 @@ namespace JamCraft.GMTK2023.Code
         [SerializeField] private TextMeshProUGUI _temporaryScoreText;
         [SerializeField] private TextMeshProUGUI _multiplierText;
         [SerializeField] private TextMeshProUGUI _levelText;
-
-        [SerializeField] private GameObject _streakHolder;
-        [SerializeField] private GameObject _streakPrefab;
-        [SerializeField] private readonly List<GameObject> _streaks = new List<GameObject>();
+        
+        [SerializeField] private List<GameObject> _streakLamps = new List<GameObject>();
 
         [SerializeField] private VolumeProfile _postProcessing;
         private Beautify.Universal.Beautify _beautify;
@@ -57,42 +55,13 @@ namespace JamCraft.GMTK2023.Code
 
             _startingSepia = _beautify.sepia.value;
 
-            for (int i = 0; i < 3; i++)
-            {
-                _streaks.Add(Instantiate(_streakPrefab, _streakHolder.transform));
-            }
-
             _temporaryScoreTween.SetAutoKill(false).Pause();
         }
 
         private void LevelUpEvent(int value)
         {
             Level = value;
-            _levelText.text = "Level: " + value.ToString();
-        }
-
-        private void OnDestroy()
-        {
-            if (EventManager.Instance != null)
-            {
-                EventManager.Instance.PointsAddedEvent.RemoveAllListeners();
-                EventManager.Instance.PointMultiplyEvent.RemoveListener(SetMultiplier);
-                EventManager.Instance.TempPointsEvent.RemoveAllListeners();
-                EventManager.Instance.StreakEndEvent.RemoveAllListeners();
-                EventManager.Instance.MissedMultiplyEvent.RemoveAllListeners();
-            }
-        }
-
-        private void OnApplicationQuit()
-        {
-            if (EventManager.Instance != null)
-            {
-                EventManager.Instance.PointsAddedEvent.RemoveAllListeners();
-                EventManager.Instance.PointMultiplyEvent.RemoveListener(SetMultiplier);
-                EventManager.Instance.TempPointsEvent.RemoveAllListeners();
-                EventManager.Instance.StreakEndEvent.RemoveAllListeners();
-                EventManager.Instance.MissedMultiplyEvent.RemoveAllListeners();
-            }
+            _levelText.text = "Level - " + value.ToString();
         }
         
         private void AddScore(int value)
@@ -104,9 +73,9 @@ namespace JamCraft.GMTK2023.Code
         {
             _multiplierText.text = value.ToString("F1");
 
-            foreach (GameObject streak in _streaks)
+            foreach (GameObject streak in _streakLamps)
             {
-                streak.SetActive(true);
+                streak.GetComponent<Renderer>().material.SetFloat("_UseEmission", 1);
             }
         }
 
@@ -146,7 +115,7 @@ namespace JamCraft.GMTK2023.Code
 
             for (int i = 0; i < value; i++)
             {
-                _streaks[i].SetActive(false);
+                _streakLamps[i].GetComponent<Renderer>().material.SetFloat("_UseEmission", 0);
             }
         }
 

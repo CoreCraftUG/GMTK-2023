@@ -14043,17 +14043,17 @@ PrefabInstance:
         type: 3}
       propertyPath: _pointsDisplays.Array.data[0]
       value: 
-      objectReference: {fileID: 1031065872}
+      objectReference: {fileID: 1031065878}
     - target: {fileID: 6999081763157881819, guid: 2c0fa4579fc9ae04abb79aef6a4627c2,
         type: 3}
       propertyPath: _pointsDisplays.Array.data[1]
       value: 
-      objectReference: {fileID: 1031065873}
+      objectReference: {fileID: 1031065877}
     - target: {fileID: 6999081763157881819, guid: 2c0fa4579fc9ae04abb79aef6a4627c2,
         type: 3}
       propertyPath: _pointsDisplays.Array.data[2]
       value: 
-      objectReference: {fileID: 1031065874}
+      objectReference: {fileID: 1031065876}
     - target: {fileID: 6999081763157881819, guid: 2c0fa4579fc9ae04abb79aef6a4627c2,
         type: 3}
       propertyPath: _pointsDisplays.Array.data[3]
@@ -14063,17 +14063,17 @@ PrefabInstance:
         type: 3}
       propertyPath: _pointsDisplays.Array.data[4]
       value: 
-      objectReference: {fileID: 1031065876}
+      objectReference: {fileID: 1031065874}
     - target: {fileID: 6999081763157881819, guid: 2c0fa4579fc9ae04abb79aef6a4627c2,
         type: 3}
       propertyPath: _pointsDisplays.Array.data[5]
       value: 
-      objectReference: {fileID: 1031065877}
+      objectReference: {fileID: 1031065873}
     - target: {fileID: 6999081763157881819, guid: 2c0fa4579fc9ae04abb79aef6a4627c2,
         type: 3}
       propertyPath: _pointsDisplays.Array.data[6]
       value: 
-      objectReference: {fileID: 1031065878}
+      objectReference: {fileID: 1031065872}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

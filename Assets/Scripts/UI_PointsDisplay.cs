@@ -23,16 +23,16 @@ namespace JamCraft.GMTK2023.Code
 
         private readonly Dictionary<Points, Vector3> _pointsToVector3 = new Dictionary<Points, Vector3>()
         {
-            { Points.Zero, new Vector3(0, 0, 180) },
-            { Points.One, new Vector3(-34.49f, 0, 180) },
-            { Points.Two, new Vector3(-71.427f, 0, 180) },
-            { Points.Three, new Vector3(-106.902f, 0, 180) },
-            { Points.Four, new Vector3(-143.595f, 0, 180) },
-            { Points.Five, new Vector3(-180.048f, 0, 180) },
-            { Points.Six, new Vector3(-216.226f, 0, 180) },
-            { Points.Seven, new Vector3(-250.839f, 0, 180) },
-            { Points.Eight, new Vector3(-287.938f, 0, 180) },
-            { Points.Nine, new Vector3(-323.702f, 0, 180) }
+            { Points.Zero, new Vector3(360, 0, 180) },
+            { Points.One, new Vector3(321.861f, 0, 180) },
+            { Points.Two, new Vector3(287.251f, 0, 180) },
+            { Points.Three, new Vector3(253.632f, 0, 180) },
+            { Points.Four, new Vector3(216.634f, 0, 180) },
+            { Points.Five, new Vector3(180.401f, 0, 180) },
+            { Points.Six, new Vector3(144.139f, 0, 180) },
+            { Points.Seven, new Vector3(109.792f, 0, 180) },
+            { Points.Eight, new Vector3(72.815f, 0, 180) },
+            { Points.Nine, new Vector3(36.407f, 0, 180) }
         };
 
         [SerializeField] private Points _point;
@@ -45,7 +45,7 @@ namespace JamCraft.GMTK2023.Code
         private void RotateDisplay()
         {
             // InElastic / OutElastic / InOutElastic / OutBounce good
-            _transform.DOLocalRotate(new Vector3(360, 0, 0), 1f, RotateMode.LocalAxisAdd).SetLoops(3, LoopType.Restart)
+            _transform.DOLocalRotate(new Vector3(360, 0, 0), 1f, RotateMode.LocalAxisAdd).SetLoops(2, LoopType.Restart)
                 .SetEase(Ease.Linear)
                 .OnStart(() => _material.SetFloat("_InMovement", 1))
                 .OnStepComplete(RotateDisplayOnStepCompleteCallback)
@@ -62,7 +62,7 @@ namespace JamCraft.GMTK2023.Code
         {
             _material.SetFloat("_InMovement", 0);
             _material.SetFloat("_InMovementFast", 0);
-            _transform.DOLocalRotate(_pointsToVector3[_point], 1f, RotateMode.FastBeyond360).SetEase(Ease.OutBounce);
+            _transform.DOLocalRotate(_pointsToVector3[_point], 1f).SetEase(Ease.OutBounce);
         }
 
         [Button("Reset to default")]

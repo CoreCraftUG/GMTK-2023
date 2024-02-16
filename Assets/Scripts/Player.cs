@@ -1,6 +1,7 @@
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -36,10 +37,12 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform _lookTarget;
     public Transform LookTarget;
 
+    [SerializeField] private Transform _cameraFocusPoint;
+
+    public Transform CameraFocusPoint => _cameraFocusPoint;
+
     private bool _ready;
     public bool Ready { get => _ready; private set => _ready = value; }
-
-    
 
     private void Awake()
     {
@@ -130,7 +133,7 @@ public class Player : MonoBehaviour
         return _presentedCard;
     }
     public void PlayCard()
-     {
+    {
         Playermanager.Instance.CanTurn = false;
         FacingGrid.AddCard(_presentedCard, SelectedSpot);
         int i = Random.Range(0, 3);

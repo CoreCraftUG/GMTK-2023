@@ -68,6 +68,11 @@ public class UnlockAchievementsHelper : MonoBehaviour
             EventManager.Instance.RowStreakAchievementEvent.Invoke(ECardColour.Purple);
             EventManager.Instance.RowStreakAchievementEvent.Invoke(ECardColour.Purple);
         });
+
+        _clearAllAchievements.onClick.AddListener(() =>
+        {
+            EventManager.Instance.ClearAllAchievements.Invoke();
+        });
     }
 
     void Update()

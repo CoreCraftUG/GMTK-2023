@@ -6,45 +6,45 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [BoxGroup("Visual"), SerializeField] private Material _off;
-    [BoxGroup("Visual"), SerializeField] private Material _on;
-    [BoxGroup("Visual"), SerializeField] private List<GameObject> _slotIndicators = new List<GameObject>();
+    [BoxGroup("Visual"), SerializeField] protected Material _off;
+    [BoxGroup("Visual"), SerializeField] protected Material _on;
+    [BoxGroup("Visual"), SerializeField] protected List<GameObject> _slotIndicators = new List<GameObject>();
     [BoxGroup("Visual"), SerializeField] public GameObject TurnLight;
 
 
-    [BoxGroup("Gameplay"), SerializeField] private int _randomCardAmount; //Amount of random Cards being added to the Base Deck amount
-    [BoxGroup("Gameplay"), SerializeField] private int _deckSize => 16 + _randomCardAmount; //Cards
-    [BoxGroup("Gameplay"), SerializeField] private float SwapDelay; //Timer between slots changing
-    [BoxGroup("Gameplay"), SerializeField] private int SwapsPerTurn; //Times the position Swaps per Turn
-    [BoxGroup("Gameplay"), SerializeField] private float SwapDelayIncrement; //Timer between slots changing
+    [BoxGroup("Gameplay"), SerializeField] protected int _randomCardAmount; //Amount of random Cards being added to the Base Deck amount
+    [BoxGroup("Gameplay"), SerializeField] protected int _deckSize => 16 + _randomCardAmount; //Cards
+    [BoxGroup("Gameplay"), SerializeField] protected float SwapDelay; //Timer between slots changing
+    [BoxGroup("Gameplay"), SerializeField] protected int SwapsPerTurn; //Times the position Swaps per Turn
+    [BoxGroup("Gameplay"), SerializeField] protected float SwapDelayIncrement; //Timer between slots changing
     [BoxGroup("Gameplay"), SerializeField] public int FacingArea; //Number of the Grid that is currently being faced
-    [BoxGroup("Gameplay"), SerializeField] private GameObject _card;
-    [BoxGroup("Gameplay"), SerializeField] private Transform _cardPreview;
-    [BoxGroup("Gameplay"), SerializeField] private List<CardBase> _cards = new List<CardBase>(); //Cards
+    [BoxGroup("Gameplay"), SerializeField] protected GameObject _card;
+    [BoxGroup("Gameplay"), SerializeField] protected Transform _cardPreview;
+    [BoxGroup("Gameplay"), SerializeField] protected List<CardBase> _cards = new List<CardBase>(); //Cards
 
-    private int _currentLevel; //Is this player currently selected?
-    private int _possibleSpots = 3;
-    private int SelectedSpot; //Currently selected Grid spot
-    private float timer; //timer
-    private CardHolder _presentedCard;
-    private Stack<CardBase> _deck = new Stack<CardBase>(); //Card
-    [SerializeField] private float _cardHeight;
+    protected int _currentLevel; //Is this player currently selected?
+    protected int _possibleSpots = 3;
+    protected int SelectedSpot; //Currently selected Grid spot
+    protected float timer; //timer
+    protected CardHolder _presentedCard;
+    protected Stack<CardBase> _deck = new Stack<CardBase>(); //Card
+    [SerializeField] protected float _cardHeight;
 
     [HideInInspector] public bool IsSelected; //Is this player currently selected?
     [HideInInspector] public int Level; //Is this player currently selected?
-    public CardGrid FacingGrid => Playermanager.Instance.Grids[FacingArea]; //Grid
+    public CardGrid FacingGrid => PlayerManager.Instance.Grids[FacingArea]; //Grid
     public CardBase CurrentCard => (_deck.Peek().Equals(null)) ? null : _deck.Peek(); //Card
-    [SerializeField] private Transform _lookTarget;
+    [SerializeField] protected Transform _lookTarget;
     public Transform LookTarget;
 
-    [SerializeField] private Transform _cameraFocusPoint;
+    [SerializeField] protected Transform _cameraFocusPoint;
 
     public Transform CameraFocusPoint => _cameraFocusPoint;
 
-    private bool _ready;
-    public bool Ready { get => _ready; private set => _ready = value; }
+    protected bool _ready;
+    public bool Ready { get => _ready; protected set => _ready = value; }
 
-    private void Awake()
+    protected virtual void Awake()
     {
         SelectedSpot = Random.Range(1, 4);
         NewDeck();
@@ -52,22 +52,22 @@ public class Player : MonoBehaviour
         _ready = true;
     }
 
-    public Transform ReturnPresentedCard()
+    public virtual Transform ReturnPresentedCard()
     {
         return _slotIndicators[SelectedSpot - 1].transform.GetChild(0).transform;
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         if (TimeManager.Instance.TimeStop)
             return;
 
-        _lookTarget.position = Playermanager.Instance.ReturnLookTarget().position;
+        _lookTarget.position = PlayerManager.Instance.ReturnLookTarget().position;
 
         if (_currentLevel < Level)
         {
             _currentLevel = Level;
-            SwapDelay = (Playermanager.Instance.LevelTime.Length >= _currentLevel?   Playermanager.Instance.LevelTime[_currentLevel - 1] : Playermanager.Instance.LevelTime[Playermanager.Instance.LevelTime.Length - 1]) / SwapsPerTurn;
+            SwapDelay = (PlayerManager.Instance.LevelTime.Length >= _currentLevel?   PlayerManager.Instance.LevelTime[_currentLevel - 1] : PlayerManager.Instance.LevelTime[PlayerManager.Instance.LevelTime.Length - 1]) / SwapsPerTurn;
         }
 
         if (IsSelected)
@@ -78,7 +78,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void NewDeck()
+    protected virtual void NewDeck()
     {
         List<CardBase> tempcards = new List<CardBase>();
         foreach (CardBase x in _cards)
@@ -102,7 +102,7 @@ public class Player : MonoBehaviour
         PreviewNextCard();
     }
 
-    public void NextSpot()
+    public virtual void NextSpot()
     {
         _slotIndicators[SelectedSpot - 1].transform.GetComponent<MeshRenderer>().material = _off;
         SelectedSpot++;
@@ -114,13 +114,13 @@ public class Player : MonoBehaviour
         timer = 0;
     }
 
-    public void ResetSlots()
+    public virtual void ResetSlots()
     {
         foreach (GameObject obj in _slotIndicators)
             obj.transform.GetComponent<MeshRenderer>().material = _off;
     }
 
-    public void PreviewNextCard()
+    public virtual void PreviewNextCard()
     {
         GameObject NewCard = Instantiate(_card, _cardPreview);
         _presentedCard = NewCard.GetComponent<CardHolder>();
@@ -128,13 +128,13 @@ public class Player : MonoBehaviour
         _presentedCard.SetCard(_deck.Pop());
     }
 
-    public CardHolder GetPresentedCard()
+    public virtual CardHolder GetPresentedCard()
     {
         return _presentedCard;
     }
-    public void PlayCard()
+    public virtual void PlayCard()
     {
-        Playermanager.Instance.CanTurn = false;
+        PlayerManager.Instance.CanTurn = false;
         FacingGrid.AddCard(_presentedCard, SelectedSpot);
         int i = Random.Range(0, 3);
         EventManager.Instance.PlayAudio.Invoke(i, 4f);

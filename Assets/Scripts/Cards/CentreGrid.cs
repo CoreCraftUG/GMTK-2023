@@ -16,7 +16,7 @@ public class CentreGrid : MonoBehaviour
     [SerializeField] private Color _silverColour;
     [SerializeField] private Color _goldColour;
 
-    private List<CardGrid> Grids => Playermanager.Instance.Grids;
+    private List<CardGrid> Grids => PlayerManager.Instance.Grids;
     private CentreGridSlot[,] _grid;
     private Image[,] _spriteGrid;
 

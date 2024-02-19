@@ -10,7 +10,7 @@ public class WineSnifter : MonoBehaviour
 
     void Update()
     {
-        if ((Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.A)) && !GameStateManager.Instance.IsGamePaused && !GameStateManager.Instance.IsGameOver && Playermanager.Instance.CanTurn)
+        if ((Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.A)) && !GameStateManager.Instance.IsGamePaused && !GameStateManager.Instance.IsGameOver && PlayerManager.Instance.CanTurn)
         {
             animator.SetBool("sway",true);
         }

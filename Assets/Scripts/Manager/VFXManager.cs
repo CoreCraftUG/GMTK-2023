@@ -21,12 +21,12 @@ public class VFXManager : MonoBehaviour
             if (b)
             {
                 Instantiate(_coinMatch3VFXObject, _coinVFXSpawnTransform);
-                SoundManager.Instance.PlaySFX(5,1);
+                SoundManager.Instance.PlaySFX(5);
             }
             else
             {
                 Instantiate(_coinMatch3VFXObject, _coinVFXSpawnTransform);
-                SoundManager.Instance.PlaySFX(5,1);
+                SoundManager.Instance.PlaySFX(5);
             }
         });
     }

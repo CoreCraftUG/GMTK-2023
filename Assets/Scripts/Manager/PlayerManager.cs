@@ -7,39 +7,36 @@ using CoreCraft.Core;
 using JamCraft.GMTK2023.Code;
 using Sirenix.OdinInspector;
 using System.Linq;
-using Cinemachine;
 
-public class Playermanager : Singleton<Playermanager>
+public class PlayerManager : Singleton<PlayerManager>
 {
-    [BoxGroup("Visual"), SerializeField] private Material On;
-    [BoxGroup("Visual"), SerializeField] private Material Off;
-    [BoxGroup("Visual"), SerializeField] private CardAnimation CardTimer;
+    [BoxGroup("Visual"), SerializeField] protected Material On;
+    [BoxGroup("Visual"), SerializeField] protected Material Off;
+    [BoxGroup("Visual"), SerializeField] protected CardAnimation CardTimer;
 
     [BoxGroup("Gameplay"), SerializeField] public int EndLevel;
     [BoxGroup("Gameplay"), SerializeField] public float[] LevelTime;
-    [BoxGroup("Gameplay"), SerializeField] private int _maxPuppyProtection;
-    [BoxGroup("Gameplay"), SerializeField] private int _hardCoreLevel;
-    [BoxGroup("Gameplay"), SerializeField] private float _timeDelayTimePlace;
-    [BoxGroup("Gameplay"), SerializeField] private float _nextLevelTime;
-    [BoxGroup("Gameplay"), SerializeField] private float _hardCoreNextLevelTime;
+    [BoxGroup("Gameplay"), SerializeField] protected int _maxPuppyProtection;
+    [BoxGroup("Gameplay"), SerializeField] protected int _hardCoreLevel;
+    [BoxGroup("Gameplay"), SerializeField] protected float _timeDelayTimePlace;
+    [BoxGroup("Gameplay"), SerializeField] protected float _nextLevelTime;
+    [BoxGroup("Gameplay"), SerializeField] protected float _hardCoreNextLevelTime;
     [BoxGroup("Gameplay"), SerializeField] public List<CardGrid> Grids = new List<CardGrid>(); //List of all available Grids(Grid)
-    [BoxGroup("Gameplay"), SerializeField] private List<Player> Players = new List<Player>(); //List of all players
+    [BoxGroup("Gameplay"), SerializeField] protected List<Player> Players = new List<Player>(); //List of all players
 
-    private bool _gameover;
-    private bool _timePlaced;
-    private int _randomPlayer = 0; //random player currently being selected(int)
-    private int _delayLevel;
-    private int _puppyProtection;
-    private float _currentNextLevelTime;
-    private float _currentDelay; //Time it takes for one player to play a card automatically atm
-    private float _delayTimer;
-
-    [SerializeField] private CinemachineVirtualCamera _virtualCamera;
+    protected bool _gameover;
+    protected bool _timePlaced;
+    protected int _randomPlayer = 0; //random player currently being selected(int)
+    protected int _delayLevel;
+    protected int _puppyProtection;
+    protected float _currentNextLevelTime;
+    protected float _currentDelay; //Time it takes for one player to play a card automatically atm
+    protected float _delayTimer;
 
     [HideInInspector] public bool CanTurn = true;
     [HideInInspector] public float Timer;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         EventManager.Instance.GameOverEvent.AddListener(() => _gameover = true);
         StartCoroutine(BeginPlay());
@@ -47,7 +44,7 @@ public class Playermanager : Singleton<Playermanager>
         _currentNextLevelTime = _nextLevelTime;
     }
 
-    private void OnDestroy()
+    protected virtual void OnDestroy()
     {
         if (EventManager.Instance != null)
         {
@@ -55,7 +52,7 @@ public class Playermanager : Singleton<Playermanager>
         }
     }
 
-    private void OnApplicationQuit()
+    protected virtual void OnApplicationQuit()
     {
         if (EventManager.Instance != null)
         {
@@ -77,25 +74,22 @@ public class Playermanager : Singleton<Playermanager>
         NextPlayer(true);
     }
 
-    public Transform ReturnLookTarget()
+    public virtual Transform ReturnLookTarget()
     {
             return (Players[_randomPlayer].GetComponent<Player>().LookTarget);
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         if (_gameover)
-        {
-            CardTimer.CardAnimator.enabled = false;
             return;
-        }
 
         if (TimeManager.Instance.TimeStop)
             return;
 
         if (_puppyProtection > _maxPuppyProtection)
         {
-            if (_delayLevel < EndLevel && _delayTimer >= _nextLevelTime)
+            if (_delayLevel < EndLevel && _delayTimer >= _currentNextLevelTime)
             {
                 _delayTimer = 0;
                 _delayLevel++;
@@ -104,7 +98,7 @@ public class Playermanager : Singleton<Playermanager>
                 EventManager.Instance.LevelUpEvent.Invoke(_delayLevel);
                 _currentDelay = _delayLevel >= LevelTime.Length ? LevelTime[LevelTime.Length - 1] : LevelTime[_delayLevel - 1];
             }
-            if (_delayTimer < _nextLevelTime)
+            if (_delayTimer < _currentNextLevelTime)
             {
                 _delayTimer += Time.deltaTime;
             }
@@ -132,13 +126,13 @@ public class Playermanager : Singleton<Playermanager>
     }
 
 
-    private IEnumerator TimePlaceDelay()
+    protected virtual IEnumerator TimePlaceDelay()
     {
         yield return new WaitForSeconds(_timeDelayTimePlace);
         _timePlaced = false;
     }
 
-    public void NextPlayer(bool first)
+    public virtual void NextPlayer(bool first)
     {
         if (_puppyProtection <= _maxPuppyProtection)
             _puppyProtection++;
@@ -147,9 +141,7 @@ public class Playermanager : Singleton<Playermanager>
         Players[_randomPlayer].IsSelected = true;
         Players[_randomPlayer].Level = _delayLevel;
         Players[_randomPlayer].TurnLight.SetActive(true);
-        _virtualCamera.Follow = Players[_randomPlayer].CameraFocusPoint;
 
-        // Was ist hier passiert Julian? xd - Leon
         {
             Vector3 CardPos = Players[_randomPlayer].GetPresentedCard().transform.position;
             CardTimer.gameObject.transform.position = new Vector3(CardPos.x, CardPos.y - .03f, CardPos.z);
@@ -161,8 +153,9 @@ public class Playermanager : Singleton<Playermanager>
 
     
 
-    public void SelectedPlayerPlays()
+    public virtual void SelectedPlayerPlays()
     {
+        
         Players[_randomPlayer].PlayCard();
         Players[_randomPlayer].IsSelected = false;
         Players[_randomPlayer].ResetSlots();
@@ -170,7 +163,7 @@ public class Playermanager : Singleton<Playermanager>
         NextPlayer(false);
     }
 
-    public void TurnRight()
+    public virtual void TurnRight()
     {
         foreach (Player player in Players)
         {
@@ -180,7 +173,7 @@ public class Playermanager : Singleton<Playermanager>
         }
     }
 
-    public void TurnLeft()
+    public virtual void TurnLeft()
     {
         foreach (Player player in Players)
         {

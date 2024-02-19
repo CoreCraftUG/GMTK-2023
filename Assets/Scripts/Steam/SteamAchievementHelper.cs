@@ -1,6 +1,7 @@
 using CoreCraft.Core;
 using HeathenEngineering.SteamworksIntegration;
 using Sirenix.OdinInspector;
+using Steamworks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -44,7 +45,7 @@ public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
     // Clear Row with one Card Achievements
     [FoldoutGroup("Clear Row with one Card"), Header("2 Rows"), SerializeField] private AchievementObject _2Rows;
     [FoldoutGroup("Clear Row with one Card"), Header("3 Rows"), SerializeField] private AchievementObject _3Rows;
-    [FoldoutGroup("Clear Row with one Card"), Header("5 Rows"), SerializeField] private AchievementObject _5Rows;
+    [FoldoutGroup("Clear Row with one Card"), Header("5 Rows"), SerializeField] private AchievementObject _4Rows;
 
     // Center Symbols Achievements
     [FoldoutGroup("Center Symbols"), Header("Bronze Center"), SerializeField] private AchievementObject _bronzeCenter;
@@ -52,7 +53,7 @@ public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
     [FoldoutGroup("Center Symbols"), Header("Gold Center"), SerializeField] private AchievementObject _goldCenter;
     [FoldoutGroup("Center Symbols"), Header("Success Center"), SerializeField] private AchievementObject _successCenter;
 
-    [Header("Match Tree"), SerializeField] private AchievementObject _matchTree;
+    [Header("Match Three"), SerializeField] private AchievementObject _matchThree;
 
     [Header("Clear Tutorial"), SerializeField] private AchievementObject _tutorialCleared;
 
@@ -111,6 +112,9 @@ public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
 
         if(SteamOnline != null && SteamOnline.Value == true)
         {
+            if(UserData.Me.SteamId != _offlineAchievementSave.UserSteamID)
+                _offlineAchievementSave = new OfflineAchievementSave();
+
             GetAllSteamAchievements();
             UnlockOfflineAchievements();
         }
@@ -118,6 +122,12 @@ public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
 #if UNITY_EDITOR
         EventManager.Instance.ClearAllAchievements.AddListener(() =>
         {
+            if (SteamOnline == null || SteamOnline.Value == false)
+            {
+                Debug.LogError($"Not connected to Steam could not clear Achievements");
+                return;
+            }
+
             _score1000Achievement.ClearAchievement();
             _score10000Achievement.ClearAchievement();
             _score100000Achievement.ClearAchievement();
@@ -143,14 +153,14 @@ public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
 
             _2Rows.ClearAchievement();
             _3Rows.ClearAchievement();
-            _5Rows.ClearAchievement();
+            _4Rows.ClearAchievement();
 
             _bronzeCenter.ClearAchievement();
             _silverCenter.ClearAchievement();
             _goldCenter.ClearAchievement();
             _successCenter.ClearAchievement();
 
-            _matchTree.ClearAchievement();
+            _matchThree.ClearAchievement();
 
             _tutorialCleared.ClearAchievement();
 
@@ -228,8 +238,8 @@ public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
                 UnlockClearRowStreak2();
             if (_clearRowStreakCount >= 3)
                 UnlockClearRowStreak3();
-            if (_clearRowStreakCount >= 5)
-                UnlockClearRowStreak5();
+            if (_clearRowStreakCount >= 4)
+                UnlockClearRowStreak4();
         });
 
         EventManager.Instance.MatchingCardsEvent.AddListener((faceMatch) =>
@@ -564,15 +574,15 @@ public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
         if (_3Rows != null && !_3Rows.IsAchieved)
             _3Rows.Unlock();
     }
-    private void UnlockClearRowStreak5()
+    private void UnlockClearRowStreak4()
     {
-        _offlineAchievementSave.Rows5 = true;
+        _offlineAchievementSave.Rows4 = true;
 
         if (SteamOnline == null || SteamOnline.Value == false)
             return;
 
-        if (_5Rows != null && !_5Rows.IsAchieved)
-            _5Rows.Unlock();
+        if (_4Rows != null && !_4Rows.IsAchieved)
+            _4Rows.Unlock();
     }
     #endregion
 
@@ -584,8 +594,8 @@ public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
         if (SteamOnline == null || SteamOnline.Value == false)
             return;
 
-        if (_matchTree != null && !_matchTree.IsAchieved)
-            _matchTree.Unlock();
+        if (_matchThree != null && !_matchThree.IsAchieved)
+            _matchThree.Unlock();
     }
     #endregion
 
@@ -654,7 +664,7 @@ public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
     }
     #endregion
 
-    #region Clear Neighbour Row
+    #region Centre Level
     private void UnlockBronzeCentre()
     {
         _offlineAchievementSave.BronzeCenter = true;
@@ -751,8 +761,8 @@ public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
             UnlockClearRowStreak2();
         if (_offlineAchievementSave.Rows3)
             UnlockClearRowStreak3();
-        if (_offlineAchievementSave.Rows5)
-            UnlockClearRowStreak5();
+        if (_offlineAchievementSave.Rows4)
+            UnlockClearRowStreak4();
 
         // Center Symbols Achievements
         if (_offlineAchievementSave.BronzeCenter)
@@ -789,6 +799,8 @@ public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
     #region Get All Steam Achievements
     private void GetAllSteamAchievements()
     {
+        _offlineAchievementSave.UserSteamID = UserData.Me.SteamId;
+
         // Score Achievements
         _offlineAchievementSave.Score1000Achievement    = _score1000Achievement.IsAchieved      ? true : _offlineAchievementSave.Score1000Achievement;
         _offlineAchievementSave.Score2500Achievement    = _score2500Achievement.IsAchieved      ? true : _offlineAchievementSave.Score2500Achievement;
@@ -819,7 +831,7 @@ public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
         // Clear Row with one Card Achievements
         _offlineAchievementSave.Rows2                   = _2Rows.IsAchieved                     ? true : _offlineAchievementSave.Rows2;
         _offlineAchievementSave.Rows3                   = _3Rows.IsAchieved                     ? true : _offlineAchievementSave.Rows3;
-        _offlineAchievementSave.Rows5                   = _5Rows.IsAchieved                     ? true : _offlineAchievementSave.Rows5;
+        _offlineAchievementSave.Rows4                   = _4Rows.IsAchieved                     ? true : _offlineAchievementSave.Rows4;
 
         // Center Symbols Achievements
         _offlineAchievementSave.BronzeCenter            = _bronzeCenter.IsAchieved              ? true : _offlineAchievementSave.BronzeCenter;
@@ -827,7 +839,7 @@ public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
         _offlineAchievementSave.GoldCenter              = _goldCenter.IsAchieved                ? true : _offlineAchievementSave.GoldCenter;
         _offlineAchievementSave.SuccessCenter           = _successCenter.IsAchieved             ? true : _offlineAchievementSave.SuccessCenter;
 
-        _offlineAchievementSave.MatchTree               = _matchTree.IsAchieved                 ? true : _offlineAchievementSave.MatchTree;
+        _offlineAchievementSave.MatchTree               = _matchThree.IsAchieved                 ? true : _offlineAchievementSave.MatchTree;
 
         _offlineAchievementSave.TutorialCleared         = _tutorialCleared.IsAchieved           ? true : _offlineAchievementSave.TutorialCleared;
 
@@ -844,6 +856,8 @@ public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
     [Serializable]
     public struct OfflineAchievementSave
     {
+        [Header("Steam ID"), SerializeField] public ulong UserSteamID;
+
         // Score Achievements
         [FoldoutGroup("Score"), Header("Score 1.000"), SerializeField] public bool Score1000Achievement;
         [FoldoutGroup("Score"), Header("Score 2.500"), SerializeField] public bool Score2500Achievement;
@@ -874,7 +888,7 @@ public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
         // Clear Row with one Card Achievements
         [FoldoutGroup("Clear Row with one Card"), Header("2 Rows"), SerializeField] public bool Rows2;
         [FoldoutGroup("Clear Row with one Card"), Header("3 Rows"), SerializeField] public bool Rows3;
-        [FoldoutGroup("Clear Row with one Card"), Header("5 Rows"), SerializeField] public bool Rows5;
+        [FoldoutGroup("Clear Row with one Card"), Header("5 Rows"), SerializeField] public bool Rows4;
 
         // Center Symbols Achievements
         [FoldoutGroup("Center Symbols"), Header("Bronze Center"), SerializeField] public bool BronzeCenter;

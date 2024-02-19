@@ -69,7 +69,7 @@ public class PointsManager : MonoBehaviour
         EventManager.Instance.TempPointsEvent.Invoke(TempPoints);
         EventManager.Instance.PointsAddedEvent.Invoke(TotalPoints);
         EventManager.Instance.OnPointsChanged.Invoke();
-        SoundManager.Instance.PlaySFX(6);
+        SoundManager.Instance.PlaySFX(6,1);
     }
 
     private void TurnEnd()

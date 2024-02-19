@@ -205,7 +205,9 @@ public class CardGrid : MonoBehaviour
         {
             if(face != _cardObjects[j, i].Card.Face)
                 faceMatch = false;
-            _cardObjects[j, i].FlipCard();            
+            _cardObjects[j, i].FlipCard();
+            //int k = Random.Range(0, 3);
+            EventManager.Instance.PlayAudio.Invoke(1, 4);
             holder.Add(_cardObjects[j, i]);
             _cardField[j, i] = null;
         }

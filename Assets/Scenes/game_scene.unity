@@ -5827,7 +5827,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1566315967}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2ae4ec6a8531a049b36c477b0f2fddd, type: 3}
+  m_Script: {fileID: 11500000, guid: de772d930e45ff543a83274241f62bb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &1603195784
@@ -5838,6 +5838,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 782245320753843617, guid: f1c170075a58a0b46a9fe02fe489d77a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1761363434905146059, guid: f1c170075a58a0b46a9fe02fe489d77a,
         type: 3}
       propertyPath: FacingArea
@@ -5887,6 +5892,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Effectors.Array.data[0].m_Style.position.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263847749300835129, guid: f1c170075a58a0b46a9fe02fe489d77a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5384403983055183208, guid: f1c170075a58a0b46a9fe02fe489d77a,
         type: 3}
@@ -8579,6 +8589,11 @@ PrefabInstance:
       propertyPath: _virtualCamera
       value: 
       objectReference: {fileID: 405438108}
+    - target: {fileID: 1802016657192833540, guid: f1c170075a58a0b46a9fe02fe489d77a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1985664503125174675, guid: f1c170075a58a0b46a9fe02fe489d77a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -8638,6 +8653,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: -0.214
+      objectReference: {fileID: 0}
+    - target: {fileID: 7393562338050765409, guid: f1c170075a58a0b46a9fe02fe489d77a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7519995702065267223, guid: f1c170075a58a0b46a9fe02fe489d77a,
         type: 3}

@@ -4,7 +4,7 @@ using UnityEngine;
 namespace ES3Types
 {
 	[UnityEngine.Scripting.Preserve]
-	[ES3PropertiesAttribute("_score1000Achievement", "_score2500Achievement", "_score10000Achievement", "_score20000Achievement", "_score100000Achievement", "_multiply2", "_multiply3", "_multiply4", "_multiply5", "_multiply10", "_level5", "_level10", "_level15", "_level20", "_redRow", "_greenRow", "_blueRow", "_yellowRow", "_purpleRow", "_2Rows", "_3Rows", "_5Rows", "_bronzeCenter", "_silverCenter", "_goldCenter", "_successCenter", "_matchTree", "_tutorialCleared", "_decoSlots", "_clearNeighbourRow", "_fillGrids", "_rimExplosion")]
+	[ES3PropertiesAttribute("UserSteamID", "Score1000Achievement", "Score2500Achievement", "Score10000Achievement", "Score20000Achievement", "Score100000Achievement", "Multiply2", "Multiply3", "Multiply4", "Multiply5", "Multiply10", "Level5", "Level10", "Level15", "Level20", "RedRow", "GreenRow", "BlueRow", "YellowRow", "PurpleRow", "Rows2", "Rows3", "Rows4", "BronzeCenter", "SilverCenter", "GoldCenter", "SuccessCenter", "MatchTree", "TutorialCleared", "DecoSlots", "ClearNeighbourRow", "FillGrids", "RimExplosion")]
 	public class ES3UserType_OfflineAchievementSave : ES3Type
 	{
 		public static ES3Type Instance = null;
@@ -16,38 +16,39 @@ namespace ES3Types
 		{
 			var instance = (SteamAchievementHelper.OfflineAchievementSave)obj;
 			
-			writer.WriteProperty("_score1000Achievement", instance.Score1000Achievement, ES3Type_bool.Instance);
-			writer.WriteProperty("_score2500Achievement", instance.Score2500Achievement, ES3Type_bool.Instance);
-			writer.WriteProperty("_score10000Achievement", instance.Score10000Achievement, ES3Type_bool.Instance);
-			writer.WriteProperty("_score20000Achievement", instance.Score20000Achievement, ES3Type_bool.Instance);
-			writer.WriteProperty("_score100000Achievement", instance.Score100000Achievement, ES3Type_bool.Instance);
-			writer.WriteProperty("_multiply2", instance.Multiply2, ES3Type_bool.Instance);
-			writer.WriteProperty("_multiply3", instance.Multiply3, ES3Type_bool.Instance);
-			writer.WriteProperty("_multiply4", instance.Multiply4, ES3Type_bool.Instance);
-			writer.WriteProperty("_multiply5", instance.Multiply5, ES3Type_bool.Instance);
-			writer.WriteProperty("_multiply10", instance.Multiply10, ES3Type_bool.Instance);
-			writer.WriteProperty("_level5", instance.Level5, ES3Type_bool.Instance);
-			writer.WriteProperty("_level10", instance.Level10, ES3Type_bool.Instance);
-			writer.WriteProperty("_level15", instance.Level15, ES3Type_bool.Instance);
-			writer.WriteProperty("_level20", instance.Level20, ES3Type_bool.Instance);
-			writer.WriteProperty("_redRow", instance.RedRow, ES3Type_bool.Instance);
-			writer.WriteProperty("_greenRow", instance.GreenRow, ES3Type_bool.Instance);
-			writer.WriteProperty("_blueRow", instance.BlueRow, ES3Type_bool.Instance);
-			writer.WriteProperty("_yellowRow", instance.YellowRow, ES3Type_bool.Instance);
-			writer.WriteProperty("_purpleRow", instance.PurpleRow, ES3Type_bool.Instance);
-			writer.WriteProperty("_2Rows", instance.Rows2, ES3Type_bool.Instance);
-			writer.WriteProperty("_3Rows", instance.Rows3, ES3Type_bool.Instance);
-			writer.WriteProperty("_5Rows", instance.Rows5, ES3Type_bool.Instance);
-			writer.WriteProperty("_bronzeCenter", instance.BronzeCenter, ES3Type_bool.Instance);
-			writer.WriteProperty("_silverCenter", instance.SilverCenter, ES3Type_bool.Instance);
-			writer.WriteProperty("_goldCenter", instance.GoldCenter, ES3Type_bool.Instance);
-			writer.WriteProperty("_successCenter", instance.SuccessCenter, ES3Type_bool.Instance);
-			writer.WriteProperty("_matchTree", instance.MatchTree, ES3Type_bool.Instance);
-			writer.WriteProperty("_tutorialCleared", instance.TutorialCleared, ES3Type_bool.Instance);
-			writer.WriteProperty("_decoSlots", instance.DecoSlots, ES3Type_bool.Instance);
-			writer.WriteProperty("_clearNeighbourRow", instance.ClearNeighbourRow, ES3Type_bool.Instance);
-			writer.WriteProperty("_fillGrids", instance.FillGrids, ES3Type_bool.Instance);
-			writer.WriteProperty("_rimExplosion", instance.RimExplosion, ES3Type_bool.Instance);
+			writer.WriteProperty("UserSteamID", instance.UserSteamID, ES3Type_ulong.Instance);
+			writer.WriteProperty("Score1000Achievement", instance.Score1000Achievement, ES3Type_bool.Instance);
+			writer.WriteProperty("Score2500Achievement", instance.Score2500Achievement, ES3Type_bool.Instance);
+			writer.WriteProperty("Score10000Achievement", instance.Score10000Achievement, ES3Type_bool.Instance);
+			writer.WriteProperty("Score20000Achievement", instance.Score20000Achievement, ES3Type_bool.Instance);
+			writer.WriteProperty("Score100000Achievement", instance.Score100000Achievement, ES3Type_bool.Instance);
+			writer.WriteProperty("Multiply2", instance.Multiply2, ES3Type_bool.Instance);
+			writer.WriteProperty("Multiply3", instance.Multiply3, ES3Type_bool.Instance);
+			writer.WriteProperty("Multiply4", instance.Multiply4, ES3Type_bool.Instance);
+			writer.WriteProperty("Multiply5", instance.Multiply5, ES3Type_bool.Instance);
+			writer.WriteProperty("Multiply10", instance.Multiply10, ES3Type_bool.Instance);
+			writer.WriteProperty("Level5", instance.Level5, ES3Type_bool.Instance);
+			writer.WriteProperty("Level10", instance.Level10, ES3Type_bool.Instance);
+			writer.WriteProperty("Level15", instance.Level15, ES3Type_bool.Instance);
+			writer.WriteProperty("Level20", instance.Level20, ES3Type_bool.Instance);
+			writer.WriteProperty("RedRow", instance.RedRow, ES3Type_bool.Instance);
+			writer.WriteProperty("GreenRow", instance.GreenRow, ES3Type_bool.Instance);
+			writer.WriteProperty("BlueRow", instance.BlueRow, ES3Type_bool.Instance);
+			writer.WriteProperty("YellowRow", instance.YellowRow, ES3Type_bool.Instance);
+			writer.WriteProperty("PurpleRow", instance.PurpleRow, ES3Type_bool.Instance);
+			writer.WriteProperty("Rows2", instance.Rows2, ES3Type_bool.Instance);
+			writer.WriteProperty("Rows3", instance.Rows3, ES3Type_bool.Instance);
+			writer.WriteProperty("Rows4", instance.Rows4, ES3Type_bool.Instance);
+			writer.WriteProperty("BronzeCenter", instance.BronzeCenter, ES3Type_bool.Instance);
+			writer.WriteProperty("SilverCenter", instance.SilverCenter, ES3Type_bool.Instance);
+			writer.WriteProperty("GoldCenter", instance.GoldCenter, ES3Type_bool.Instance);
+			writer.WriteProperty("SuccessCenter", instance.SuccessCenter, ES3Type_bool.Instance);
+			writer.WriteProperty("MatchTree", instance.MatchTree, ES3Type_bool.Instance);
+			writer.WriteProperty("TutorialCleared", instance.TutorialCleared, ES3Type_bool.Instance);
+			writer.WriteProperty("DecoSlots", instance.DecoSlots, ES3Type_bool.Instance);
+			writer.WriteProperty("ClearNeighbourRow", instance.ClearNeighbourRow, ES3Type_bool.Instance);
+			writer.WriteProperty("FillGrids", instance.FillGrids, ES3Type_bool.Instance);
+			writer.WriteProperty("RimExplosion", instance.RimExplosion, ES3Type_bool.Instance);
 		}
 
 		public override object Read<T>(ES3Reader reader)
@@ -59,100 +60,103 @@ namespace ES3Types
 				switch(propertyName)
 				{
 					
-					case "_score1000Achievement":
+					case "UserSteamID":
+						instance.UserSteamID = reader.Read<System.UInt64>(ES3Type_ulong.Instance);
+						break;
+					case "Score1000Achievement":
 						instance.Score1000Achievement = reader.Read<System.Boolean>(ES3Type_bool.Instance);
 						break;
-					case "_score2500Achievement":
+					case "Score2500Achievement":
 						instance.Score2500Achievement = reader.Read<System.Boolean>(ES3Type_bool.Instance);
 						break;
-					case "_score10000Achievement":
+					case "Score10000Achievement":
 						instance.Score10000Achievement = reader.Read<System.Boolean>(ES3Type_bool.Instance);
 						break;
-					case "_score20000Achievement":
+					case "Score20000Achievement":
 						instance.Score20000Achievement = reader.Read<System.Boolean>(ES3Type_bool.Instance);
 						break;
-					case "_score100000Achievement":
+					case "Score100000Achievement":
 						instance.Score100000Achievement = reader.Read<System.Boolean>(ES3Type_bool.Instance);
 						break;
-					case "_multiply2":
+					case "Multiply2":
 						instance.Multiply2 = reader.Read<System.Boolean>(ES3Type_bool.Instance);
 						break;
-					case "_multiply3":
+					case "Multiply3":
 						instance.Multiply3 = reader.Read<System.Boolean>(ES3Type_bool.Instance);
 						break;
-					case "_multiply4":
+					case "Multiply4":
 						instance.Multiply4 = reader.Read<System.Boolean>(ES3Type_bool.Instance);
 						break;
-					case "_multiply5":
+					case "Multiply5":
 						instance.Multiply5 = reader.Read<System.Boolean>(ES3Type_bool.Instance);
 						break;
-					case "_multiply10":
+					case "Multiply10":
 						instance.Multiply10 = reader.Read<System.Boolean>(ES3Type_bool.Instance);
 						break;
-					case "_level5":
+					case "Level5":
 						instance.Level5 = reader.Read<System.Boolean>(ES3Type_bool.Instance);
 						break;
-					case "_level10":
+					case "Level10":
 						instance.Level10 = reader.Read<System.Boolean>(ES3Type_bool.Instance);
 						break;
-					case "_level15":
+					case "Level15":
 						instance.Level15 = reader.Read<System.Boolean>(ES3Type_bool.Instance);
 						break;
-					case "_level20":
+					case "Level20":
 						instance.Level20 = reader.Read<System.Boolean>(ES3Type_bool.Instance);
 						break;
-					case "_redRow":
+					case "RedRow":
 						instance.RedRow = reader.Read<System.Boolean>(ES3Type_bool.Instance);
 						break;
-					case "_greenRow":
+					case "GreenRow":
 						instance.GreenRow = reader.Read<System.Boolean>(ES3Type_bool.Instance);
 						break;
-					case "_blueRow":
+					case "BlueRow":
 						instance.BlueRow = reader.Read<System.Boolean>(ES3Type_bool.Instance);
 						break;
-					case "_yellowRow":
+					case "YellowRow":
 						instance.YellowRow = reader.Read<System.Boolean>(ES3Type_bool.Instance);
 						break;
-					case "_purpleRow":
+					case "PurpleRow":
 						instance.PurpleRow = reader.Read<System.Boolean>(ES3Type_bool.Instance);
 						break;
-					case "_2Rows":
+					case "Rows2":
 						instance.Rows2 = reader.Read<System.Boolean>(ES3Type_bool.Instance);
 						break;
-					case "_3Rows":
+					case "Rows3":
 						instance.Rows3 = reader.Read<System.Boolean>(ES3Type_bool.Instance);
 						break;
-					case "_5Rows":
-						instance.Rows5 = reader.Read<System.Boolean>(ES3Type_bool.Instance);
+					case "Rows4":
+						instance.Rows4 = reader.Read<System.Boolean>(ES3Type_bool.Instance);
 						break;
-					case "_bronzeCenter":
+					case "BronzeCenter":
 						instance.BronzeCenter = reader.Read<System.Boolean>(ES3Type_bool.Instance);
 						break;
-					case "_silverCenter":
+					case "SilverCenter":
 						instance.SilverCenter = reader.Read<System.Boolean>(ES3Type_bool.Instance);
 						break;
-					case "_goldCenter":
+					case "GoldCenter":
 						instance.GoldCenter = reader.Read<System.Boolean>(ES3Type_bool.Instance);
 						break;
-					case "_successCenter":
+					case "SuccessCenter":
 						instance.SuccessCenter = reader.Read<System.Boolean>(ES3Type_bool.Instance);
 						break;
-					case "_matchTree":
+					case "MatchTree":
 						instance.MatchTree = reader.Read<System.Boolean>(ES3Type_bool.Instance);
 						break;
-					case "_tutorialCleared":
+					case "TutorialCleared":
 						instance.TutorialCleared = reader.Read<System.Boolean>(ES3Type_bool.Instance);
 						break;
-					case "_decoSlots":
+					case "DecoSlots":
 						instance.DecoSlots = reader.Read<System.Boolean>(ES3Type_bool.Instance);
 						break;
-					case "_clearNeighbourRow":
+					case "ClearNeighbourRow":
 						instance.ClearNeighbourRow = reader.Read<System.Boolean>(ES3Type_bool.Instance);
 						break;
-					case "_fillGrids":
+					case "FillGrids":
 						instance.FillGrids = reader.Read<System.Boolean>(ES3Type_bool.Instance);
 						break;
-					case "_rimExplosion":
+					case "RimExplosion":
 						instance.RimExplosion = reader.Read<System.Boolean>(ES3Type_bool.Instance);
 						break;
 					default:

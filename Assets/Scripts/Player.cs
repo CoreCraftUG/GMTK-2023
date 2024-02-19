@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     [BoxGroup("Visual"), SerializeField] protected Material _on;
     [BoxGroup("Visual"), SerializeField] protected List<GameObject> _slotIndicators = new List<GameObject>();
     [BoxGroup("Visual"), SerializeField] public GameObject TurnLight;
+    [BoxGroup("Visual"), SerializeField] public List<GameObject> Models;
 
 
     [BoxGroup("Gameplay"), SerializeField] protected int _randomCardAmount; //Amount of random Cards being added to the Base Deck amount

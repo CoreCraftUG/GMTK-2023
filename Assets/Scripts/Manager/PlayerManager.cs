@@ -63,8 +63,26 @@ public class PlayerManager : Singleton<PlayerManager>
         }
     }
 
+    public void PickModel()
+    {
+        List<int> container = new List<int>();
+        for(int i = 0; i < Players.Count();)
+        {
+            int l = Random.Range(0, Players[i].Models.Count());
+            if (!container.Contains(l))
+            {
+                foreach (GameObject model in Players[i].Models)
+                    model.SetActive(false);
+                Players[i].Models[l].SetActive(true);
+                container.Add(l);
+                i++;
+            }
+        }
+    }
+
     public IEnumerator BeginPlay()
     {
+        PickModel();
         yield return new WaitUntil(() =>
         {
             while(Players.Any(p => !p.Ready))

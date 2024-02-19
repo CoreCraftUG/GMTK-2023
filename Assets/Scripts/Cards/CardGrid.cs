@@ -200,14 +200,18 @@ public class CardGrid : MonoBehaviour
         ECardColour color = _cardObjects[_gridWidth - 1, i].Card.Colour;
         bool faceMatch = true;
         EventManager.Instance.PlayAudio.Invoke(3, 0);
+        List<CardHolder> holder = new List<CardHolder>();
         for (int j  = _gridWidth - 1; j >= 0; j--)
         {
             if(face != _cardObjects[j, i].Card.Face)
                 faceMatch = false;
-            _cardObjects[j, i].VanishCard();
+            _cardObjects[j, i].FlipCard();            
+            holder.Add(_cardObjects[j, i]);
             _cardField[j, i] = null;
         }
-
+        yield return new WaitForSeconds(.5f);
+        foreach (CardHolder holders in holder)
+            holders.VanishCard();
         if (faceMatch)
             EventManager.Instance.RimExplosionEvent.Invoke(this, i);
 

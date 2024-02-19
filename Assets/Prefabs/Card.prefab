@@ -2629,6 +2629,7 @@ MonoBehaviour:
   - {fileID: 6812425215421403356}
   - {fileID: 1724649862845931773}
   - {fileID: 5424647820166137407}
+  _animator: {fileID: 9085492740751709216}
 --- !u!95 &9085492740751709216
 Animator:
   serializedVersion: 5
@@ -2637,7 +2638,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6811084896005803881}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 1c4abf940f747da42b952eab1033f796, type: 2}
   m_CullingMode: 0

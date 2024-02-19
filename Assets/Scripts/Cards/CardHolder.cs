@@ -9,6 +9,8 @@ public class CardHolder : MonoBehaviour
 
     [SerializeField] private GameObject[] _vanishVFX = new GameObject[4];
     [SerializeField] private GameObject[] _cards = new GameObject[20];
+    [SerializeField] private Animator _animator;
+
 
     private CardBase _card;
     public CardBase Card
@@ -30,9 +32,15 @@ public class CardHolder : MonoBehaviour
         transform.DOLocalMove(position, MoveTime).OnComplete(() => EventManager.Instance.TimeStartEvent.Invoke());
     }
 
+    public void FlipCard()
+    {
+        _animator.SetBool("Flip", true);
+
+    }
     [Tooltip("Club, Diamond, Heart, Spade")]
     public void VanishCard()
     {
+        
         switch (_card.Face)
         {
             case ECardFace.Club:

@@ -25,7 +25,7 @@ namespace JamCraft.GMTK2023.Code
         {
             _buttonSequence.PlayForward();
             int i = Random.Range(0, 3);
-            SoundManager.Instance.PlaySFX(i,2);
+            SoundManager.Instance.PlaySFX(i);
         }
 
         // Smoothly rewind the animation if the cursor leaves the button. Flips the animation direction.
@@ -49,7 +49,7 @@ namespace JamCraft.GMTK2023.Code
         public void OnPointerClick(PointerEventData eventData)
         {
             int i = Random.Range(0, 3);
-            SoundManager.Instance.PlaySFX(i,2);
+            SoundManager.Instance.PlaySFX(i);
         }
     }
 }

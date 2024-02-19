@@ -134,7 +134,7 @@ public class Player : MonoBehaviour
     }
     public virtual void PlayCard()
     {
-        PlayerManager.Instance.CanTurn = false;
+        //PlayerManager.Instance.CanTurn = false;
         FacingGrid.AddCard(_presentedCard, SelectedSpot);
         int i = Random.Range(0, 3);
         EventManager.Instance.PlayAudio.Invoke(i, 4f);

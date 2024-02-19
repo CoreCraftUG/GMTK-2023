@@ -7,6 +7,7 @@ using CoreCraft.Core;
 using JamCraft.GMTK2023.Code;
 using Sirenix.OdinInspector;
 using System.Linq;
+using Cinemachine;
 
 public class PlayerManager : Singleton<PlayerManager>
 {
@@ -35,6 +36,8 @@ public class PlayerManager : Singleton<PlayerManager>
 
     [HideInInspector] public bool CanTurn = true;
     [HideInInspector] public float Timer;
+
+    [SerializeField] private CinemachineVirtualCamera _virtualCamera;
 
     protected virtual void Awake()
     {
@@ -141,6 +144,7 @@ public class PlayerManager : Singleton<PlayerManager>
         Players[_randomPlayer].IsSelected = true;
         Players[_randomPlayer].Level = _delayLevel;
         Players[_randomPlayer].TurnLight.SetActive(true);
+        _virtualCamera.Follow = Players[_randomPlayer].CameraFocusPoint;
 
         {
             Vector3 CardPos = Players[_randomPlayer].GetPresentedCard().transform.position;
@@ -155,7 +159,6 @@ public class PlayerManager : Singleton<PlayerManager>
 
     public virtual void SelectedPlayerPlays()
     {
-        
         Players[_randomPlayer].PlayCard();
         Players[_randomPlayer].IsSelected = false;
         Players[_randomPlayer].ResetSlots();

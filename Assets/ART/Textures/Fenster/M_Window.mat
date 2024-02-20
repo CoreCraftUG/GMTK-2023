@@ -67,11 +67,14 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionSlider: 1
     - _HueShift: 0
     - _NormalStrength: 1
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Saturation: 1
+    - _Smoothness: 1
+    - _UseEmission: 1
     m_Colors:
-    - _EmissionColor: {r: 0.72294945, g: 0, b: 0.013490285, a: 0}
+    - _EmissionColor: {r: 0.5754717, g: 0.12305678, b: 0.13043296, a: 0}
   m_BuildTextureStacks: []

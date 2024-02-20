@@ -158,8 +158,14 @@ public class CardGrid : MonoBehaviour
                         break;
                 }
             }
+            //if (red == _gridWidth - 1 || blue == _gridWidth - 1 || green == _gridWidth - 1 || yellow == _gridWidth - 1 || white == _gridWidth - 1)
+            //{
 
-            if(red == _gridWidth || blue == _gridWidth || green == _gridWidth || yellow == _gridWidth || white == _gridWidth)
+            //    StartPrimedExplosion(i);
+            //    break;
+            //}
+
+            if (red == _gridWidth || blue == _gridWidth || green == _gridWidth || yellow == _gridWidth || white == _gridWidth)
             {
                 match = true;
                 StartRowMatch(i);
@@ -189,6 +195,47 @@ public class CardGrid : MonoBehaviour
     protected virtual void StartRowMatch(int row)
     {
         StartCoroutine(RowMatch(row));
+    }
+
+    protected virtual void StartPrimedExplosion(int row)
+    {
+        StartCoroutine(PrimedExplosion(row));
+    }
+
+    protected IEnumerator PrimedExplosion(int row)
+    {
+        ECardFace face;
+        ECardColour color;
+        if (_cardObjects[_gridWidth - 1, row] != null)
+        {
+            face = _cardObjects[_gridWidth - 1, row].Card.Face;
+            color = _cardObjects[_gridWidth - 1, row].Card.Colour;
+            for(int i = _gridWidth -2; i>= 0; i--) 
+            { 
+                if(_cardObjects[i,row].Card.Colour == color && _cardObjects[i,row].Card.Face == face)
+                {
+                    _cardObjects[i, row].ShowPrimedExplosion();
+                    _cardObjects[_gridWidth - 1, row].ShowPrimedExplosion();
+                }
+            }
+            
+        }
+        else
+        {
+            face = _cardObjects[0, row].Card.Face;
+            color = _cardObjects[0, row].Card.Colour;
+            for (int i = _gridWidth - 1; i > 0; i--)
+            {
+                if (_cardObjects[i, row].Card.Colour == color && _cardObjects[i, row].Card.Face == face)
+                {
+                    _cardObjects[i, row].ShowPrimedExplosion();
+                    _cardObjects[0, row].ShowPrimedExplosion();
+                }
+            }
+
+        }
+
+        yield return new WaitForSeconds(0);
     }
 
     protected IEnumerator RowMatch(int i)

@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+
 public class CardHolder : MonoBehaviour
 {
     [SerializeField] public float MoveTime;
 
     [SerializeField] private GameObject[] _vanishVFX = new GameObject[4];
+    [SerializeField] private GameObject _primedExplosion;
+    [SerializeField] private GameObject _shortPrimedExplosion;
     [SerializeField] private GameObject[] _cards = new GameObject[20];
     [SerializeField] private Animator _animator;
-
-
+    
+    
     private CardBase _card;
     public CardBase Card
     {
@@ -69,6 +72,12 @@ public class CardHolder : MonoBehaviour
                 break;
         }
         Destroy(this.gameObject);
+    }
+
+    public void ShowPrimedExplosion()
+    {
+        Instantiate(_primedExplosion, transform.position, Quaternion.identity);
+        Destroy(Instantiate(_shortPrimedExplosion, transform.position, Quaternion.identity), .5f);
     }
 
     public void VisualizeCard()

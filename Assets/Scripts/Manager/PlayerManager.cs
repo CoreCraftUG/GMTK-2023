@@ -40,7 +40,7 @@ public class PlayerManager : Singleton<PlayerManager>
 
     [SerializeField] private CinemachineVirtualCamera _virtualCamera;
 
-    private List<CardHolder> _wigglingCards = new List<CardHolder>();
+    public List<CardHolder> WigglingCards = new List<CardHolder>();
 
     protected virtual void Awake()
     {
@@ -151,7 +151,8 @@ public class PlayerManager : Singleton<PlayerManager>
 
     public void HighlightCards()
     {
-       ECardColour currentColour = Players[_randomPlayer].GetPresentedCard().GetCardColour();
+        StopWiggle();
+        ECardColour currentColour = Players[_randomPlayer].GetPresentedCard().GetCardColour();
         foreach(CardGrid grid in Grids)
         {
             if (grid._cardObjects != null)
@@ -160,7 +161,7 @@ public class PlayerManager : Singleton<PlayerManager>
                 {
                     if (card != null && card.Card.Colour == currentColour)
                     {
-                        _wigglingCards.Add(card);
+                        WigglingCards.Add(card);
                         card.WiggleCard(true);
                     }
                 }
@@ -170,11 +171,17 @@ public class PlayerManager : Singleton<PlayerManager>
 
     public void StopWiggle()
     {
-        if (_wigglingCards == null)
+        if (WigglingCards == null)
             return;
-        foreach (CardHolder card in _wigglingCards)
-            card.WiggleCard(false);
+
+        foreach (CardHolder card in WigglingCards)
+        {
+            if (card != null)
+                card.WiggleCard(false);
+        }
     }
+
+
 
     protected virtual IEnumerator TimePlaceDelay()
     {
@@ -186,14 +193,14 @@ public class PlayerManager : Singleton<PlayerManager>
     {
         if (_puppyProtection <= _maxPuppyProtection)
             _puppyProtection++;
-        StopWiggle();
+        
         _randomPlayer = Random.Range(0, Players.Count);
         
         Players[_randomPlayer].IsSelected = true;
         Players[_randomPlayer].Level = _delayLevel;
         Players[_randomPlayer].TurnLight.SetActive(true);
         _virtualCamera.Follow = Players[_randomPlayer].CameraFocusPoint;
-        HighlightCards();
+        
         {
             Vector3 CardPos = Players[_randomPlayer].GetPresentedCard().transform.position;
             CardTimer.gameObject.transform.position = new Vector3(CardPos.x, CardPos.y - .03f, CardPos.z);
@@ -201,6 +208,7 @@ public class PlayerManager : Singleton<PlayerManager>
             CardTimer.gameObject.transform.parent = Players[_randomPlayer].GetPresentedCard().transform;
             CardTimer.gameObject.transform.localRotation = Quaternion.Euler(0, 180, 0);
         }
+        HighlightCards();
     }
 
     

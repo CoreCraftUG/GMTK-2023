@@ -209,6 +209,8 @@ public class CardGrid : MonoBehaviour
             //int k = Random.Range(0, 3);
             EventManager.Instance.PlayAudio.Invoke(1, 4);
             holder.Add(_cardObjects[j, i]);
+            if (PlayerManager.Instance.WigglingCards.Contains(_cardObjects[j, i]))
+                PlayerManager.Instance.WigglingCards.Remove(_cardObjects[j, i]);
             _cardField[j, i] = null;
         }
         yield return new WaitForSeconds(.5f);

@@ -104,7 +104,7 @@ namespace JamCraft.GMTK2023.Code
                 Hide();
             });
 
-            _graphicsButton.onClick.AddListener(() =>
+            _graphicsButton?.onClick.AddListener(() =>
             {
                 _graphicsPanel.SetActive(true);
 
@@ -113,7 +113,7 @@ namespace JamCraft.GMTK2023.Code
                 _accessibilityPanel.SetActive(false);
             });
             
-            _soundsButton.onClick.AddListener(() =>
+            _soundsButton?.onClick.AddListener(() =>
             {
                 _soundsPanel.SetActive(true);
 
@@ -122,7 +122,7 @@ namespace JamCraft.GMTK2023.Code
                 _accessibilityPanel.SetActive(false);
             });
 
-            _controlsButton.onClick.AddListener(() =>
+            _controlsButton?.onClick.AddListener(() =>
             {
                 _controlsPanel.SetActive(true);
 
@@ -131,7 +131,7 @@ namespace JamCraft.GMTK2023.Code
                 _accessibilityPanel.SetActive(false);
             });
 
-            _accessibilityButton.onClick.AddListener(() =>
+            _accessibilityButton?.onClick.AddListener(() =>
             {
                 _accessibilityPanel.SetActive(true);
 

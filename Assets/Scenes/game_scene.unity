@@ -5827,7 +5827,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1566315967}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de772d930e45ff543a83274241f62bb0, type: 3}
+  m_Script: {fileID: 11500000, guid: e2ae4ec6a8531a049b36c477b0f2fddd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &1603195784
@@ -8842,7 +8842,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _saveButton: {fileID: 2536035823163789115}
+  _resetToDefaultButton: {fileID: 0}
   _backButton: {fileID: 3481130457402018642}
+  _graphicsButton: {fileID: 0}
+  _soundsButton: {fileID: 0}
+  _controlsButton: {fileID: 0}
+  _accessibilityButton: {fileID: 0}
+  _graphicsPanel: {fileID: 0}
+  _soundsPanel: {fileID: 0}
+  _controlsPanel: {fileID: 0}
+  _accessibilityPanel: {fileID: 0}
   _resolutionDropdown: {fileID: 6696601515097344922}
   _mainVolumeSlider: {fileID: 5219027497292993634}
   _musicVolumeSlider: {fileID: 1941182038179328947}
@@ -8852,6 +8861,8 @@ MonoBehaviour:
   _musicVolumeText: {fileID: 2492105858339596136}
   _sfxVolumeText: {fileID: 4123959576516871054}
   _cameraHeightText: {fileID: 1551173709914870282}
+  OptionsCameraFocus: {fileID: 0}
+  _uiCamera: {fileID: 0}
 --- !u!1 &332166933890563365
 GameObject:
   m_ObjectHideFlags: 0

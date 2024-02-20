@@ -22,7 +22,7 @@ public class CardGrid : MonoBehaviour
     [SerializeField] protected Transform _gridDebugHolder;
 
     protected CardBase[,] _cardField;
-    protected CardHolder[,] _cardObjects;
+    public CardHolder[,] _cardObjects;
     protected Vector3[,] _cardPositions;
 
     [SerializeField] protected bool _wait;

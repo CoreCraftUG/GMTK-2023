@@ -37,6 +37,18 @@ public class CardHolder : MonoBehaviour
         _animator.SetBool("Flip", true);
 
     }
+
+    public void WiggleCard(bool mode)
+    {
+        _animator.SetBool("Wiggle", mode);
+    }
+
+    
+
+    public ECardColour GetCardColour()
+    {
+        return Card.Colour;
+    }
     [Tooltip("Club, Diamond, Heart, Spade")]
     public void VanishCard()
     {

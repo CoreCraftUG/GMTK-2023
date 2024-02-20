@@ -26,7 +26,8 @@ namespace JamCraft.GMTK2023.Code
         
 
         [SerializeField] private CinemachineVirtualCamera _uiCamera;
-        [SerializeField] private Transform _mainMenuCenterTransform;
+
+        public Transform MainMenuCenterTransform;
 
         private Sequence _quitButtonSequence;
         private Sequence _gameModeButtonSequence;
@@ -46,9 +47,9 @@ namespace JamCraft.GMTK2023.Code
 
             _quitButtonSequence.Append(_quitPanelText.gameObject.GetComponent<CanvasGroup>().DOFade(1f, .5f))
                 .Join(_quitNoButton.gameObject.GetComponent<RectTransform>().DOLocalRotate(new Vector3(0, 0, -51f), .5f))
-                .Join(_quitNoButton.gameObject.GetComponent<RectTransform>().DOLocalMove(new Vector3(3.235f, -3.626f, -0.171f), .5f)).SetEase(Ease.InOutQuad)
+                .Join(_quitNoButton.gameObject.GetComponent<RectTransform>().DOLocalMove(new Vector3(3.235f, -2.047f, -0.171f), .5f)).SetEase(Ease.InOutQuad)
                 .Join(_quitYesButton.gameObject.GetComponent<RectTransform>().DOLocalRotate(new Vector3(0, 0, 8.819f), .5f))
-                .Join(_quitYesButton.gameObject.GetComponent<RectTransform>().DOLocalMove(new Vector3(2.203f, -3.248f, -0.171f), .5f)).SetEase(Ease.InOutQuad);
+                .Join(_quitYesButton.gameObject.GetComponent<RectTransform>().DOLocalMove(new Vector3(2.203f, -1.669f, -0.171f), .5f)).SetEase(Ease.InOutQuad);
 
             #endregion
 
@@ -59,11 +60,11 @@ namespace JamCraft.GMTK2023.Code
             _gameModeButtonSequence.Append(_gameMode1Button.gameObject.GetComponent<RectTransform>()
                     .DOLocalRotate(new Vector3(0, 0, 420f), 1f, RotateMode.LocalAxisAdd))
                 .Join(_gameMode1Button.gameObject.GetComponent<RectTransform>()
-                    .DOLocalMove(new Vector3(-3.43f, -2.743f, 0), 1f))
+                    .DOLocalMove(new Vector3(-3.43f, -1.43f, 0), 1f))
                 .Join(_gameMode2Button.gameObject.GetComponent<RectTransform>()
                     .DOLocalRotate(new Vector3(0, 0, 420f), 1f, RotateMode.LocalAxisAdd))
                 .Join(_gameMode2Button.gameObject.GetComponent<RectTransform>()
-                    .DOLocalMove(new Vector3(-2.57f, -2.312f, 0), 1f));
+                    .DOLocalMove(new Vector3(-2.57f, -0.9989998f, 0), 1f));
 
             #endregion
 
@@ -138,8 +139,9 @@ namespace JamCraft.GMTK2023.Code
             // Show the options menu and hide the pause menu.
             _optionsButton.onClick.AddListener(() =>
             {
-                //GameOptionsUI.Instance.Show();
-                //Hide();
+                GameOptionsUI.Instance.Show();
+                Hide();
+                _uiCamera.Follow = GameOptionsUI.Instance.OptionsCameraFocus;
             });
 
             // Show quit panel on click.
@@ -173,7 +175,7 @@ namespace JamCraft.GMTK2023.Code
             _quitNoButton.onClick.AddListener(() =>
             {
                 _quitButtonSequence.SmoothRewind();
-                _uiCamera.Follow = _mainMenuCenterTransform.transform;
+                _uiCamera.Follow = MainMenuCenterTransform.transform;
             });
 
             _gameMode1Button.onClick.AddListener(() => 

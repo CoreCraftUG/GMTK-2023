@@ -616,10 +616,10 @@ Transform:
   - {fileID: 7997543229549752038}
   - {fileID: 4683491496150259942}
   - {fileID: 7926305352303410579}
-  - {fileID: 7025287135074039274}
   - {fileID: 6184151125981119107}
+  - {fileID: 7025287135074039274}
   m_Father: {fileID: 0}
-  m_RootOrder: 30
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8413475528493796952
 GameObject:

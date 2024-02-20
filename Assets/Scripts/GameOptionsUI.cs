@@ -1,3 +1,4 @@
+using Cinemachine;
 using System;
 using System.Collections.Generic;
 using TMPro;
@@ -20,7 +21,20 @@ namespace JamCraft.GMTK2023.Code
 
         [Header("UI Buttons")]
         [SerializeField] private Button _saveButton;
+        [SerializeField] private Button _resetToDefaultButton;
         [SerializeField] private Button _backButton;
+
+        [Header("Options Categories Buttons")]
+        [SerializeField] private Button _graphicsButton;
+        [SerializeField] private Button _soundsButton;
+        [SerializeField] private Button _controlsButton;
+        [SerializeField] private Button _accessibilityButton;
+
+        [Header("Options Categories Panels")] 
+        [SerializeField] private GameObject _graphicsPanel;
+        [SerializeField] private GameObject _soundsPanel;
+        [SerializeField] private GameObject _controlsPanel;
+        [SerializeField] private GameObject _accessibilityPanel;
 
         [Header("UI Dropdowns")]
         [SerializeField] private TMP_Dropdown _resolutionDropdown;
@@ -38,6 +52,10 @@ namespace JamCraft.GMTK2023.Code
         [SerializeField] private TextMeshProUGUI _cameraHeightText;
 
         private List<Resolution> _supportedResolutions;
+
+        public Transform OptionsCameraFocus;
+
+        [SerializeField] private CinemachineVirtualCamera _uiCamera;
 
 
         private void Awake()
@@ -80,9 +98,46 @@ namespace JamCraft.GMTK2023.Code
                 if (MainMenuUI.Instance != null)
                 {
                     MainMenuUI.Instance.Show();
+                    _uiCamera.Follow = MainMenuUI.Instance.MainMenuCenterTransform;
                 }
                 
                 Hide();
+            });
+
+            _graphicsButton.onClick.AddListener(() =>
+            {
+                _graphicsPanel.SetActive(true);
+
+                _soundsPanel.SetActive(false);
+                _controlsPanel.SetActive(false);
+                _accessibilityPanel.SetActive(false);
+            });
+            
+            _soundsButton.onClick.AddListener(() =>
+            {
+                _soundsPanel.SetActive(true);
+
+                _graphicsPanel.SetActive(false);
+                _controlsPanel.SetActive(false);
+                _accessibilityPanel.SetActive(false);
+            });
+
+            _controlsButton.onClick.AddListener(() =>
+            {
+                _controlsPanel.SetActive(true);
+
+                _graphicsPanel.SetActive(false);
+                _soundsPanel.SetActive(false);
+                _accessibilityPanel.SetActive(false);
+            });
+
+            _accessibilityButton.onClick.AddListener(() =>
+            {
+                _accessibilityPanel.SetActive(true);
+
+                _graphicsPanel.SetActive(false);
+                _soundsPanel.SetActive(false);
+                _controlsPanel.SetActive(false);
             });
 
             // Fill the dropdown with the supported resolutions.
@@ -90,34 +145,6 @@ namespace JamCraft.GMTK2023.Code
 
             // Add function to the resolution dropdown.
             _resolutionDropdown.onValueChanged.AddListener(SetResolution);
-        }
-
-        private void OnDestroy()
-        {
-            if (EventManager.Instance != null)
-            {
-                _mainVolumeSlider.onValueChanged.RemoveAllListeners();
-                _musicVolumeSlider.onValueChanged.RemoveAllListeners();
-                _sfxVolumeSlider.onValueChanged.RemoveAllListeners();
-                _cameraHeightSlider.onValueChanged.RemoveAllListeners();
-                _saveButton.onClick.RemoveAllListeners();
-                _backButton.onClick.RemoveAllListeners();
-                _resolutionDropdown.onValueChanged.RemoveAllListeners();
-            }
-        }
-
-        private void OnApplicationQuit()
-        {
-            if (EventManager.Instance != null)
-            {
-                _mainVolumeSlider.onValueChanged.RemoveAllListeners();
-                _musicVolumeSlider.onValueChanged.RemoveAllListeners();
-                _sfxVolumeSlider.onValueChanged.RemoveAllListeners();
-                _cameraHeightSlider.onValueChanged.RemoveAllListeners();
-                _saveButton.onClick.RemoveAllListeners();
-                _backButton.onClick.RemoveAllListeners();
-                _resolutionDropdown.onValueChanged.RemoveAllListeners();
-            }
         }
 
         private void OnCameraHeightValueChanged(float value)
@@ -226,7 +253,7 @@ namespace JamCraft.GMTK2023.Code
 
         private string ResolutionToString(Resolution res)
         {
-            return res.width + " x " + res.height + " @ " + res.refreshRateRatio + " Hz";
+            return res.width + " x " + res.height + " | " + res.refreshRateRatio + " Hz";
         }
     }
 }

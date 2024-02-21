@@ -73,7 +73,7 @@ Material:
     m_Floats:
     - _DarkCard: 0
     - _EmissiveIntensity: 0.5
-    - _FrameIntensity: 0.5
+    - _FrameIntensity: 0.3
     - _HueShift: 0
     - _NormalStrength: 1
     - _QueueControl: 0
@@ -85,7 +85,7 @@ Material:
     - _oo: 0
     m_Colors:
     - _Color: {r: 0.6745098, g: 0.57254905, b: 0.9215687, a: 1}
-    - _FrameColor: {r: 2.0000002, g: 2.0000002, b: 2.0000002, a: 0}
+    - _FrameColor: {r: 0.8396226, g: 0.8396226, b: 0.8396226, a: 1}
     - _SymbolColor: {r: 0, g: 0, b: 0, a: 0}
     - _SymbolColorDark: {r: 0, g: 0, b: 0, a: 0}
     - _SymbolColorLight: {r: 1, g: 1, b: 1, a: 0}

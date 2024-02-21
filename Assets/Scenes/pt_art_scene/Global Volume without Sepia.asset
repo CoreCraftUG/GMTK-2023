@@ -76,7 +76,7 @@ MonoBehaviour:
     m_Value: 1
   downsamplingMode:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 10
   downsamplingMultiplier:
     m_OverrideState: 1
     m_Value: 1
@@ -256,13 +256,13 @@ MonoBehaviour:
     m_Value: 0.45
   bloomThreshold:
     m_OverrideState: 1
-    m_Value: 0.75
+    m_Value: 0.9
   bloomConservativeThreshold:
     m_OverrideState: 0
     m_Value: 0
   bloomSpread:
     m_OverrideState: 1
-    m_Value: 0.2
+    m_Value: 0.369
   bloomMaxBrightness:
     m_OverrideState: 0
     m_Value: 1000
@@ -333,10 +333,10 @@ MonoBehaviour:
     m_Value: {r: 0.5, g: 0.5, b: 1, a: 0}
   anamorphicFlaresIntensity:
     m_OverrideState: 1
-    m_Value: 0.03
+    m_Value: 0.11
   anamorphicFlaresThreshold:
     m_OverrideState: 1
-    m_Value: 0.75
+    m_Value: 0.9
   anamorphicFlaresConservativeThreshold:
     m_OverrideState: 0
     m_Value: 0
@@ -815,7 +815,7 @@ MonoBehaviour:
     m_Value: 8
   intensity:
     m_OverrideState: 1
-    m_Value: 0.182
+    m_Value: 0.13
   response:
     m_OverrideState: 1
     m_Value: 0.8

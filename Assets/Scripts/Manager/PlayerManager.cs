@@ -106,7 +106,10 @@ public class PlayerManager : Singleton<PlayerManager>
     protected virtual void Update()
     {
         if (_gameover)
+        {
+            CardTimer.CardAnimator.enabled = false;
             return;
+        }
 
         if (TimeManager.Instance.TimeStop)
             return;

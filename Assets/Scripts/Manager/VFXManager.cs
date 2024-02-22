@@ -9,6 +9,9 @@ public class VFXManager : MonoBehaviour
     [SerializeField] private GameObject _addTempPointsVFXObject;
     [SerializeField] private GameObject _coinMatch3VFXObject;
     [SerializeField] private Transform _coinVFXSpawnTransform;
+    [SerializeField] private Transform _primedExplosionFinalPos;
+    [SerializeField] private GameObject _primedExplposionFinal;
+    [SerializeField] private GameObject _primedExplposionFinalInner;
 
     private void Start()
     {
@@ -20,7 +23,8 @@ public class VFXManager : MonoBehaviour
         {
             if (b)
             {
-                Instantiate(_coinMatch3VFXObject, _coinVFXSpawnTransform);
+                Destroy(Instantiate(_primedExplposionFinal, _primedExplosionFinalPos), _primedExplposionFinal.GetComponent<ParticleSystem>().main.duration);
+                Destroy(Instantiate(_primedExplposionFinalInner, _primedExplosionFinalPos), _primedExplposionFinalInner.transform.GetChild(0).GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length);
                 SoundManager.Instance.PlaySFX(5);
             }
             else

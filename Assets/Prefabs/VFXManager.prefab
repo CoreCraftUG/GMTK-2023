@@ -51,3 +51,8 @@ MonoBehaviour:
   _coinMatch3VFXObject: {fileID: 2293779884053612679, guid: 922f5d08ea733d542835d519626d30ce,
     type: 3}
   _coinVFXSpawnTransform: {fileID: 7968222934077964646}
+  _primedExplosionFinalPos: {fileID: 0}
+  _primedExplposionFinal: {fileID: 9059113314807178, guid: 3efb9605b5e8f9e4d9f36d05f784999c,
+    type: 3}
+  _primedExplposionFinalInner: {fileID: 6683560838593387565, guid: ce3d015eb58ac464dab43fe0a91a7dd1,
+    type: 3}

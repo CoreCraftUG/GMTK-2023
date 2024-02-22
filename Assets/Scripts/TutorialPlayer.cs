@@ -7,7 +7,7 @@ public class TutorialPlayer : Player
     protected override void Awake()
     {
         SelectedSpot = Random.Range(1, 4);
-        NewDeck();
+        //NewDeck();
 
         _ready = true;
     }

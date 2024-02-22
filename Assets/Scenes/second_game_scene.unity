@@ -3092,7 +3092,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 25
+  m_RootOrder: 24
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1019385528
 PrefabInstance:
@@ -3107,6 +3107,46 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas_GameOver
       objectReference: {fileID: 0}
+    - target: {fileID: 1854363596668878299, guid: f04c7ff7c75c70c4f971ad1e284d5dc8,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1854363596668878299, guid: f04c7ff7c75c70c4f971ad1e284d5dc8,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1854363596668878299, guid: f04c7ff7c75c70c4f971ad1e284d5dc8,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1854363596668878299, guid: f04c7ff7c75c70c4f971ad1e284d5dc8,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2533500804620463932, guid: f04c7ff7c75c70c4f971ad1e284d5dc8,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2533500804620463932, guid: f04c7ff7c75c70c4f971ad1e284d5dc8,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2533500804620463932, guid: f04c7ff7c75c70c4f971ad1e284d5dc8,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2533500804620463932, guid: f04c7ff7c75c70c4f971ad1e284d5dc8,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3760928067805337270, guid: f04c7ff7c75c70c4f971ad1e284d5dc8,
         type: 3}
       propertyPath: m_Pivot.x
@@ -3120,7 +3160,7 @@ PrefabInstance:
     - target: {fileID: 3760928067805337270, guid: f04c7ff7c75c70c4f971ad1e284d5dc8,
         type: 3}
       propertyPath: m_RootOrder
-      value: 26
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 3760928067805337270, guid: f04c7ff7c75c70c4f971ad1e284d5dc8,
         type: 3}
@@ -3243,7 +3283,7 @@ PrefabInstance:
     - target: {fileID: 6307257705947457751, guid: f7ce04523cc5dd14484ea2c063c0286f,
         type: 3}
       propertyPath: m_RootOrder
-      value: 27
+      value: 26
       objectReference: {fileID: 0}
     - target: {fileID: 6307257705947457751, guid: f7ce04523cc5dd14484ea2c063c0286f,
         type: 3}
@@ -4364,56 +4404,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1547174803
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1547174805}
-  - component: {fileID: 1547174804}
-  m_Layer: 0
-  m_Name: SteamStatManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1547174804
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1547174803}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7122af16e5abd6149bbdf1e62253ab82, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _leaderboardObject: {fileID: 5663685033367865513, guid: d7af0d342511f4043a987c7c513c387c,
-    type: 2}
-  _maxLevelObject: {fileID: 4283417116829607579, guid: d7af0d342511f4043a987c7c513c387c,
-    type: 2}
-  _maxMultiplyObject: {fileID: -3186250111008024666, guid: d7af0d342511f4043a987c7c513c387c,
-    type: 2}
---- !u!4 &1547174805
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1547174803}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.4986932, y: -5.896107, z: -16.46817}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 24
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1566315967
 GameObject:

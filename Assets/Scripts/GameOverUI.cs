@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace JamCraft.GMTK2023.Code
@@ -27,7 +28,7 @@ namespace JamCraft.GMTK2023.Code
             
             _retryButton.onClick.AddListener(() =>
             {
-                Loader.Load("game_scene");
+                Loader.Load(SceneManager.GetActiveScene().name);
             });
 
             _mainMenuButton.onClick.AddListener(() =>

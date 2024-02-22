@@ -23,8 +23,8 @@ public class VFXManager : MonoBehaviour
         {
             if (b)
             {
-                Destroy(Instantiate(_primedExplposionFinal, _primedExplosionFinalPos), _primedExplposionFinal.GetComponent<ParticleSystem>().main.duration);
-                Destroy(Instantiate(_primedExplposionFinalInner, _primedExplosionFinalPos), _primedExplposionFinalInner.transform.GetChild(0).GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length);
+                Destroy(Instantiate(_primedExplposionFinal, _primedExplosionFinalPos), .5f);
+                Destroy(Instantiate(_primedExplposionFinalInner, _primedExplosionFinalPos), .5f);
                 SoundManager.Instance.PlaySFX(5);
             }
             else

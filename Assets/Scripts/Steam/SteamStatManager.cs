@@ -1,3 +1,4 @@
+using CoreCraft.Core;
 using HeathenEngineering.SteamworksIntegration;
 using HeathenEngineering.SteamworksIntegration.API;
 using Steamworks;
@@ -6,7 +7,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine;
 
-public class SteamStatManager : MonoBehaviour
+public class SteamStatManager : Singleton<SteamStatManager>
 {
     [SerializeField] private LeaderboardObject _leaderboardObject;
     [SerializeField] private IntStatObject _maxLevelObject;
@@ -14,8 +15,25 @@ public class SteamStatManager : MonoBehaviour
 
     private int _tempScore;
 
+    public bool? SteamOnline;
+    public bool EventManagerReady;
+
     private void Start()
     {
+        StartCoroutine(SetUpCoroutine());
+    }
+
+    private IEnumerator SetUpCoroutine()
+    {
+        yield return new WaitUntil(() =>
+        {
+            return EventManagerReady && SteamOnline != null;
+        });
+
+        if (SteamOnline != null && SteamOnline == false)
+            yield break;
+
+
         EventManager.Instance.FinalScoreEvent.AddListener((int score) =>
         {
             _tempScore = score;

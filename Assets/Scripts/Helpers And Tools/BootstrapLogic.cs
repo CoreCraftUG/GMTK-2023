@@ -46,15 +46,20 @@ namespace CoreCraft.Core
             yield return new WaitUntil(() => SteamSettings.Initialized || SteamSettings.HasInitializationError);
 
             if (SteamSettings.Initialized)
+            {
                 SteamAchievementHelper.Instance.SteamOnline = true;
+                SteamStatManager.Instance.SteamOnline = true;
+            }
             else if (SteamSettings.HasInitializationError)
             {
                 SteamAchievementHelper.Instance.SteamOnline = false;
+                SteamStatManager.Instance.SteamOnline = false;
 
                 yield return StartCoroutine(SteamInitializationErrorHandler.Instance.StartHasInitializationError());
             }
 
             SteamAchievementHelper.Instance.EventManagerReady = true;
+            SteamStatManager.Instance.EventManagerReady = true;
 
             // Visualize Timer
             BootTimerEvent.Invoke(1f);

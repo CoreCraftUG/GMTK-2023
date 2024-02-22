@@ -45,7 +45,7 @@ public class SteamAchievementHelper : Singleton<SteamAchievementHelper>
     // Clear Row with one Card Achievements
     [FoldoutGroup("Clear Row with one Card"), Header("2 Rows"), SerializeField] private AchievementObject _2Rows;
     [FoldoutGroup("Clear Row with one Card"), Header("3 Rows"), SerializeField] private AchievementObject _3Rows;
-    [FoldoutGroup("Clear Row with one Card"), Header("5 Rows"), SerializeField] private AchievementObject _4Rows;
+    [FoldoutGroup("Clear Row with one Card"), Header("4 Rows"), SerializeField] private AchievementObject _4Rows;
 
     // Center Symbols Achievements
     [FoldoutGroup("Center Symbols"), Header("Bronze Center"), SerializeField] private AchievementObject _bronzeCenter;

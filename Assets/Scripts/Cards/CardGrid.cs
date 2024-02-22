@@ -158,12 +158,10 @@ public class CardGrid : MonoBehaviour
                         break;
                 }
             }
-            //if (red == _gridWidth - 1 || blue == _gridWidth - 1 || green == _gridWidth - 1 || yellow == _gridWidth - 1 || white == _gridWidth - 1)
-            //{
-
-            //    StartPrimedExplosion(i);
-            //    break;
-            //}
+            if (red == _gridWidth - 1 || blue == _gridWidth - 1 || green == _gridWidth - 1 || yellow == _gridWidth - 1 || white == _gridWidth - 1)
+            {
+                StartPrimedExplosion(i);
+            }
 
             if (red == _gridWidth || blue == _gridWidth || green == _gridWidth || yellow == _gridWidth || white == _gridWidth)
             {

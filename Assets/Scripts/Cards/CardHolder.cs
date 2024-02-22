@@ -76,7 +76,8 @@ public class CardHolder : MonoBehaviour
 
     public void ShowPrimedExplosion()
     {
-        Instantiate(_primedExplosion, transform.position, Quaternion.identity);
+        GameObject tempPrime = Instantiate(_primedExplosion, transform.position, Quaternion.identity);
+        tempPrime.transform.parent = this.transform;
         Destroy(Instantiate(_shortPrimedExplosion, transform.position, Quaternion.identity), .5f);
     }
 

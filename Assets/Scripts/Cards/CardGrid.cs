@@ -24,6 +24,7 @@ public class CardGrid : MonoBehaviour
     protected CardBase[,] _cardField;
     public CardHolder[,] _cardObjects;
     protected Vector3[,] _cardPositions;
+    private CardHolder _lastCard;
 
     [SerializeField] protected bool _wait;
 
@@ -49,6 +50,11 @@ public class CardGrid : MonoBehaviour
         });
     }
 
+    public void SetLastCard(CardHolder card)
+    {
+        _lastCard = card;
+    }
+
     public virtual void AddCard(CardHolder card, int slot)
     {
         card.gameObject.transform.SetParent(this.transform);
@@ -72,6 +78,7 @@ public class CardGrid : MonoBehaviour
             _cardObjects[slot - 1, 0] = card;
             _cardObjects[slot - 1, 0].MoveCard(_cardPositions[slot - 1, 0]);
             couldPlace = true;
+            
         }
         else
         {
@@ -94,13 +101,16 @@ public class CardGrid : MonoBehaviour
                             _cardField[slot - 1, j] = card.Card;
                             _cardObjects[slot - 1, j] = card;
                             _cardObjects[slot - 1, j].MoveCard(_cardPositions[slot - 1, j]);
+                            
                         }
                     }
                     couldPlace = true;
+                    
                     break;
                 }
             }
         }
+        SetLastCard(_cardObjects[slot - 1, 0]);
 
         if (!couldPlace)
         {
@@ -202,42 +212,55 @@ public class CardGrid : MonoBehaviour
 
     protected IEnumerator PrimedExplosion(int row)
     {
-        ECardFace face;
-        ECardColour color;
-        if (_cardObjects[_gridWidth - 1, row] != null)
+        float time = _cardObjects[_gridWidth - 1, row].MoveTime;
+        yield return new WaitForSeconds(time);
+        ECardFace face = _lastCard.Card.Face;
+        ECardColour color = _lastCard.Card.Colour;
+        for (int i = _gridWidth - 1; i >= 0; i--)
         {
-            face = _cardObjects[_gridWidth - 1, row].Card.Face;
-            color = _cardObjects[_gridWidth - 1, row].Card.Colour;
-            for(int i = _gridWidth -2; i>= 0; i--) 
+            if (_cardObjects[i, row] == _lastCard)
+                continue;
+            if (_cardObjects[i, row] == null)
+                continue;
+            else if (_cardObjects[i, row].Card.Colour == color && _cardObjects[i, row].Card.Face == face)
             {
-                if (_cardObjects[i, row] == null)
-                    continue;
-                if(_cardObjects[i,row].Card.Colour == color && _cardObjects[i,row].Card.Face == face)
-                {
-                    _cardObjects[i, row].ShowPrimedExplosion();
-                    _cardObjects[_gridWidth - 1, row].ShowPrimedExplosion();
-                }
+                _cardObjects[i, row].ShowPrimedExplosion();
+                _lastCard.ShowPrimedExplosion();
             }
-            
         }
-        else
-        {
-            face = _cardObjects[0, row].Card.Face;
-            color = _cardObjects[0, row].Card.Colour;
-            for (int i = _gridWidth - 1; i > 0; i--)
-            {
-                if (_cardObjects[i, row] == null)
-                    continue;
-                if (_cardObjects[i, row].Card.Colour == color && _cardObjects[i, row].Card.Face == face)
-                {
-                    _cardObjects[i, row].ShowPrimedExplosion();
-                    _cardObjects[0, row].ShowPrimedExplosion();
-                }
-            }
+        //if (_cardObjects[_gridWidth - 1, row] != null)
+        //{
+        //    //face = _cardObjects[_gridWidth - 1, row].Card.Face;
+        //    //color = _cardObjects[_gridWidth - 1, row].Card.Colour;
+        //    for(int i = _gridWidth -2; i>= 0; i--) 
+        //    {
+        //        if (_cardObjects[i, row] == null)
+        //            continue;
+        //        if(_cardObjects[i,row].Card.Colour == color && _cardObjects[i,row].Card.Face == face)
+        //        {
+        //            _cardObjects[i, row].ShowPrimedExplosion();
+        //            _cardObjects[_gridWidth - 1, row].ShowPrimedExplosion();
+        //        }
+        //    }
 
-        }
+        //}
+        //else
+        //{
+        //    face = _cardObjects[0, row].Card.Face;
+        //    color = _cardObjects[0, row].Card.Colour;
+        //    for (int i = _gridWidth - 1; i > 0; i--)
+        //    {
+        //        if (_cardObjects[i, row] == null)
+        //            continue;
+        //        if (_cardObjects[i, row].Card.Colour == color && _cardObjects[i, row].Card.Face == face)
+        //        {
+        //            _cardObjects[i, row].ShowPrimedExplosion();
+        //            _cardObjects[0, row].ShowPrimedExplosion();
+        //        }
+        //    }
 
-        yield return new WaitForSeconds(0);
+        //}
+
     }
 
     protected IEnumerator RowMatch(int i)

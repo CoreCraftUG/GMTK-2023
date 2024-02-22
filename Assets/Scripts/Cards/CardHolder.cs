@@ -78,7 +78,7 @@ public class CardHolder : MonoBehaviour
     {
         GameObject tempPrime = Instantiate(_primedExplosion, transform.position, Quaternion.identity);
         tempPrime.transform.parent = this.transform;
-        Destroy(Instantiate(_shortPrimedExplosion, transform.position, Quaternion.identity), .5f);
+        /*Destroy(*/Instantiate(_shortPrimedExplosion, new Vector3(transform.position.x, transform.position.y +.6f, transform.position.z), Quaternion.identity)/*, .5f)*/;
     }
 
     public void VisualizeCard()

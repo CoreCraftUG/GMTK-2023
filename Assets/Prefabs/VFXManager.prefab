@@ -54,5 +54,9 @@ MonoBehaviour:
   _primedExplosionFinalPos: {fileID: 0}
   _primedExplposionFinal: {fileID: 9059113314807178, guid: 3efb9605b5e8f9e4d9f36d05f784999c,
     type: 3}
-  _primedExplposionFinalInner: {fileID: 6683560838593387565, guid: ce3d015eb58ac464dab43fe0a91a7dd1,
+  _primedExplposionFinalInner: {fileID: 1559788250027359035, guid: 922db659174acbf41ad86669e92414e5,
+    type: 3}
+  _primedExplposionFinalMiddle: {fileID: 2408709146441372193, guid: 9d0ffcaa37fe1b046bd10d5fcb13646e,
+    type: 3}
+  _primedExplposionFinalOuter: {fileID: 6612100672089793296, guid: fda65824c30e6fe468a5b7b8d6c719c6,
     type: 3}

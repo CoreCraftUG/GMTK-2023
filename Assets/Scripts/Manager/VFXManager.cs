@@ -12,6 +12,9 @@ public class VFXManager : MonoBehaviour
     [SerializeField] private Transform _primedExplosionFinalPos;
     [SerializeField] private GameObject _primedExplposionFinal;
     [SerializeField] private GameObject _primedExplposionFinalInner;
+    [SerializeField] private GameObject _primedExplposionFinalMiddle;
+    [SerializeField] private GameObject _primedExplposionFinalOuter;
+
 
     private void Start()
     {
@@ -23,14 +26,30 @@ public class VFXManager : MonoBehaviour
         {
             if (b)
             {
-                Destroy(Instantiate(_primedExplposionFinal, _primedExplosionFinalPos), .5f);
-                Destroy(Instantiate(_primedExplposionFinalInner, _primedExplosionFinalPos), .5f);
+                //Destroy(Instantiate(_primedExplposionFinal, _primedExplosionFinalPos), .5f);
+                //Destroy(Instantiate(_primedExplposionFinalInner, _primedExplosionFinalPos), .5f);
+                Instantiate(_coinMatch3VFXObject, _coinVFXSpawnTransform);
                 SoundManager.Instance.PlaySFX(5);
             }
             else
             {
                 Instantiate(_coinMatch3VFXObject, _coinVFXSpawnTransform);
                 SoundManager.Instance.PlaySFX(5);
+            }
+        });
+        EventManager.Instance.RimExplosionEvent.AddListener((CardGrid grid, int i) =>
+        {
+            switch (i)
+            {
+                case 0:
+                    Destroy(Instantiate(_primedExplposionFinalOuter, _primedExplosionFinalPos), .5f);
+                    break;
+                case 1:
+                    Destroy(Instantiate(_primedExplposionFinalMiddle, _primedExplosionFinalPos), .5f);
+                    break;
+                case 2:
+                    Destroy(Instantiate(_primedExplposionFinalInner, _primedExplosionFinalPos), .5f);
+                    break;
             }
         });
     }

@@ -209,7 +209,9 @@ public class CardGrid : MonoBehaviour
             face = _cardObjects[_gridWidth - 1, row].Card.Face;
             color = _cardObjects[_gridWidth - 1, row].Card.Colour;
             for(int i = _gridWidth -2; i>= 0; i--) 
-            { 
+            {
+                if (_cardObjects[i, row] == null)
+                    continue;
                 if(_cardObjects[i,row].Card.Colour == color && _cardObjects[i,row].Card.Face == face)
                 {
                     _cardObjects[i, row].ShowPrimedExplosion();
@@ -224,6 +226,8 @@ public class CardGrid : MonoBehaviour
             color = _cardObjects[0, row].Card.Colour;
             for (int i = _gridWidth - 1; i > 0; i--)
             {
+                if (_cardObjects[i, row] == null)
+                    continue;
                 if (_cardObjects[i, row].Card.Colour == color && _cardObjects[i, row].Card.Face == face)
                 {
                     _cardObjects[i, row].ShowPrimedExplosion();

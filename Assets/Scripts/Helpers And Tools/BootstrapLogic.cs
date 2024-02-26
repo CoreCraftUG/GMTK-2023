@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using HeathenEngineering.SteamworksIntegration;
+using JamCraft.GMTK2023.Code;
 using AppClient = HeathenEngineering.SteamworksIntegration.API.App.Client;
 
 namespace CoreCraft.Core
@@ -30,7 +31,7 @@ namespace CoreCraft.Core
 
             yield return new WaitUntil(() =>
             {
-                return EventManager.Instance != null && SteamAchievementHelper.Instance != null && SteamInitializationErrorHandler.Instance != null;
+                return EventManager.Instance != null && SteamAchievementHelper.Instance != null && SteamInitializationErrorHandler.Instance != null && GameInputManager.Instance != null;
             });
             Debug.Log($"EventManager is ready!");
 

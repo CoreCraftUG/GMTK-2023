@@ -21,15 +21,12 @@ namespace JamCraft.GMTK2023.Code
 
         private void Awake()
         {
-            if (Instance == null)
+            if (Instance != null)
             {
-                Instance = this;
-                DontDestroyOnLoad(gameObject);
+                Debug.LogError($"There is more than one {this} instance in the scene!");
             }
-            else
-            {
-                Destroy(gameObject);
-            }
+
+            Instance = this;
 
             _gameInput = new GameInput();
             _gameInput.Player.Enable();

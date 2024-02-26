@@ -1,30 +1,40 @@
 using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
-using JamCraft.GMTK2023.Code;
 using UnityEngine;
 
-public class Table : MonoBehaviour
+namespace JamCraft.GMTK2023.Code
 {
-    [SerializeField] float _rotationTime;
-    [SerializeField] private GameObject _playTable;
-
-    private float _rotation;
-
-    private void Update()
+    public class Table : MonoBehaviour
     {
-        if (Input.GetKeyDown(KeyCode.A) && !GameStateManager.Instance.IsGamePaused && !GameStateManager.Instance.IsGameOver && PlayerManager.Instance.CanTurn)
+        [Header("Properties")]
+        [SerializeField] float _rotationTime;
+
+        [SerializeField] private GameObject _table;
+
+        private float _rotation;
+
+        private void Start()
         {
+            GameInputManager.Instance.OnTurnTableClockwiseAction += Instance_OnTurnTableClockwiseAction;
+            GameInputManager.Instance.OnTurnTableCounterClockwiseAction += Instance_OnTurnTableCounterClockwiseAction;
+        }
+
+        private void Instance_OnTurnTableCounterClockwiseAction(object sender, System.EventArgs e)
+        {
+            if (GameStateManager.Instance.IsGamePaused || GameStateManager.Instance.IsGameOver) return;
+
             _rotation -= 90f;
-            _playTable.transform.DORotate(_rotation * Vector3.up, _rotationTime);
+            _table.transform.DORotate(_rotation * Vector3.up, _rotationTime);
             EventManager.Instance.PlayAudio.Invoke(4, 0);
             EventManager.Instance.TurnLeftEvent.Invoke();
             PlayerManager.Instance.TurnRight();
         }
-        if (Input.GetKeyDown(KeyCode.D) && !GameStateManager.Instance.IsGamePaused && !GameStateManager.Instance.IsGameOver && PlayerManager.Instance.CanTurn)
+
+        private void Instance_OnTurnTableClockwiseAction(object sender, System.EventArgs e)
         {
+            if (GameStateManager.Instance.IsGamePaused || GameStateManager.Instance.IsGameOver) return;
+
             _rotation += 90f;
-            _playTable.transform.DORotate(_rotation * Vector3.up, _rotationTime);
+            _table.transform.DORotate(_rotation * Vector3.up, _rotationTime);
             EventManager.Instance.PlayAudio.Invoke(4, 0);
             EventManager.Instance.TurnRightEvent.Invoke();
             PlayerManager.Instance.TurnLeft();

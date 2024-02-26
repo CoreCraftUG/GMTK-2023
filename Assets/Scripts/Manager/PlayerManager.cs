@@ -50,6 +50,18 @@ public class PlayerManager : Singleton<PlayerManager>
         _currentNextLevelTime = _nextLevelTime;
     }
 
+    private void Start()
+    {
+        GameInputManager.Instance.OnPlaceCardAction += Instance_OnPlaceCardAction;
+    }
+
+    private void Instance_OnPlaceCardAction(object sender, System.EventArgs e)
+    {
+        _timePlaced = true;
+        SelectedPlayerPlays();
+        StartCoroutine(TimePlaceDelay());
+    }
+
     protected virtual void OnDestroy()
     {
         if (EventManager.Instance != null)
@@ -94,7 +106,7 @@ public class PlayerManager : Singleton<PlayerManager>
             }
             return true;
         });
-        CanTurn = true;
+        //CanTurn = true;
         NextPlayer(true);
     }
 
@@ -135,21 +147,14 @@ public class PlayerManager : Singleton<PlayerManager>
 
         CardTimer.SetTimerProgress(Timer / _currentDelay);
 
-        if (Timer >= _currentDelay && CanTurn && _puppyProtection > _maxPuppyProtection)
-        {
-            _timePlaced = true;
-            SelectedPlayerPlays();
-            StartCoroutine(TimePlaceDelay());
-        }
-        else if (Input.GetKeyDown(KeyCode.Space) && CanTurn && !GameStateManager.Instance.IsGamePaused && !GameStateManager.Instance.IsGameOver && !_timePlaced)
-        {
-            _timePlaced = true;
-            SelectedPlayerPlays();
-            
-            StartCoroutine(TimePlaceDelay());
-            //CancelInvoke();
-        }
+        if (GameStateManager.Instance.IsGamePaused && GameStateManager.Instance.IsGameOver) return;
 
+        if (Timer >= _currentDelay /*&& CanTurn*/ && _puppyProtection > _maxPuppyProtection && !_timePlaced)
+        {
+            _timePlaced = true;
+            SelectedPlayerPlays();
+            StartCoroutine(TimePlaceDelay());
+        }
     }
 
     public void HighlightCards()

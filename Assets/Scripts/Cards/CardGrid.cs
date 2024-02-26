@@ -194,8 +194,9 @@ public class CardGrid : MonoBehaviour
 
         if (!match)
         {
+            //PlayerManager.Instance.CanTurn = true;
             EventManager.Instance.TimeStartEvent.Invoke();
-            PlayerManager.Instance.CanTurn = true;
+
             PlayerManager.Instance.Timer = 0;
         }
     }

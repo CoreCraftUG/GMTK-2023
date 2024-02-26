@@ -1,13 +1,23 @@
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class TutorialPlayer : Player
 {
+    [BoxGroup("Gameplay"), SerializeField] protected List<CardBase> _tutorialCards = new List<CardBase>(); //Cards
+
     protected override void Awake()
     {
         SelectedSpot = Random.Range(1, 4);
         //NewDeck();
+
+        foreach (CardBase card in _tutorialCards)
+            _deck.Push(card);
+
+        PreviewNextCard();
+        Debug.Log($"Player {gameObject.name} is set up. First card is: Face: {_presentedCard.Card.Face} Colour: {_presentedCard.Card.Colour}");
+
 
         _ready = true;
     }

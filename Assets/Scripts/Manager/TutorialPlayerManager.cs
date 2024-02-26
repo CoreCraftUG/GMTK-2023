@@ -17,13 +17,7 @@ public class TutorialPlayerManager : PlayerManager
     protected int _missingSlot;
     protected TutorialPlayer _currentPlayer;
 
-    // Tutorial Message Text Boxes
-    [SerializeField] protected GameObject _message1_SpaceToPlaceCard;
-    [SerializeField] protected GameObject _message2_ADToTurnTable;
-    [SerializeField] protected GameObject _message3_PlaceCardsNextTOEachOther;
-    [SerializeField] protected GameObject _message4_PlaceThreeCardsInARow;
-    [SerializeField] protected GameObject _message5_TimerIndicatesTheTime;
-    [SerializeField] protected GameObject _message6_IfTheTimeRunsOutTheCardWillBePlacedAutomatically;
+    public bool ContinuePlay;
 
     protected override void Awake()
     {
@@ -49,6 +43,7 @@ public class TutorialPlayerManager : PlayerManager
 
     protected IEnumerator TutorialGame()
     {
+        CardTimer.gameObject.SetActive(_timerStart);
         _currentPlayer = (TutorialPlayer)Players[0];
         CardTimer.CardAnimator.speed = 0;
 
@@ -57,10 +52,10 @@ public class TutorialPlayerManager : PlayerManager
         int playerIndex = 0;
         NextTutorialPlayer(playerIndex);
         // Show Place Card tutorial Message
-        _message1_SpaceToPlaceCard.SetActive(true);
+        EventManager.Instance.TutorialMessage01Event.Invoke(true);
         CanTurn = false;
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) && !GameStateManager.Instance.IsGamePaused);
-        _message1_SpaceToPlaceCard.SetActive(false);
+        EventManager.Instance.TutorialMessage01Event.Invoke(false);
 
         _timePlaced = true;
         TutorialPlayerPlays(playerIndex);
@@ -68,6 +63,7 @@ public class TutorialPlayerManager : PlayerManager
 
         _lastPlacedGrid = _currentPlayer.GetFacingGrid();
         _lastPlacedSlot = _currentPlayer.GetCurrentSlot();
+        Debug.Log($"Last placed Slot: {_lastPlacedSlot}");
 
         yield return new WaitUntil(() => _timePlaced == false);
         #endregion
@@ -77,34 +73,23 @@ public class TutorialPlayerManager : PlayerManager
         playerIndex = 1;
         NextTutorialPlayer(playerIndex);
         // Can Turn Now show Turn Tutorial Message
-        _message2_ADToTurnTable.SetActive(true);
+        EventManager.Instance.TutorialMessage02Event.Invoke(true);
         CanTurn = true;
 
         while (_lastPlacedGrid != _currentPlayer.GetFacingGrid())
         {
             yield return null;
         }
-        _message2_ADToTurnTable.SetActive(false);
+        EventManager.Instance.TutorialMessage02Event.Invoke(true);
         CanTurn = false;
 
-        _message3_PlaceCardsNextTOEachOther.SetActive(true);
+        EventManager.Instance.TutorialMessage03Event.Invoke(true);
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) && !GameStateManager.Instance.IsGamePaused && _lastPlacedGrid == _currentPlayer.GetFacingGrid() && _lastPlacedSlot != _currentPlayer.GetCurrentSlot());
-        _message3_PlaceCardsNextTOEachOther.SetActive(false);
+        EventManager.Instance.TutorialMessage03Event.Invoke(false);
 
         _timePlaced = true;
         TutorialPlayerPlays(playerIndex);
         StartCoroutine(TimePlaceDelay());
-
-        _lastPlacedGrid = _currentPlayer.GetFacingGrid();
-        _lastPlacedSlot = _currentPlayer.GetCurrentSlot();
-
-        yield return new WaitUntil(() => _timePlaced == false);
-        #endregion
-
-        // Third Turn
-        #region Third Turn
-        playerIndex = 1;
-        NextTutorialPlayer(playerIndex);
 
         _lastPlacedGrid = _currentPlayer.GetFacingGrid();
         switch (_lastPlacedSlot)
@@ -130,7 +115,17 @@ public class TutorialPlayerManager : PlayerManager
             default:
                 throw new System.Exception($"Last placed Slot {_lastPlacedSlot} can not exist");
         }
+        Debug.Log($"Missing Slot: {_missingSlot}");
         _lastPlacedSlot = _currentPlayer.GetCurrentSlot();
+        Debug.Log($"Last placed Slot: {_lastPlacedSlot}");
+
+        yield return new WaitUntil(() => _timePlaced == false);
+        #endregion
+
+        // Third Turn
+        #region Third Turn
+        playerIndex = 1;
+        NextTutorialPlayer(playerIndex);
 
         yield return new WaitUntil(() => _timePlaced == false);
 
@@ -141,11 +136,11 @@ public class TutorialPlayerManager : PlayerManager
         yield return new WaitUntil(() => _currentPlayer.GetCurrentSlot() == _missingSlot);
 
         // Pause Game
-        _message4_PlaceThreeCardsInARow.SetActive(true);
+        EventManager.Instance.TutorialMessage04Event.Invoke(true);
 
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) && !GameStateManager.Instance.IsGamePaused && _lastPlacedGrid == _currentPlayer.GetFacingGrid() && _missingSlot == _currentPlayer.GetCurrentSlot());
 
-        _message4_PlaceThreeCardsInARow.SetActive(false);
+        EventManager.Instance.TutorialMessage04Event.Invoke(false);
 
         _timePlaced = true;
         TutorialPlayerPlays(playerIndex);
@@ -162,8 +157,6 @@ public class TutorialPlayerManager : PlayerManager
         playerIndex = 2;
         NextTutorialPlayer(playerIndex);
         CanTurn = false;
-        _timerStart = true;
-        CardTimer.CardAnimator.speed = 1;
 
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) && !GameStateManager.Instance.IsGamePaused);
 
@@ -181,15 +174,20 @@ public class TutorialPlayerManager : PlayerManager
         #region Fifth Turn
         playerIndex = 3;
         NextTutorialPlayer(playerIndex);
+
+        EventManager.Instance.TutorialMessage05Event.Invoke(true);
+        yield return new WaitUntil(() => (Input.anyKeyDown || Timer >= _currentDelay) && !GameStateManager.Instance.IsGamePaused);
+        EventManager.Instance.TutorialMessage05Event.Invoke(false);
+        yield return new WaitUntil(() => (!Input.anyKeyDown || Timer >= _currentDelay) && !GameStateManager.Instance.IsGamePaused);
+
         CanTurn = true;
+        _timerStart = true;
+        CardTimer.gameObject.SetActive(_timerStart);
+        CardTimer.CardAnimator.speed = 1;
 
-        _message5_TimerIndicatesTheTime.SetActive(true);
-        // Press any Key or wait for seconds
-        _message5_TimerIndicatesTheTime.SetActive(false);
-
-        _message6_IfTheTimeRunsOutTheCardWillBePlacedAutomatically.SetActive(true);
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) && !GameStateManager.Instance.IsGamePaused); // Time is Up
-        _message6_IfTheTimeRunsOutTheCardWillBePlacedAutomatically.SetActive(false);
+        EventManager.Instance.TutorialMessage06Event.Invoke(true);
+        yield return new WaitUntil(() => Timer >= _currentDelay && !GameStateManager.Instance.IsGamePaused); // Time is Up
+        EventManager.Instance.TutorialMessage06Event.Invoke(false);
 
         _timePlaced = true;
         TutorialPlayerPlays(playerIndex);
@@ -200,6 +198,197 @@ public class TutorialPlayerManager : PlayerManager
 
         yield return new WaitUntil(() => _timePlaced == false);
         #endregion
+
+        // Sixth Turn
+        #region Sixth Turn
+        playerIndex = 1;
+        NextTutorialPlayer(playerIndex);
+        CanTurn = true;
+
+        yield return new WaitUntil(() => (Input.GetKeyDown(KeyCode.Space) || Timer >= _currentDelay) && !GameStateManager.Instance.IsGamePaused);
+
+        _timePlaced = true;
+        TutorialPlayerPlays(playerIndex);
+        StartCoroutine(TimePlaceDelay());
+
+        _lastPlacedGrid = _currentPlayer.GetFacingGrid();
+        _lastPlacedSlot = _currentPlayer.GetCurrentSlot();
+
+        yield return new WaitUntil(() => _timePlaced == false);
+        #endregion
+
+        // Seventh Turn
+        #region Secenth Turn
+        playerIndex = 3;
+        NextTutorialPlayer(playerIndex);
+
+        yield return new WaitUntil(() => (Input.GetKeyDown(KeyCode.Space) || Timer >= _currentDelay) && !GameStateManager.Instance.IsGamePaused);
+
+        _timePlaced = true;
+        TutorialPlayerPlays(playerIndex);
+        StartCoroutine(TimePlaceDelay());
+
+        _lastPlacedGrid = _currentPlayer.GetFacingGrid();
+        _lastPlacedSlot = _currentPlayer.GetCurrentSlot();
+
+        yield return new WaitUntil(() => _timePlaced == false);
+        #endregion
+
+        // eighth Turn
+        #region eighth Turn
+        playerIndex = 1;
+        NextTutorialPlayer(playerIndex);
+        //CanTurn = false;
+
+        _timerStart = false;
+        CardTimer.gameObject.SetActive(_timerStart);
+        CardTimer.CardAnimator.speed = 0;
+        EventManager.Instance.TutorialMessage07Event.Invoke(true);
+        yield return new WaitUntil(() => (Input.anyKeyDown || Timer >= _currentDelay) && !GameStateManager.Instance.IsGamePaused);
+        EventManager.Instance.TutorialMessage07Event.Invoke(false);
+        yield return new WaitUntil(() => (!Input.anyKeyDown || Timer >= _currentDelay) && !GameStateManager.Instance.IsGamePaused);
+        _timerStart = true;
+        CardTimer.gameObject.SetActive(_timerStart);
+        CardTimer.CardAnimator.speed = 1;
+
+        yield return new WaitUntil(() => (Input.GetKeyDown(KeyCode.Space) || Timer >= _currentDelay) && !GameStateManager.Instance.IsGamePaused);
+
+        _timePlaced = true;
+        TutorialPlayerPlays(playerIndex);
+        StartCoroutine(TimePlaceDelay());
+
+        _lastPlacedGrid = _currentPlayer.GetFacingGrid();
+        _lastPlacedSlot = _currentPlayer.GetCurrentSlot();
+
+        yield return new WaitUntil(() => _timePlaced == false);
+        #endregion
+
+        // Ninth Turn
+        #region Ninth Turn
+        playerIndex = 0;
+        NextTutorialPlayer(playerIndex);
+        CanTurn = false;
+
+        _delayTimer = 0;
+        _delayLevel++;
+        if (_delayLevel >= _hardCoreLevel)
+            _currentNextLevelTime = _hardCoreNextLevelTime;
+        EventManager.Instance.TutorialMessage08Event.Invoke(true);
+        yield return new WaitUntil(() => (Input.anyKeyDown || Timer >= _currentDelay) && !GameStateManager.Instance.IsGamePaused);
+        EventManager.Instance.LevelUpEvent.Invoke(_delayLevel);
+        EventManager.Instance.TutorialMessage08Event.Invoke(false);
+        yield return new WaitUntil(() => (!Input.anyKeyDown || Timer >= _currentDelay) && !GameStateManager.Instance.IsGamePaused);
+
+        _currentDelay = _delayLevel >= LevelTime.Length ? LevelTime[LevelTime.Length - 1] : LevelTime[_delayLevel - 1];
+
+        yield return new WaitUntil(() => (Input.GetKeyDown(KeyCode.Space) || Timer >= _currentDelay) && !GameStateManager.Instance.IsGamePaused);
+
+        _timePlaced = true;
+        TutorialPlayerPlays(playerIndex);
+        StartCoroutine(TimePlaceDelay());
+
+        _lastPlacedGrid = _currentPlayer.GetFacingGrid();
+        _lastPlacedSlot = _currentPlayer.GetCurrentSlot();
+
+        yield return new WaitUntil(() => _timePlaced == false);
+        #endregion
+
+        // Tenth Turn
+        #region Tenth Turn
+        playerIndex = 2;
+        NextTutorialPlayer(playerIndex);
+        CanTurn = false;
+        _timerStart = false;
+        CardTimer.gameObject.SetActive(_timerStart);
+        CardTimer.CardAnimator.speed = 0;
+
+        EventManager.Instance.TutorialMessage09Event.Invoke(true);
+        yield return new WaitUntil(() => (Input.anyKeyDown || Timer >= _currentDelay) && !GameStateManager.Instance.IsGamePaused);
+        EventManager.Instance.TutorialMessage09Event.Invoke(false);
+        yield return new WaitUntil(() => (!Input.anyKeyDown || Timer >= _currentDelay) && !GameStateManager.Instance.IsGamePaused);
+
+        EventManager.Instance.TutorialMessage10Event.Invoke(true);
+
+        yield return new WaitUntil(() => (Input.GetKeyDown(KeyCode.Space) || Timer >= _currentDelay) && !GameStateManager.Instance.IsGamePaused);
+
+        _timePlaced = true;
+        TutorialPlayerPlays(playerIndex);
+        StartCoroutine(TimePlaceDelay());
+
+        _lastPlacedGrid = _currentPlayer.GetFacingGrid();
+        _lastPlacedSlot = _currentPlayer.GetCurrentSlot();
+
+        yield return new WaitUntil(() => _timePlaced == false);
+        #endregion
+
+        // Eleventh Turn
+        #region Eleventh Turn
+        playerIndex = 2;
+        NextTutorialPlayer(playerIndex);
+
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) && !GameStateManager.Instance.IsGamePaused && _lastPlacedGrid == _currentPlayer.GetFacingGrid() && _lastPlacedSlot != _currentPlayer.GetCurrentSlot());
+
+        _timePlaced = true;
+        TutorialPlayerPlays(playerIndex);
+        StartCoroutine(TimePlaceDelay());
+
+        _lastPlacedGrid = _currentPlayer.GetFacingGrid();
+        switch (_lastPlacedSlot)
+        {
+            case 1:
+                if (_currentPlayer.GetCurrentSlot() == 2)
+                    _missingSlot = 3;
+                else
+                    _missingSlot = 2;
+                break;
+            case 2:
+                if (_currentPlayer.GetCurrentSlot() == 1)
+                    _missingSlot = 3;
+                else
+                    _missingSlot = 1;
+                break;
+            case 3:
+                if (_currentPlayer.GetCurrentSlot() == 1)
+                    _missingSlot = 2;
+                else
+                    _missingSlot = 1;
+                break;
+            default:
+                throw new System.Exception($"Last placed Slot {_lastPlacedSlot} can not exist");
+        }
+        Debug.Log($"Missing Slot: {_missingSlot}");
+        _lastPlacedSlot = _currentPlayer.GetCurrentSlot();
+        Debug.Log($"Last placed Slot: {_lastPlacedSlot}");
+
+        yield return new WaitUntil(() => _timePlaced == false);
+        #endregion
+
+        // Twelfth Turn
+        #region Twelfth Turn
+        playerIndex = 2;
+        NextTutorialPlayer(playerIndex);
+
+        yield return new WaitUntil(() => (Input.GetKeyDown(KeyCode.Space) || Timer >= _currentDelay) && !GameStateManager.Instance.IsGamePaused && _lastPlacedGrid == _currentPlayer.GetFacingGrid() && _missingSlot == _currentPlayer.GetCurrentSlot());
+        EventManager.Instance.TutorialMessage10Event.Invoke(false);
+
+        _timePlaced = true;
+        TutorialPlayerPlays(playerIndex);
+        StartCoroutine(TimePlaceDelay());
+
+        _lastPlacedGrid = _currentPlayer.GetFacingGrid();
+        _lastPlacedSlot = _currentPlayer.GetCurrentSlot();
+
+        yield return new WaitUntil(() => _timePlaced == false);
+        EventManager.Instance.TutorialClearedEvent.Invoke();
+        #endregion
+
+        //Wait Untill player procedes to play or returns to title
+        yield return new WaitUntil(() => ContinuePlay);
+        CanTurn = true;
+        _timerStart = true;
+        CardTimer.gameObject.SetActive(_timerStart);
+        CardTimer.CardAnimator.speed = 0;
+        _tutorialInProgress = false;
     }
 
     protected void NextTutorialPlayer(int index)
@@ -242,7 +431,7 @@ public class TutorialPlayerManager : PlayerManager
         if (!_timerStart)
             return;
 
-        if (_puppyProtection > _maxPuppyProtection)
+        if (!_tutorialInProgress)
         {
             if (_delayLevel < EndLevel && _delayTimer >= _currentNextLevelTime)
             {
@@ -306,8 +495,6 @@ public class TutorialPlayerManager : PlayerManager
             CardTimer.gameObject.transform.localRotation = Quaternion.Euler(0, 180, 0);
         }
     }
-
-
 
     public override void SelectedPlayerPlays()
     {

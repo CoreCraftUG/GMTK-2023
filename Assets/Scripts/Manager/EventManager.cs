@@ -37,6 +37,18 @@ public class EventManager : Singleton<EventManager>
     public UnityEvent<int> RimExplosionExplodedCardsEvent = new UnityEvent<int>();
     public UnityEvent MatchFromNeighbourEvent = new UnityEvent();
 
+    //Tutorial Message
+    public UnityEvent<bool> TutorialMessage01Event = new UnityEvent<bool>();
+    public UnityEvent<bool> TutorialMessage02Event = new UnityEvent<bool>();
+    public UnityEvent<bool> TutorialMessage03Event = new UnityEvent<bool>();
+    public UnityEvent<bool> TutorialMessage04Event = new UnityEvent<bool>();
+    public UnityEvent<bool> TutorialMessage05Event = new UnityEvent<bool>();
+    public UnityEvent<bool> TutorialMessage06Event = new UnityEvent<bool>();
+    public UnityEvent<bool> TutorialMessage07Event = new UnityEvent<bool>();
+    public UnityEvent<bool> TutorialMessage08Event = new UnityEvent<bool>();
+    public UnityEvent<bool> TutorialMessage09Event = new UnityEvent<bool>();
+    public UnityEvent<bool> TutorialMessage10Event = new UnityEvent<bool>();
+
 #if UNITY_EDITOR
     public UnityEvent ClearAllAchievements = new UnityEvent();
 #endif

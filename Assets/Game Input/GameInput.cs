@@ -53,6 +53,15 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""fc8ea771-256b-485c-849e-1a636aec86cd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -82,6 +91,17 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""1f2f2fd6-0eb0-47fb-8aad-2862d334fd93"",
                     ""path"": ""<Gamepad>/leftStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TurnTableClockwise"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1780e265-1b0f-4173-8daa-2a3ef36e5991"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -143,6 +163,39 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""action"": ""TurnTableCounterClockwise"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e928e80a-6cee-4260-a5af-1c1061799541"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TurnTableCounterClockwise"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f8f7be22-ba53-45d8-9d5f-a27275201ec0"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bb41bea0-cebd-4f26-81c5-a41ba247c684"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -154,6 +207,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         m_Player_TurnTableClockwise = m_Player.FindAction("TurnTableClockwise", throwIfNotFound: true);
         m_Player_TurnTableCounterClockwise = m_Player.FindAction("TurnTableCounterClockwise", throwIfNotFound: true);
         m_Player_PlaceCard = m_Player.FindAction("PlaceCard", throwIfNotFound: true);
+        m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -218,6 +272,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_TurnTableClockwise;
     private readonly InputAction m_Player_TurnTableCounterClockwise;
     private readonly InputAction m_Player_PlaceCard;
+    private readonly InputAction m_Player_Pause;
     public struct PlayerActions
     {
         private @GameInput m_Wrapper;
@@ -225,6 +280,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         public InputAction @TurnTableClockwise => m_Wrapper.m_Player_TurnTableClockwise;
         public InputAction @TurnTableCounterClockwise => m_Wrapper.m_Player_TurnTableCounterClockwise;
         public InputAction @PlaceCard => m_Wrapper.m_Player_PlaceCard;
+        public InputAction @Pause => m_Wrapper.m_Player_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -243,6 +299,9 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @PlaceCard.started += instance.OnPlaceCard;
             @PlaceCard.performed += instance.OnPlaceCard;
             @PlaceCard.canceled += instance.OnPlaceCard;
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -256,6 +315,9 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @PlaceCard.started -= instance.OnPlaceCard;
             @PlaceCard.performed -= instance.OnPlaceCard;
             @PlaceCard.canceled -= instance.OnPlaceCard;
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -278,5 +340,6 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         void OnTurnTableClockwise(InputAction.CallbackContext context);
         void OnTurnTableCounterClockwise(InputAction.CallbackContext context);
         void OnPlaceCard(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
 }

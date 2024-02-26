@@ -57,6 +57,8 @@ public class PlayerManager : Singleton<PlayerManager>
 
     private void Instance_OnPlaceCardAction(object sender, System.EventArgs e)
     {
+        if (GameStateManager.Instance.IsGamePaused && GameStateManager.Instance.IsGameOver) return;
+
         _timePlaced = true;
         SelectedPlayerPlays();
         StartCoroutine(TimePlaceDelay());

@@ -25,7 +25,7 @@ namespace JamCraft.GMTK2023.Code
             // Unpause the game and close the pause menu.
             _resumeButton.onClick.AddListener(() =>
             {
-                GameStateManager.Instance.TogglePauseGame();
+                GameStateManager.Instance.OnPauseAction();
             });
 
             // Show the options menu and hide the pause menu.

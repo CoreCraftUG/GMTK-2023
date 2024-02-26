@@ -15,6 +15,7 @@ namespace JamCraft.GMTK2023.Code
         public event EventHandler OnTurnTableClockwiseAction;
         public event EventHandler OnTurnTableCounterClockwiseAction;
         public event EventHandler OnPlaceCardAction;
+        public event EventHandler OnPauseAction;
 
         #endregion
 
@@ -56,6 +57,12 @@ namespace JamCraft.GMTK2023.Code
             _gameInput.Player.TurnTableClockwise.performed += TurnTableClockwise_performed;
             _gameInput.Player.TurnTableCounterClockwise.performed += TurnTableCounterClockwise_performed;
             _gameInput.Player.PlaceCard.performed += PlaceCard_performed;
+            _gameInput.Player.Pause.performed += Pause_performed;
+        }
+
+        private void Pause_performed(InputAction.CallbackContext obj)
+        {
+            OnPauseAction?.Invoke(this, EventArgs.Empty);
         }
 
         private void OnEnable()
@@ -66,15 +73,6 @@ namespace JamCraft.GMTK2023.Code
         private void OnDisable()
         {
             _gameInput.Disable();
-        }
-
-        private void Update()
-        {
-            // Escape pauses the game. TODO: Refactor.
-            if (Input.GetKeyDown(KeyCode.Escape) && !GameStateManager.Instance.IsGameOver)
-            {
-                GameStateManager.Instance.TogglePauseGame();
-            }
         }
     }
 }

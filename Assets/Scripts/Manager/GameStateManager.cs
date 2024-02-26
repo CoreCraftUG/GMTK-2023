@@ -23,11 +23,16 @@ namespace JamCraft.GMTK2023.Code
             Instance = this;
         }
 
-        public void TogglePauseGame()
+        private void Start()
         {
-            // If game is paused set timeScale to 0f else 1f and notify OnGamePaused / OnGameUnpaused subscribers.
+            GameInputManager.Instance.OnPauseAction += Instance_OnPauseAction;
+        }
 
+        private void Instance_OnPauseAction(object sender, EventArgs e)
+        {
             IsGamePaused = !IsGamePaused;
+
+            if (IsGameOver) return;
 
             if (IsGamePaused)
             {
@@ -39,6 +44,11 @@ namespace JamCraft.GMTK2023.Code
                 Time.timeScale = 1f;
                 OnGameUnpaused?.Invoke(this, EventArgs.Empty);
             }
+        }
+
+        public void OnPauseAction()
+        {
+            Instance_OnPauseAction(this, EventArgs.Empty);
         }
     }
 }

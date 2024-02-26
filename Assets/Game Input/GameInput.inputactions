@@ -89,6 +89,17 @@
                 },
                 {
                     "name": "",
+                    "id": "b7dc31f9-16d8-443e-984a-a56414280ee3",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TurnTableClockwise",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "219616f0-a622-4c8c-a0ac-51eb10b72a89",
                     "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
@@ -135,6 +146,17 @@
                     "name": "",
                     "id": "d4ff1105-640a-4b55-8b1a-df505480486b",
                     "path": "<Gamepad>/leftStick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TurnTableCounterClockwise",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8c6c57ab-00a3-4f1d-ad13-c08926f8a88c",
+                    "path": "<Gamepad>/leftShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

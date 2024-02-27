@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1ea80238a0bca3d48b427e8f575f91af, type: 2}
+  - {fileID: 2100000, guid: f607f7bf4f120644fb6efcb1245aeff7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -144,7 +144,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 67b2f030aa50321458bfa44f18ca71b0, type: 2}
+  - {fileID: 2100000, guid: 8841a4c77e4d1964e97ac1434491df15, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 8842544277605383212}
   - component: {fileID: 8882163453928846889}
   m_Layer: 0
-  m_Name: P_CoinParent
+  m_Name: P_CoinParent_Diamond
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -283,7 +283,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d26a1815ba8481d46a53f120bd9df60e, type: 2}
+  - {fileID: 2100000, guid: 1380707e26743be459288b2720382bf1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

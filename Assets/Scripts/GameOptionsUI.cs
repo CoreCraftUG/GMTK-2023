@@ -51,12 +51,21 @@ namespace JamCraft.GMTK2023.Code
         [SerializeField] private TextMeshProUGUI _sfxVolumeText;
         [SerializeField] private TextMeshProUGUI _cameraHeightText;
 
+        [Header("Keybindings")] 
+        [SerializeField] private GameObject _rebindPanel;
+        [SerializeField] private TextMeshProUGUI _turnTableClockwiseKeybindingText;
+        [SerializeField] private Button _turnTableClockwiseKeybindingButton;
+        [SerializeField] private TextMeshProUGUI _turnTableCounterClockwiseKeybindingText;
+        [SerializeField] private Button _turnTableCounterClockwiseKeybindingButton;
+        [SerializeField] private TextMeshProUGUI _placeCardKeybindingText;
+        [SerializeField] private Button _placeCardButton;
+
         private List<Resolution> _supportedResolutions;
 
+        [Space]
         public Transform OptionsCameraFocus;
 
         [SerializeField] private CinemachineVirtualCamera _uiCamera;
-
 
         private void Awake()
         {
@@ -140,6 +149,21 @@ namespace JamCraft.GMTK2023.Code
                 _controlsPanel.SetActive(false);
             });
 
+            _turnTableClockwiseKeybindingButton.onClick.AddListener(() =>
+            {
+                RebindBinding(GameInputManager.Binding.TurnTableClockwise);
+            });
+
+            _turnTableCounterClockwiseKeybindingButton.onClick.AddListener(() =>
+            {
+                RebindBinding(GameInputManager.Binding.TurnTableCounterClockwise);
+            });
+
+            _placeCardButton.onClick.AddListener(() =>
+            {
+                RebindBinding(GameInputManager.Binding.PlaceCard);
+            });
+
             // Fill the dropdown with the supported resolutions.
             AddResolutions();
 
@@ -198,14 +222,22 @@ namespace JamCraft.GMTK2023.Code
                 GameStateManager.Instance.OnGameUnpaused += GameStateManager_OnOnGameUnpaused;
             }
 
+            UpdateVisual();
+
+            Hide();
+            HideRebindPanel();
+        }
+
+        private void UpdateVisual()
+        {
             // Set the texts to the according values + some black magic so it looks correct.
-            _mainVolumeText.text = Mathf.Round(SoundManager.Instance.MainVolume * 10).ToString();
+            _mainVolumeText.text = Mathf.Round(SoundManager.Instance.MainVolume * 10f).ToString();
 
-            _musicVolumeText.text = Mathf.Round(SoundManager.Instance.MusicVolume * 10).ToString();
+            _musicVolumeText.text = Mathf.Round(SoundManager.Instance.MusicVolume * 10f).ToString();
 
-            _sfxVolumeText.text = Mathf.Round(SoundManager.Instance.SfxVolume * 10).ToString();
+            _sfxVolumeText.text = Mathf.Round(SoundManager.Instance.SfxVolume * 10f).ToString();
 
-            _cameraHeightText.text = Mathf.Round(GameSettingsManager.Instance.CameraHeight * 10).ToString();
+            _cameraHeightText.text = Mathf.Round(GameSettingsManager.Instance.CameraHeight * 10f).ToString();
 
             // Set the slider values to the sound manager values.
             _mainVolumeSlider.value = SoundManager.Instance.MainVolume;
@@ -216,7 +248,20 @@ namespace JamCraft.GMTK2023.Code
 
             _cameraHeightSlider.value = GameSettingsManager.Instance.CameraHeight;
 
-            Hide();
+            _turnTableClockwiseKeybindingText.text = GameInputManager.Instance.GetBindingText(GameInputManager.Binding.TurnTableClockwise);
+            _turnTableCounterClockwiseKeybindingText.text = GameInputManager.Instance.GetBindingText(GameInputManager.Binding.TurnTableCounterClockwise);
+            _placeCardKeybindingText.text = GameInputManager.Instance.GetBindingText(GameInputManager.Binding.PlaceCard);
+        }
+
+        private void RebindBinding(GameInputManager.Binding binding)
+        {
+            ShowRebindPanel();
+
+            GameInputManager.Instance.RebindBinding(binding, () =>
+            {
+                HideRebindPanel();
+                UpdateVisual();
+            });
         }
 
         // If the game unpauses, hide the options menu.
@@ -228,6 +273,16 @@ namespace JamCraft.GMTK2023.Code
         public void Show()
         {
             gameObject.SetActive(true);
+        }
+
+        private void ShowRebindPanel()
+        {
+            _rebindPanel.SetActive(true);
+        }
+
+        private void HideRebindPanel()
+        {
+            _rebindPanel.SetActive(false);
         }
 
         public void Hide()

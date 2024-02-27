@@ -10,6 +10,9 @@ namespace JamCraft.GMTK2023.Code
 
         private GameInput _gameInput;
 
+        private const string PLAYER_INPUT_BINDINGS = "InputBindings";
+        private readonly string _saveFilePath = $"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\\My Games\\House Always WINS!\\SaveFile.ini";
+
         #region EventHandlers
 
         public event EventHandler OnTurnTableClockwiseAction;
@@ -18,6 +21,13 @@ namespace JamCraft.GMTK2023.Code
         public event EventHandler OnPauseAction;
 
         #endregion
+
+        public enum Binding
+        {
+            TurnTableClockwise,
+            TurnTableCounterClockwise,
+            PlaceCard,
+        }
 
         private void Awake()
         {
@@ -30,6 +40,11 @@ namespace JamCraft.GMTK2023.Code
 
             _gameInput = new GameInput();
             _gameInput.Player.Enable();
+
+            if (ES3.KeyExists(PLAYER_INPUT_BINDINGS, _saveFilePath))
+            {
+                _gameInput.LoadBindingOverridesFromJson(ES3.Load<string>(PLAYER_INPUT_BINDINGS, _saveFilePath));
+            }
 
             RegisterInputActions();
         }
@@ -62,14 +77,53 @@ namespace JamCraft.GMTK2023.Code
             OnPauseAction?.Invoke(this, EventArgs.Empty);
         }
 
-        private void OnEnable()
+        public string GetBindingText(Binding binding)
         {
-            _gameInput.Enable();
+            switch (binding)
+            {
+                default:
+                case Binding.TurnTableClockwise:
+                    return _gameInput.Player.TurnTableClockwise.bindings[0].ToDisplayString();
+                case Binding.TurnTableCounterClockwise:
+                    return _gameInput.Player.TurnTableCounterClockwise.bindings[0].ToDisplayString();
+                case Binding.PlaceCard:
+                    return _gameInput.Player.PlaceCard.bindings[0].ToDisplayString();
+            }
         }
 
-        private void OnDisable()
+        public void RebindBinding(Binding binding, Action onActionRebound)
         {
-            _gameInput.Disable();
+            _gameInput.Player.Disable();
+
+            InputAction inputAction;
+            int bindingIndex;
+
+            switch (binding)
+            {
+                default:
+                case Binding.TurnTableClockwise:
+                    inputAction = _gameInput.Player.TurnTableClockwise;
+                    bindingIndex = 0;
+                    break;
+                case Binding.TurnTableCounterClockwise:
+                    inputAction = _gameInput.Player.TurnTableCounterClockwise;
+                    bindingIndex = 0;
+                    break;
+                case Binding.PlaceCard:
+                    inputAction = _gameInput.Player.PlaceCard;
+                    bindingIndex = 0;
+                    break;
+            }
+
+            inputAction.PerformInteractiveRebinding(bindingIndex)
+                .OnComplete(callback =>
+                {
+                    callback.Dispose();
+                    _gameInput.Player.Enable();
+                    onActionRebound();
+                    ES3.Save(PLAYER_INPUT_BINDINGS, _gameInput.SaveBindingOverridesAsJson(), _saveFilePath);
+                })
+                .Start();
         }
     }
 }

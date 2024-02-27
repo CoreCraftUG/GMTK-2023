@@ -4452,7 +4452,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 0
 --- !u!224 &418623655
 RectTransform:
@@ -18934,11 +18934,11 @@ GameObject:
   - component: {fileID: 1208237549}
   - component: {fileID: 1208237551}
   m_Layer: 5
-  m_Name: C_Menu
+  m_Name: C_MainMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!224 &1208237547
 RectTransform:

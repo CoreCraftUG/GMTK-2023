@@ -11104,6 +11104,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9062989913295194238, guid: 1dd029bacc31a894e8eeb6c8094b897d,
         type: 3}
+      propertyPath: _table
+      value: 
+      objectReference: {fileID: 297807569}
+    - target: {fileID: 9062989913295194238, guid: 1dd029bacc31a894e8eeb6c8094b897d,
+        type: 3}
       propertyPath: _goldColour.b
       value: 1
       objectReference: {fileID: 0}
@@ -11132,6 +11137,35 @@ PrefabInstance:
       propertyPath: _bronzeColour.r
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9062989913295194238, guid: 1dd029bacc31a894e8eeb6c8094b897d,
+        type: 3}
+      propertyPath: _coins.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 9062989913295194238, guid: 1dd029bacc31a894e8eeb6c8094b897d,
+        type: 3}
+      propertyPath: _coins.Array.data[0]
+      value: 
+      objectReference: {fileID: 6668435193352869637, guid: f7942076a87a75944bf6ce8b0b7297d6,
+        type: 3}
+    - target: {fileID: 9062989913295194238, guid: 1dd029bacc31a894e8eeb6c8094b897d,
+        type: 3}
+      propertyPath: _coins.Array.data[1]
+      value: 
+      objectReference: {fileID: 6668435193352869637, guid: a1f1be3ebfc3a6948824545cc2381a3d,
+        type: 3}
+    - target: {fileID: 9062989913295194238, guid: 1dd029bacc31a894e8eeb6c8094b897d,
+        type: 3}
+      propertyPath: _coins.Array.data[2]
+      value: 
+      objectReference: {fileID: 6668435193352869637, guid: bcc4fd370b454e4499dfe2f4a4305aed,
+        type: 3}
+    - target: {fileID: 9062989913295194238, guid: 1dd029bacc31a894e8eeb6c8094b897d,
+        type: 3}
+      propertyPath: _coins.Array.data[3]
+      value: 
+      objectReference: {fileID: 6668435193352869637, guid: 17393b8e395b2cf48ad700f5b43c6dea,
+        type: 3}
     - target: {fileID: 9062989913295194238, guid: 1dd029bacc31a894e8eeb6c8094b897d,
         type: 3}
       propertyPath: _cardFaceSprites.values.Array.data[0]

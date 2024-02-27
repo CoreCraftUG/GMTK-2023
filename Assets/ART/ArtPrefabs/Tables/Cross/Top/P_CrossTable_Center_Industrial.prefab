@@ -123,6 +123,7 @@ GameObject:
   - component: {fileID: 6095406667367238542}
   - component: {fileID: 2696782210511905837}
   - component: {fileID: 4355247761529007094}
+  - component: {fileID: 8567219424227068974}
   m_Layer: 0
   m_Name: P_CrossTable_Center_Industrial
   m_TagString: Untagged
@@ -152,7 +153,7 @@ Transform:
   - {fileID: 5324714245889985852}
   - {fileID: 1777492744841552670}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2696782210511905837
 MeshFilter:
@@ -204,6 +205,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8567219424227068974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3877443844326057369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54975ef57c634e344941e11300223bc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _centerField: {fileID: 7313381931194151594}
 --- !u!1 &3918222048300768399
 GameObject:
   m_ObjectHideFlags: 0

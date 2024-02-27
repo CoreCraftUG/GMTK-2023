@@ -235,6 +235,7 @@ GameObject:
   - component: {fileID: 5566532734108557249}
   - component: {fileID: 5683217077416378517}
   - component: {fileID: 294206811043086214}
+  - component: {fileID: 2411385022452285203}
   m_Layer: 0
   m_Name: P_RoundTable_Center_Base
   m_TagString: Untagged
@@ -264,7 +265,7 @@ Transform:
   - {fileID: 254696415953054409}
   - {fileID: 5300159351530223383}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5683217077416378517
 MeshFilter:
@@ -316,6 +317,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &2411385022452285203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3830137066989532919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54975ef57c634e344941e11300223bc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _centerField: {fileID: 2968268479572275235}
 --- !u!1 &4183022925878179211
 GameObject:
   m_ObjectHideFlags: 0

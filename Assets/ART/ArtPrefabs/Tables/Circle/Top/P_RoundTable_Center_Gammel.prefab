@@ -67,6 +67,7 @@ GameObject:
   - component: {fileID: 6419261864654402336}
   - component: {fileID: 8829119010216933850}
   - component: {fileID: 7783038375142490967}
+  - component: {fileID: 5999853556243136705}
   m_Layer: 0
   m_Name: P_RoundTable_Center_Gammel
   m_TagString: Untagged
@@ -96,7 +97,7 @@ Transform:
   - {fileID: 6827775262106525497}
   - {fileID: 6392274916679558349}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8829119010216933850
 MeshFilter:
@@ -148,6 +149,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &5999853556243136705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2911117548259683041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54975ef57c634e344941e11300223bc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _centerField: {fileID: 8573506187464472111}
 --- !u!1 &3232368797274898392
 GameObject:
   m_ObjectHideFlags: 0

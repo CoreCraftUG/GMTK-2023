@@ -347,6 +347,7 @@ GameObject:
   - component: {fileID: 8040587623582685461}
   - component: {fileID: 6844442866378339095}
   - component: {fileID: 9052865361530770522}
+  - component: {fileID: 3079291636299936117}
   m_Layer: 0
   m_Name: P_BaseTable_Center_Gammel
   m_TagString: Untagged
@@ -376,7 +377,7 @@ Transform:
   - {fileID: 7957270402467694480}
   - {fileID: 6504135906030017398}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6844442866378339095
 MeshFilter:
@@ -428,6 +429,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &3079291636299936117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5847670565952887238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54975ef57c634e344941e11300223bc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _centerField: {fileID: 5751396886378116184}
 --- !u!1 &6322278927985670676
 GameObject:
   m_ObjectHideFlags: 0

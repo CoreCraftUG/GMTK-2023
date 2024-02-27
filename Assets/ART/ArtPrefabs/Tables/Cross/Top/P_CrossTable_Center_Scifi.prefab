@@ -179,6 +179,7 @@ GameObject:
   - component: {fileID: 3074477528305216009}
   - component: {fileID: 8665463062417813484}
   - component: {fileID: 5160655189738823679}
+  - component: {fileID: 8500033533398960835}
   m_Layer: 0
   m_Name: P_CrossTable_Center_Scifi
   m_TagString: Untagged
@@ -204,7 +205,7 @@ Transform:
   - {fileID: 8652440336534041021}
   - {fileID: 5361786079669163365}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8665463062417813484
 MeshFilter:
@@ -256,6 +257,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8500033533398960835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8919579152028738326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54975ef57c634e344941e11300223bc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _centerField: {fileID: 9138267020767371620}
 --- !u!1 &9066478874432055134
 GameObject:
   m_ObjectHideFlags: 0

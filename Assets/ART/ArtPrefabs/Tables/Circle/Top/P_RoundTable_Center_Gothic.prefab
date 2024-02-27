@@ -123,6 +123,7 @@ GameObject:
   - component: {fileID: 7864471334196546809}
   - component: {fileID: 2060606884345932855}
   - component: {fileID: 7300605915519548798}
+  - component: {fileID: 1813963310775386751}
   m_Layer: 0
   m_Name: P_RoundTable_Center_Gothic
   m_TagString: Untagged
@@ -152,7 +153,7 @@ Transform:
   - {fileID: 4146223132689603290}
   - {fileID: 2549989282901707354}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2060606884345932855
 MeshFilter:
@@ -204,6 +205,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &1813963310775386751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1631371740393695382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54975ef57c634e344941e11300223bc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _centerField: {fileID: 6057027776207630474}
 --- !u!1 &1880323667810184535
 GameObject:
   m_ObjectHideFlags: 0

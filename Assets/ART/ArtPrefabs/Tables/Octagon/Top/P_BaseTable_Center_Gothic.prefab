@@ -67,6 +67,7 @@ GameObject:
   - component: {fileID: 2887118895462973620}
   - component: {fileID: 100116239603919685}
   - component: {fileID: 7232253478719670}
+  - component: {fileID: 7110266951400530934}
   m_Layer: 0
   m_Name: P_BaseTable_Center_Gothic
   m_TagString: Untagged
@@ -96,7 +97,7 @@ Transform:
   - {fileID: 682039628709445034}
   - {fileID: 572094284264268496}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &100116239603919685
 MeshFilter:
@@ -148,6 +149,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &7110266951400530934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1665487664199947792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54975ef57c634e344941e11300223bc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _centerField: {fileID: 5842251562969200852}
 --- !u!1 &3499027467299845824
 GameObject:
   m_ObjectHideFlags: 0

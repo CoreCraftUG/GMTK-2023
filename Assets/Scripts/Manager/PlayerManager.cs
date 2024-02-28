@@ -48,14 +48,11 @@ public class PlayerManager : Singleton<PlayerManager>
         StartCoroutine(BeginPlay());
         _currentDelay = LevelTime[0];
         _currentNextLevelTime = _nextLevelTime;
-    }
 
-    private void Start()
-    {
         GameInputManager.Instance.OnPlaceCardAction += Instance_OnPlaceCardAction;
     }
 
-    private void Instance_OnPlaceCardAction(object sender, System.EventArgs e)
+    protected virtual void Instance_OnPlaceCardAction(object sender, System.EventArgs e)
     {
         if (GameStateManager.Instance.IsGamePaused && GameStateManager.Instance.IsGameOver) return;
 

@@ -12,6 +12,7 @@ public class TutorialPlayerManager : PlayerManager
     protected bool _stepDone;
     protected bool _timerStart;
     protected bool _tutorialInProgress = true;
+    protected bool _cardPlacePressed;
     protected CardGrid _lastPlacedGrid;
     protected int _lastPlacedSlot;
     protected int _missingSlot;
@@ -25,6 +26,20 @@ public class TutorialPlayerManager : PlayerManager
         StartCoroutine(BeginPlay());
         _currentDelay = LevelTime[0];
         _currentNextLevelTime = _nextLevelTime;
+    }
+
+    protected override void Instance_OnPlaceCardAction(object sender, System.EventArgs e)
+    {
+        if (GameStateManager.Instance.IsGamePaused && GameStateManager.Instance.IsGameOver) return;
+
+        StartCoroutine(SetPressBool());
+    }
+
+    private IEnumerator SetPressBool()
+    {
+        _cardPlacePressed = true;
+        yield return null;
+        _cardPlacePressed = false;
     }
 
     public IEnumerator BeginPlay()
@@ -54,7 +69,7 @@ public class TutorialPlayerManager : PlayerManager
         // Show Place Card tutorial Message
         EventManager.Instance.TutorialMessage01Event.Invoke(true);
         CanTurn = false;
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) && !GameStateManager.Instance.IsGamePaused);
+        yield return new WaitUntil(() => _cardPlacePressed && !GameStateManager.Instance.IsGamePaused);
         EventManager.Instance.TutorialMessage01Event.Invoke(false);
 
         _timePlaced = true;
@@ -84,7 +99,7 @@ public class TutorialPlayerManager : PlayerManager
         CanTurn = false;
 
         EventManager.Instance.TutorialMessage03Event.Invoke(true);
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) && !GameStateManager.Instance.IsGamePaused && _lastPlacedGrid == _currentPlayer.GetFacingGrid() && _lastPlacedSlot != _currentPlayer.GetCurrentSlot());
+        yield return new WaitUntil(() => _cardPlacePressed && !GameStateManager.Instance.IsGamePaused && _lastPlacedGrid == _currentPlayer.GetFacingGrid() && _lastPlacedSlot != _currentPlayer.GetCurrentSlot());
         EventManager.Instance.TutorialMessage03Event.Invoke(false);
 
         _timePlaced = true;
@@ -138,7 +153,7 @@ public class TutorialPlayerManager : PlayerManager
         // Pause Game
         EventManager.Instance.TutorialMessage04Event.Invoke(true);
 
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) && !GameStateManager.Instance.IsGamePaused && _lastPlacedGrid == _currentPlayer.GetFacingGrid() && _missingSlot == _currentPlayer.GetCurrentSlot());
+        yield return new WaitUntil(() => _cardPlacePressed && !GameStateManager.Instance.IsGamePaused && _lastPlacedGrid == _currentPlayer.GetFacingGrid() && _missingSlot == _currentPlayer.GetCurrentSlot());
 
         EventManager.Instance.TutorialMessage04Event.Invoke(false);
 
@@ -158,7 +173,7 @@ public class TutorialPlayerManager : PlayerManager
         NextTutorialPlayer(playerIndex);
         CanTurn = false;
 
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) && !GameStateManager.Instance.IsGamePaused);
+        yield return new WaitUntil(() => _cardPlacePressed && !GameStateManager.Instance.IsGamePaused);
 
         _timePlaced = true;
         TutorialPlayerPlays(playerIndex);
@@ -205,7 +220,7 @@ public class TutorialPlayerManager : PlayerManager
         NextTutorialPlayer(playerIndex);
         CanTurn = true;
 
-        yield return new WaitUntil(() => (Input.GetKeyDown(KeyCode.Space) || Timer >= _currentDelay) && !GameStateManager.Instance.IsGamePaused);
+        yield return new WaitUntil(() => (_cardPlacePressed || Timer >= _currentDelay) && !GameStateManager.Instance.IsGamePaused);
 
         _timePlaced = true;
         TutorialPlayerPlays(playerIndex);
@@ -222,7 +237,7 @@ public class TutorialPlayerManager : PlayerManager
         playerIndex = 3;
         NextTutorialPlayer(playerIndex);
 
-        yield return new WaitUntil(() => (Input.GetKeyDown(KeyCode.Space) || Timer >= _currentDelay) && !GameStateManager.Instance.IsGamePaused);
+        yield return new WaitUntil(() => (_cardPlacePressed || Timer >= _currentDelay) && !GameStateManager.Instance.IsGamePaused);
 
         _timePlaced = true;
         TutorialPlayerPlays(playerIndex);
@@ -251,7 +266,7 @@ public class TutorialPlayerManager : PlayerManager
         CardTimer.gameObject.SetActive(_timerStart);
         CardTimer.CardAnimator.speed = 1;
 
-        yield return new WaitUntil(() => (Input.GetKeyDown(KeyCode.Space) || Timer >= _currentDelay) && !GameStateManager.Instance.IsGamePaused);
+        yield return new WaitUntil(() => (_cardPlacePressed || Timer >= _currentDelay) && !GameStateManager.Instance.IsGamePaused);
 
         _timePlaced = true;
         TutorialPlayerPlays(playerIndex);
@@ -281,7 +296,7 @@ public class TutorialPlayerManager : PlayerManager
 
         _currentDelay = _delayLevel >= LevelTime.Length ? LevelTime[LevelTime.Length - 1] : LevelTime[_delayLevel - 1];
 
-        yield return new WaitUntil(() => (Input.GetKeyDown(KeyCode.Space) || Timer >= _currentDelay) && !GameStateManager.Instance.IsGamePaused);
+        yield return new WaitUntil(() => (_cardPlacePressed || Timer >= _currentDelay) && !GameStateManager.Instance.IsGamePaused);
 
         _timePlaced = true;
         TutorialPlayerPlays(playerIndex);
@@ -309,7 +324,7 @@ public class TutorialPlayerManager : PlayerManager
 
         EventManager.Instance.TutorialMessage10Event.Invoke(true);
 
-        yield return new WaitUntil(() => (Input.GetKeyDown(KeyCode.Space) || Timer >= _currentDelay) && !GameStateManager.Instance.IsGamePaused);
+        yield return new WaitUntil(() => (_cardPlacePressed || Timer >= _currentDelay) && !GameStateManager.Instance.IsGamePaused);
 
         _timePlaced = true;
         TutorialPlayerPlays(playerIndex);
@@ -326,7 +341,7 @@ public class TutorialPlayerManager : PlayerManager
         playerIndex = 2;
         NextTutorialPlayer(playerIndex);
 
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) && !GameStateManager.Instance.IsGamePaused && _lastPlacedGrid == _currentPlayer.GetFacingGrid() && _lastPlacedSlot != _currentPlayer.GetCurrentSlot());
+        yield return new WaitUntil(() => _cardPlacePressed && !GameStateManager.Instance.IsGamePaused && _lastPlacedGrid == _currentPlayer.GetFacingGrid() && _lastPlacedSlot != _currentPlayer.GetCurrentSlot());
 
         _timePlaced = true;
         TutorialPlayerPlays(playerIndex);
@@ -368,7 +383,7 @@ public class TutorialPlayerManager : PlayerManager
         playerIndex = 2;
         NextTutorialPlayer(playerIndex);
 
-        yield return new WaitUntil(() => (Input.GetKeyDown(KeyCode.Space) || Timer >= _currentDelay) && !GameStateManager.Instance.IsGamePaused && _lastPlacedGrid == _currentPlayer.GetFacingGrid() && _missingSlot == _currentPlayer.GetCurrentSlot());
+        yield return new WaitUntil(() => (_cardPlacePressed || Timer >= _currentDelay) && !GameStateManager.Instance.IsGamePaused && _lastPlacedGrid == _currentPlayer.GetFacingGrid() && _missingSlot == _currentPlayer.GetCurrentSlot());
         EventManager.Instance.TutorialMessage10Event.Invoke(false);
 
         _timePlaced = true;
@@ -460,7 +475,7 @@ public class TutorialPlayerManager : PlayerManager
             SelectedPlayerPlays();
             StartCoroutine(TimePlaceDelay());
         }
-        else if (Input.GetKeyDown(KeyCode.Space) && CanTurn && !GameStateManager.Instance.IsGamePaused && !GameStateManager.Instance.IsGameOver && !_timePlaced)
+        else if (_cardPlacePressed && CanTurn && !GameStateManager.Instance.IsGamePaused && !GameStateManager.Instance.IsGameOver && !_timePlaced)
         {
             _timePlaced = true;
             SelectedPlayerPlays();

@@ -24,7 +24,7 @@ public class CardGrid : MonoBehaviour
     protected CardBase[,] _cardField;
     public CardHolder[,] _cardObjects;
     protected Vector3[,] _cardPositions;
-    private CardHolder _lastCard;
+    protected CardHolder _lastCard;
 
     [SerializeField] protected bool _wait;
 
@@ -180,6 +180,9 @@ public class CardGrid : MonoBehaviour
                 break;
             }
 
+            else
+                TurnOffPrimedExplosion(i);
+
             red = 0;
             blue = 0;
             green = 0;
@@ -200,7 +203,15 @@ public class CardGrid : MonoBehaviour
             PlayerManager.Instance.Timer = 0;
         }
     }
-
+    protected void TurnOffPrimedExplosion(int row)
+    {
+        for(int i = _gridWidth - 1; i >= 0; i--)
+        {
+            if (_cardObjects[i, row] == null)
+                continue;
+            _cardObjects[i, row].HidePrimedExplosion();
+        }
+    }
     protected virtual void StartRowMatch(int row)
     {
         StartCoroutine(RowMatch(row));
@@ -213,10 +224,11 @@ public class CardGrid : MonoBehaviour
 
     protected IEnumerator PrimedExplosion(int row)
     {
-        float time = _cardObjects[_gridWidth - 1, row].MoveTime;
-        yield return new WaitForSeconds(time);
+        float time = cardTime;
         ECardFace face = _lastCard.Card.Face;
         ECardColour color = _lastCard.Card.Colour;
+        yield return new WaitForSeconds(time);
+
         for (int i = _gridWidth - 1; i >= 0; i--)
         {
             if (_cardObjects[i, row] == _lastCard)

@@ -90,7 +90,7 @@ public class SecondGameModeCardGrid : CardGrid
                 }
             }
         }
-
+        SetLastCard(_cardObjects[slot - 1, 0]);
         if (!couldPlace)
         {
             EventManager.Instance.TimeStopEvent.Invoke();

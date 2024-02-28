@@ -71,18 +71,21 @@ public class CentreGrid : MonoBehaviour
                         if (_grid[slot - 1, i].Face == card.Card.Face)
                             level = (int)_grid[slot - 1, i].Level;
                         level++;
+                        CentreGridSlot temp = _grid[slot - 1, i];
                         _grid[slot - 1, i] = new CentreGridSlot { Face = card.Card.Face, Level = (ECentreGridLevel)level, Coin = _grid[slot - 1, i].Coin };
-
+                        Destroy(temp.Coin);
                         _spriteGrid[slot - 1, i].sprite = _cardFaceSprites[_grid[slot - 1, i].Face];
                         switch (_grid[slot - 1, i].Level)
                         {
                             case ECentreGridLevel.None:
                                 _spriteGrid[slot - 1, i].color = Color.white;
-                                if (_grid[slot - 1, i].Coin != null)
+                                if (_grid[slot - 1, i].Coin != null && _grid[ slot - 1, i].Face != card.Card.Face)
                                     Destroy(_grid[slot - 1, i].Coin);
                                 break;
                             case ECentreGridLevel.Bronze:
                                 _spriteGrid[slot - 1, i].color = _bronzeColour;
+                                if (_grid[slot - 1, i].Coin != null && _grid[slot - 1, i].Face != card.Card.Face)
+                                    Destroy(_grid[slot - 1, i].Coin);
                                 _grid[slot - 1, i].Coin = Instantiate(_coins[(int)card.Card.Face], _spriteGrid[slot - 1, i].transform.position, Quaternion.Euler(0, 0, 0));
                                 _grid[slot - 1, i].Coin.transform.parent = _table.transform;
                                 _grid[slot - 1, i].Coin.GetComponent<Animator>().SetInteger("Level", level);
@@ -123,7 +126,11 @@ public class CentreGrid : MonoBehaviour
                         if (_grid[i, slot - 1].Face == card.Card.Face)
                             level = (int)_grid[i, slot - 1].Level;
                         level++;
+
+                        CentreGridSlot temp = _grid[i, slot - 1];
                         _grid[i, slot - 1] = new CentreGridSlot { Face = card.Card.Face, Level = (ECentreGridLevel)level, Coin = _grid[i, slot - 1].Coin };
+                        Destroy(temp.Coin);
+
 
                         _spriteGrid[i, slot - 1].sprite = _cardFaceSprites[_grid[i, slot - 1].Face];
                         switch (_grid[i, slot - 1].Level)
@@ -135,6 +142,8 @@ public class CentreGrid : MonoBehaviour
                                 break;
                             case ECentreGridLevel.Bronze:
                                 _spriteGrid[i, slot - 1].color = _bronzeColour;
+                                if (_grid[i, slot - 1].Coin != null && _grid[i, slot - 1].Face != card.Card.Face)
+                                    Destroy(_grid[i, slot - 1].Coin);
                                 _grid[i, slot - 1].Coin = Instantiate(_coins[(int)card.Card.Face], _spriteGrid[i, slot - 1].transform.position, Quaternion.Euler(0, 0, 0));
                                 _grid[i, slot - 1].Coin.transform.parent = _table.transform;
                                 _grid[i, slot - 1].Coin.GetComponent<Animator>().SetInteger("Level", level);
@@ -173,20 +182,24 @@ public class CentreGrid : MonoBehaviour
                         if (_grid[slot - 1, i].Face == card.Card.Face)
                             level = (int)_grid[slot - 1, i].Level;
                         level++;
+                        CentreGridSlot temp = _grid[ slot - 1,i];
                         _grid[slot - 1, i] = new CentreGridSlot { Face = card.Card.Face, Level = (ECentreGridLevel)level, Coin = _grid[slot - 1, i].Coin };
+                        Destroy(temp.Coin);
 
                         _spriteGrid[slot - 1, i].sprite = _cardFaceSprites[_grid[slot - 1, i].Face];
                         switch (_grid[slot - 1, i].Level)
                         {
                             case ECentreGridLevel.None:
                                 _spriteGrid[slot - 1, i].color = Color.white;
-                                if (_grid[slot - 1, i].Coin != null && _grid[i, slot - 1].Face != card.Card.Face)
+                                if (_grid[slot - 1, i].Coin != null && _grid[slot - 1, i].Face != card.Card.Face)
                                     Destroy(_grid[slot - 1, i].Coin);
 
                                 _grid[slot - 1, i].Coin.GetComponent<Animator>().SetInteger("Level", level);
                                 break;
                             case ECentreGridLevel.Bronze:
                                 _spriteGrid[slot - 1, i].color = _bronzeColour;
+                                if (_grid[slot - 1, i].Coin != null && _grid[slot - 1, i].Face != card.Card.Face)
+                                    Destroy(_grid[slot - 1, i].Coin);
                                 _grid[slot - 1, i].Coin = Instantiate(_coins[(int)card.Card.Face], _spriteGrid[slot - 1, i].transform.position, Quaternion.Euler(0, 0, 0));
                                 _grid[slot - 1, i].Coin.transform.parent = _table.transform;
                                 _grid[slot - 1, i].Coin.GetComponent<Animator>().SetInteger("Level", level);
@@ -225,8 +238,9 @@ public class CentreGrid : MonoBehaviour
                         if (_grid[i, slot - 1].Face == card.Card.Face)
                             level = (int)_grid[i, slot - 1].Level;
                         level++;
+                        CentreGridSlot temp = _grid[i, slot - 1];
                         _grid[i, slot - 1] = new CentreGridSlot { Face = card.Card.Face, Level = (ECentreGridLevel)level, Coin = _grid[i, slot - 1].Coin };
-
+                        Destroy(temp.Coin);
                         _spriteGrid[i, slot - 1].sprite = _cardFaceSprites[_grid[i, slot - 1].Face];
                         switch (_grid[i, slot - 1].Level)
                         {
@@ -239,6 +253,8 @@ public class CentreGrid : MonoBehaviour
                                 break;
                             case ECentreGridLevel.Bronze:
                                 _spriteGrid[i, slot - 1].color = _bronzeColour;
+                                if (_grid[i, slot - 1].Coin != null && _grid[i, slot - 1].Face != card.Card.Face)
+                                    Destroy(_grid[i, slot - 1].Coin);
                                 _grid[i, slot - 1].Coin = Instantiate(_coins[(int)card.Card.Face], _spriteGrid[i, slot -1].transform.position, Quaternion.Euler(0,0,0));
                                 _grid[i, slot - 1].Coin.transform.parent = _table.transform;
                                 _grid[i, slot - 1].Coin.GetComponent<Animator>().SetInteger("Level", level);

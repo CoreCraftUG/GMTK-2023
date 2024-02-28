@@ -1634,7 +1634,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7172933384500339877
 Transform:
   m_ObjectHideFlags: 0
@@ -2635,6 +2635,7 @@ MonoBehaviour:
   - {fileID: 1724649862845931773}
   - {fileID: 5424647820166137407}
   _animator: {fileID: 9085492740751709216}
+  _doubleBorder: {fileID: 4109757321201428929}
 --- !u!95 &9085492740751709216
 Animator:
   serializedVersion: 5
@@ -3589,6 +3590,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fa1a1f7e6a6e6a74c9603337de122aba, type: 3}
+--- !u!1 &4109757321201428929 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7656930814392256313, guid: fa1a1f7e6a6e6a74c9603337de122aba,
+    type: 3}
+  m_PrefabInstance: {fileID: 6001653999597678328}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7181321401504541106 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3522665138253776714, guid: fa1a1f7e6a6e6a74c9603337de122aba,

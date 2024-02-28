@@ -17,7 +17,7 @@ public static class DefaultSceneLoader
             EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
         }
 
-        if (state == PlayModeStateChange.EnteredPlayMode)
+        if (state == PlayModeStateChange.EnteredPlayMode && EditorSceneManager.GetActiveScene().buildIndex != 0)
         {
             EditorSceneManager.LoadScene(0);
         }

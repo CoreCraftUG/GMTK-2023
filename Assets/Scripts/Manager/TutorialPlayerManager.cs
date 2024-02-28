@@ -1,9 +1,11 @@
 using JamCraft.GMTK2023.Code;
+using Sirenix.OdinInspector;
+using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Utilities;
 
 public class TutorialPlayerManager : PlayerManager
 {
@@ -12,11 +14,13 @@ public class TutorialPlayerManager : PlayerManager
     protected bool _stepDone;
     protected bool _timerStart;
     protected bool _tutorialInProgress = true;
-    protected bool _cardPlacePressed;
+    [ShowInInspector, ReadOnly] protected bool _cardPlacePressed;
+    [ShowInInspector, ReadOnly] protected bool _anyKeyPressed;
     protected CardGrid _lastPlacedGrid;
     protected int _lastPlacedSlot;
     protected int _missingSlot;
     protected TutorialPlayer _currentPlayer;
+    
 
     public bool ContinuePlay;
 
@@ -26,20 +30,30 @@ public class TutorialPlayerManager : PlayerManager
         StartCoroutine(BeginPlay());
         _currentDelay = LevelTime[0];
         _currentNextLevelTime = _nextLevelTime;
+
+        GameInputManager.Instance.OnPlaceCardAction += Instance_OnPlaceCardAction;
+        InputSystem.onAnyButtonPress.Call(ctnr => StartCoroutine(SetAnyKeyPlacedPressBool()));
     }
 
     protected override void Instance_OnPlaceCardAction(object sender, System.EventArgs e)
     {
         if (GameStateManager.Instance.IsGamePaused && GameStateManager.Instance.IsGameOver) return;
 
-        StartCoroutine(SetPressBool());
+        StartCoroutine(SetCardPlacedPressBool());
     }
 
-    private IEnumerator SetPressBool()
+    private IEnumerator SetCardPlacedPressBool()
     {
         _cardPlacePressed = true;
         yield return null;
         _cardPlacePressed = false;
+    }
+
+    private IEnumerator SetAnyKeyPlacedPressBool()
+    {
+        _anyKeyPressed = true;
+        yield return null;
+        _anyKeyPressed = false;
     }
 
     public IEnumerator BeginPlay()
@@ -191,9 +205,9 @@ public class TutorialPlayerManager : PlayerManager
         NextTutorialPlayer(playerIndex);
 
         EventManager.Instance.TutorialMessage05Event.Invoke(true);
-        yield return new WaitUntil(() => (Input.anyKeyDown || Timer >= _currentDelay) && !GameStateManager.Instance.IsGamePaused);
+        yield return new WaitUntil(() => (_anyKeyPressed || Timer >= _currentDelay) && !GameStateManager.Instance.IsGamePaused);
         EventManager.Instance.TutorialMessage05Event.Invoke(false);
-        yield return new WaitUntil(() => (!Input.anyKeyDown || Timer >= _currentDelay) && !GameStateManager.Instance.IsGamePaused);
+        yield return new WaitUntil(() => (!_anyKeyPressed || Timer >= _currentDelay) && !GameStateManager.Instance.IsGamePaused);
 
         CanTurn = true;
         _timerStart = true;
@@ -259,9 +273,9 @@ public class TutorialPlayerManager : PlayerManager
         CardTimer.gameObject.SetActive(_timerStart);
         CardTimer.CardAnimator.speed = 0;
         EventManager.Instance.TutorialMessage07Event.Invoke(true);
-        yield return new WaitUntil(() => (Input.anyKeyDown || Timer >= _currentDelay) && !GameStateManager.Instance.IsGamePaused);
+        yield return new WaitUntil(() => (_anyKeyPressed || Timer >= _currentDelay) && !GameStateManager.Instance.IsGamePaused);
         EventManager.Instance.TutorialMessage07Event.Invoke(false);
-        yield return new WaitUntil(() => (!Input.anyKeyDown || Timer >= _currentDelay) && !GameStateManager.Instance.IsGamePaused);
+        yield return new WaitUntil(() => (!_anyKeyPressed || Timer >= _currentDelay) && !GameStateManager.Instance.IsGamePaused);
         _timerStart = true;
         CardTimer.gameObject.SetActive(_timerStart);
         CardTimer.CardAnimator.speed = 1;
@@ -289,10 +303,10 @@ public class TutorialPlayerManager : PlayerManager
         if (_delayLevel >= _hardCoreLevel)
             _currentNextLevelTime = _hardCoreNextLevelTime;
         EventManager.Instance.TutorialMessage08Event.Invoke(true);
-        yield return new WaitUntil(() => (Input.anyKeyDown || Timer >= _currentDelay) && !GameStateManager.Instance.IsGamePaused);
+        yield return new WaitUntil(() => (_anyKeyPressed || Timer >= _currentDelay) && !GameStateManager.Instance.IsGamePaused);
         EventManager.Instance.LevelUpEvent.Invoke(_delayLevel);
         EventManager.Instance.TutorialMessage08Event.Invoke(false);
-        yield return new WaitUntil(() => (!Input.anyKeyDown || Timer >= _currentDelay) && !GameStateManager.Instance.IsGamePaused);
+        yield return new WaitUntil(() => (!_anyKeyPressed || Timer >= _currentDelay) && !GameStateManager.Instance.IsGamePaused);
 
         _currentDelay = _delayLevel >= LevelTime.Length ? LevelTime[LevelTime.Length - 1] : LevelTime[_delayLevel - 1];
 
@@ -318,9 +332,9 @@ public class TutorialPlayerManager : PlayerManager
         CardTimer.CardAnimator.speed = 0;
 
         EventManager.Instance.TutorialMessage09Event.Invoke(true);
-        yield return new WaitUntil(() => (Input.anyKeyDown || Timer >= _currentDelay) && !GameStateManager.Instance.IsGamePaused);
+        yield return new WaitUntil(() => (_anyKeyPressed || Timer >= _currentDelay) && !GameStateManager.Instance.IsGamePaused);
         EventManager.Instance.TutorialMessage09Event.Invoke(false);
-        yield return new WaitUntil(() => (!Input.anyKeyDown || Timer >= _currentDelay) && !GameStateManager.Instance.IsGamePaused);
+        yield return new WaitUntil(() => (!_anyKeyPressed || Timer >= _currentDelay) && !GameStateManager.Instance.IsGamePaused);
 
         EventManager.Instance.TutorialMessage10Event.Invoke(true);
 
@@ -497,7 +511,7 @@ public class TutorialPlayerManager : PlayerManager
         if (_puppyProtection <= _maxPuppyProtection)
             _puppyProtection++;
 
-        _randomPlayer = Random.Range(0, Players.Count);
+        _randomPlayer = UnityEngine.Random.Range(0, Players.Count);
         Players[_randomPlayer].IsSelected = true;
         Players[_randomPlayer].Level = _delayLevel;
         Players[_randomPlayer].TurnLight.SetActive(true);

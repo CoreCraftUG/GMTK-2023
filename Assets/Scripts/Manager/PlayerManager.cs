@@ -24,7 +24,10 @@ public class PlayerManager : Singleton<PlayerManager>
     [BoxGroup("Gameplay"), SerializeField] protected float _hardCoreNextLevelTime;
     [BoxGroup("Gameplay"), SerializeField] public List<CardGrid> Grids = new List<CardGrid>(); //List of all available Grids(Grid)
     [BoxGroup("Gameplay"), SerializeField] protected List<Player> Players = new List<Player>(); //List of all players
-    
+
+    [SerializeField] private bool DebugTime;
+    [SerializeField] private TMP_Text _debugTimeText;
+    [SerializeField] private TMP_Text _debugCurrentTimeText;
 
     protected bool _gameover;
     protected bool _timePlaced;
@@ -140,6 +143,12 @@ public class PlayerManager : Singleton<PlayerManager>
             {
                 _delayTimer += Time.deltaTime;
             }
+        }
+
+        if (DebugTime)
+        {
+            _debugTimeText.text = _currentNextLevelTime.ToString();
+            _debugCurrentTimeText.text = _delayTimer.ToString();
         }
 
         Timer += Time.deltaTime;

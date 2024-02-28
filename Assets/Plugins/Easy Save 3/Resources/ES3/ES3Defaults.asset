@@ -36,6 +36,7 @@ MonoBehaviour:
     - Cinemachine
     - Coffee.SoftMaskForUGUI
     - ComponentNames
+    - CoreCraft.Input
     - DOTween.Modules
     - DOTweenPro.Scripts
     - EasySave3

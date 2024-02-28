@@ -6,7 +6,7 @@
             "id": "517d3955-58b9-4adf-9cd7-421736454e6d",
             "actions": [
                 {
-                    "name": "TurnTableClockwise",
+                    "name": "TurnTableRight",
                     "type": "Button",
                     "id": "59ca1b85-31e9-4871-ae4f-50567839fabe",
                     "expectedControlType": "Button",
@@ -15,7 +15,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "TurnTableCounterClockwise",
+                    "name": "TurnTableLeft",
                     "type": "Button",
                     "id": "1cb31765-3535-4214-8827-3ae59962295e",
                     "expectedControlType": "Button",
@@ -50,7 +50,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard & Mouse",
-                    "action": "TurnTableClockwise",
+                    "action": "TurnTableRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "aeb1cb94-623a-469a-ac22-e52c69522005",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard & Mouse",
+                    "action": "TurnTableRight",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -61,7 +72,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "TurnTableClockwise",
+                    "action": "TurnTableRight",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -72,7 +83,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "TurnTableClockwise",
+                    "action": "TurnTableRight",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -83,7 +94,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "TurnTableClockwise",
+                    "action": "TurnTableRight",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -94,7 +105,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "TurnTableClockwise",
+                    "action": "TurnTableRight",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -102,6 +113,17 @@
                     "name": "",
                     "id": "820c3898-d2b8-4cb2-8c31-cd9db64fff59",
                     "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard & Mouse",
+                    "action": "PlaceCard",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "db4495f2-bc84-41bf-af59-759394182fe5",
+                    "path": "<Keyboard>/upArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard & Mouse",
@@ -138,7 +160,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard & Mouse",
-                    "action": "TurnTableCounterClockwise",
+                    "action": "TurnTableLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "74df2e10-05b7-4329-b6fd-8e31e8d03c97",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard & Mouse",
+                    "action": "TurnTableLeft",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -149,7 +182,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "TurnTableCounterClockwise",
+                    "action": "TurnTableLeft",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -160,7 +193,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "TurnTableCounterClockwise",
+                    "action": "TurnTableLeft",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -171,7 +204,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "TurnTableCounterClockwise",
+                    "action": "TurnTableLeft",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -182,7 +215,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "TurnTableCounterClockwise",
+                    "action": "TurnTableLeft",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

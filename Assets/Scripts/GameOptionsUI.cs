@@ -53,12 +53,18 @@ namespace JamCraft.GMTK2023.Code
 
         [Header("Keybindings")] 
         [SerializeField] private GameObject _rebindPanel;
-        [SerializeField] private TextMeshProUGUI _turnTableClockwiseKeybindingText;
-        [SerializeField] private Button _turnTableClockwiseKeybindingButton;
-        [SerializeField] private TextMeshProUGUI _turnTableCounterClockwiseKeybindingText;
-        [SerializeField] private Button _turnTableCounterClockwiseKeybindingButton;
-        [SerializeField] private TextMeshProUGUI _placeCardKeybindingText;
-        [SerializeField] private Button _placeCardButton;
+        [SerializeField] private TextMeshProUGUI _turnTableRightKeybindingText1;
+        [SerializeField] private TextMeshProUGUI _turnTableRightKeybindingText2;
+        [SerializeField] private Button _turnTableRightKeybindingButton1;
+        [SerializeField] private Button _turnTableRightKeybindingButton2;
+        [SerializeField] private TextMeshProUGUI _turnTableLeftKeybindingText1;
+        [SerializeField] private TextMeshProUGUI _turnTableLeftKeybindingText2;
+        [SerializeField] private Button _turnTableLeftKeybindingButton1;
+        [SerializeField] private Button _turnTableLeftKeybindingButton2;
+        [SerializeField] private TextMeshProUGUI _placeCardKeybindingText1;
+        [SerializeField] private TextMeshProUGUI _placeCardKeybindingText2;
+        [SerializeField] private Button _placeCardKeybindingButton1;
+        [SerializeField] private Button _placeCardKeybindingButton2;
 
         private List<Resolution> _supportedResolutions;
 
@@ -149,20 +155,39 @@ namespace JamCraft.GMTK2023.Code
                 _controlsPanel.SetActive(false);
             });
 
-            _turnTableClockwiseKeybindingButton.onClick.AddListener(() =>
+            #region Keybindings
+
+            _turnTableRightKeybindingButton1.onClick.AddListener(() =>
             {
-                RebindBinding(GameInputManager.Binding.TurnTableClockwise);
+                RebindBinding(GameInputManager.Binding.TurnTableRight, 0);
             });
 
-            _turnTableCounterClockwiseKeybindingButton.onClick.AddListener(() =>
+            _turnTableRightKeybindingButton2.onClick.AddListener(() =>
             {
-                RebindBinding(GameInputManager.Binding.TurnTableCounterClockwise);
+                RebindBinding(GameInputManager.Binding.TurnTableRight, 1);
             });
 
-            _placeCardButton.onClick.AddListener(() =>
+            _turnTableLeftKeybindingButton1.onClick.AddListener(() =>
             {
-                RebindBinding(GameInputManager.Binding.PlaceCard);
+                RebindBinding(GameInputManager.Binding.TurnTableLeft, 0);
             });
+
+            _turnTableLeftKeybindingButton2.onClick.AddListener(() =>
+            {
+                RebindBinding(GameInputManager.Binding.TurnTableLeft, 1);
+            });
+
+            _placeCardKeybindingButton1.onClick.AddListener(() =>
+            {
+                RebindBinding(GameInputManager.Binding.PlaceCard, 0);
+            });
+
+            _placeCardKeybindingButton2.onClick.AddListener(() =>
+            {
+                RebindBinding(GameInputManager.Binding.PlaceCard, 1);
+            });
+
+            #endregion
 
             // Fill the dropdown with the supported resolutions.
             AddResolutions();
@@ -248,12 +273,24 @@ namespace JamCraft.GMTK2023.Code
 
             _cameraHeightSlider.value = GameSettingsManager.Instance.CameraHeight;
 
-            _turnTableClockwiseKeybindingText.text = GameInputManager.Instance.GetBindingText(GameInputManager.Binding.TurnTableClockwise);
-            _turnTableCounterClockwiseKeybindingText.text = GameInputManager.Instance.GetBindingText(GameInputManager.Binding.TurnTableCounterClockwise);
-            _placeCardKeybindingText.text = GameInputManager.Instance.GetBindingText(GameInputManager.Binding.PlaceCard);
+            #region Keybindings
+
+            _turnTableRightKeybindingText1.text = GameInputManager.Instance.GetBindingText(GameInputManager.Binding.TurnTableRight, 0);
+            _turnTableRightKeybindingText2.text = GameInputManager.Instance.GetBindingText(GameInputManager.Binding.TurnTableRight, 1);
+            _turnTableLeftKeybindingText1.text = GameInputManager.Instance.GetBindingText(GameInputManager.Binding.TurnTableLeft, 0);
+            _turnTableLeftKeybindingText2.text = GameInputManager.Instance.GetBindingText(GameInputManager.Binding.TurnTableLeft, 1);
+            _placeCardKeybindingText1.text = GameInputManager.Instance.GetBindingText(GameInputManager.Binding.PlaceCard, 0);
+            _placeCardKeybindingText2.text = GameInputManager.Instance.GetBindingText(GameInputManager.Binding.PlaceCard, 1);
+
+            #endregion
         }
 
-        private void RebindBinding(GameInputManager.Binding binding)
+        /// <summary>
+        /// Rebind a binding.
+        /// </summary>
+        /// <param name="binding">The binding that gets changed.</param>
+        /// <param name="bindingIndex">The binding index of the binding that gets changed. E.g. an action can have multiple bindings, jump can be space and arrow up.</param>
+        private void RebindBinding(GameInputManager.Binding binding, int bindingIndex)
         {
             ShowRebindPanel();
 
@@ -261,7 +298,7 @@ namespace JamCraft.GMTK2023.Code
             {
                 HideRebindPanel();
                 UpdateVisual();
-            });
+            }, bindingIndex);
         }
 
         // If the game unpauses, hide the options menu.

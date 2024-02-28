@@ -14,11 +14,11 @@ namespace JamCraft.GMTK2023.Code
 
         private void Start()
         {
-            GameInputManager.Instance.OnTurnTableClockwiseAction += Instance_OnTurnTableClockwiseAction;
-            GameInputManager.Instance.OnTurnTableCounterClockwiseAction += Instance_OnTurnTableCounterClockwiseAction;
+            GameInputManager.Instance.OnTurnTableRightAction += InstanceOnTurnTableRightAction;
+            GameInputManager.Instance.OnTurnTableLeftAction += InstanceOnTurnTableLeftAction;
         }
 
-        private void Instance_OnTurnTableCounterClockwiseAction(object sender, System.EventArgs e)
+        private void InstanceOnTurnTableLeftAction(object sender, System.EventArgs e)
         {
             if (GameStateManager.Instance.IsGamePaused || GameStateManager.Instance.IsGameOver) return;
 
@@ -29,7 +29,7 @@ namespace JamCraft.GMTK2023.Code
             PlayerManager.Instance.TurnRight();
         }
 
-        private void Instance_OnTurnTableClockwiseAction(object sender, System.EventArgs e)
+        private void InstanceOnTurnTableRightAction(object sender, System.EventArgs e)
         {
             if (GameStateManager.Instance.IsGamePaused || GameStateManager.Instance.IsGameOver) return;
 

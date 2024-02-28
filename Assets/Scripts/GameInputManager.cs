@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Utilities;
 
 namespace JamCraft.GMTK2023.Code
 {
@@ -15,8 +16,8 @@ namespace JamCraft.GMTK2023.Code
 
         #region EventHandlers
 
-        public event EventHandler OnTurnTableClockwiseAction;
-        public event EventHandler OnTurnTableCounterClockwiseAction;
+        public event EventHandler OnTurnTableRightAction;
+        public event EventHandler OnTurnTableLeftAction;
         public event EventHandler OnPlaceCardAction;
         public event EventHandler OnPauseAction;
 
@@ -24,8 +25,8 @@ namespace JamCraft.GMTK2023.Code
 
         public enum Binding
         {
-            TurnTableClockwise,
-            TurnTableCounterClockwise,
+            TurnTableRight,
+            TurnTableLeft,
             PlaceCard,
         }
 
@@ -56,20 +57,12 @@ namespace JamCraft.GMTK2023.Code
 
         private void TurnTableCounterClockwise_performed(InputAction.CallbackContext obj)
         {
-            OnTurnTableCounterClockwiseAction?.Invoke(this, EventArgs.Empty);
+            OnTurnTableLeftAction?.Invoke(this, EventArgs.Empty);
         }
 
         private void TurnTableClockwise_performed(InputAction.CallbackContext obj)
         {
-            OnTurnTableClockwiseAction?.Invoke(this, EventArgs.Empty);
-        }
-
-        private void RegisterInputActions()
-        {
-            _gameInput.Player.TurnTableClockwise.performed += TurnTableClockwise_performed;
-            _gameInput.Player.TurnTableCounterClockwise.performed += TurnTableCounterClockwise_performed;
-            _gameInput.Player.PlaceCard.performed += PlaceCard_performed;
-            _gameInput.Player.Pause.performed += Pause_performed;
+            OnTurnTableRightAction?.Invoke(this, EventArgs.Empty);
         }
 
         private void Pause_performed(InputAction.CallbackContext obj)
@@ -77,41 +70,46 @@ namespace JamCraft.GMTK2023.Code
             OnPauseAction?.Invoke(this, EventArgs.Empty);
         }
 
-        public string GetBindingText(Binding binding)
+        private void RegisterInputActions()
+        {
+            _gameInput.Player.TurnTableRight.performed += TurnTableClockwise_performed;
+            _gameInput.Player.TurnTableLeft.performed += TurnTableCounterClockwise_performed;
+            _gameInput.Player.PlaceCard.performed += PlaceCard_performed;
+            _gameInput.Player.Pause.performed += Pause_performed;
+            //InputSystem.onAnyButtonPress.CallOnce(ctrl => Debug.Log($"{ctrl} pressed"));
+        }
+
+        public string GetBindingText(Binding binding, int bindingIndex)
         {
             switch (binding)
             {
                 default:
-                case Binding.TurnTableClockwise:
-                    return _gameInput.Player.TurnTableClockwise.bindings[0].ToDisplayString();
-                case Binding.TurnTableCounterClockwise:
-                    return _gameInput.Player.TurnTableCounterClockwise.bindings[0].ToDisplayString();
+                case Binding.TurnTableRight:
+                    return _gameInput.Player.TurnTableRight.bindings[bindingIndex].ToDisplayString();
+                case Binding.TurnTableLeft:
+                    return _gameInput.Player.TurnTableLeft.bindings[bindingIndex].ToDisplayString();
                 case Binding.PlaceCard:
-                    return _gameInput.Player.PlaceCard.bindings[0].ToDisplayString();
+                    return _gameInput.Player.PlaceCard.bindings[bindingIndex].ToDisplayString();
             }
         }
 
-        public void RebindBinding(Binding binding, Action onActionRebound)
+        public void RebindBinding(Binding binding, Action onActionRebound, int bindingIndex)
         {
             _gameInput.Player.Disable();
 
             InputAction inputAction;
-            int bindingIndex;
 
             switch (binding)
             {
                 default:
-                case Binding.TurnTableClockwise:
-                    inputAction = _gameInput.Player.TurnTableClockwise;
-                    bindingIndex = 0;
+                case Binding.TurnTableRight:
+                    inputAction = _gameInput.Player.TurnTableRight;
                     break;
-                case Binding.TurnTableCounterClockwise:
-                    inputAction = _gameInput.Player.TurnTableCounterClockwise;
-                    bindingIndex = 0;
+                case Binding.TurnTableLeft:
+                    inputAction = _gameInput.Player.TurnTableLeft;
                     break;
                 case Binding.PlaceCard:
                     inputAction = _gameInput.Player.PlaceCard;
-                    bindingIndex = 0;
                     break;
             }
 

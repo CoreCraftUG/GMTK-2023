@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6132156241804313446}
   - component: {fileID: 5432248466264190368}
   - component: {fileID: 767357380301688826}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Coin_gold 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 38040501516600867}
   - component: {fileID: 6198993968666654431}
   - component: {fileID: 4869315818415907152}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Coin_silver 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -176,7 +176,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8842544277605383212}
   - component: {fileID: 8882163453928846889}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: P_CoinParent_Diamond
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -233,7 +233,7 @@ GameObject:
   - component: {fileID: 1910221355477449997}
   - component: {fileID: 3070531908840075380}
   - component: {fileID: 1097875526108457999}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Coin_bronze 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}

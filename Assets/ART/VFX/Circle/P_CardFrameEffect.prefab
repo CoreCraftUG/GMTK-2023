@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3522665138253776714}
   - component: {fileID: 715009361102193198}
   - component: {fileID: 2574153950601425474}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: P_CardFrameEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}

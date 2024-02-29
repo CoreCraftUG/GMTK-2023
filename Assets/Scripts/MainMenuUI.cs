@@ -206,7 +206,10 @@ namespace JamCraft.GMTK2023.Code
         {
             _uiCamera.Follow = MainMenuCenterTransform;
 
-            _playButton.Select();
+            if (_playButton != null)
+            {
+                _playButton.Select();
+            }
 
             gameObject.SetActive(true);
         }

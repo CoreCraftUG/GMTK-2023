@@ -39,16 +39,23 @@ public class VFXManager : MonoBehaviour
         });
         EventManager.Instance.RimExplosionEvent.AddListener((CardGrid grid, int i) =>
         {
+            GameObject temp = null;
             switch (i)
             {
                 case 0:
-                    Destroy(Instantiate(_primedExplposionFinalOuter, _primedExplosionFinalPos), .5f);
+                    temp = Instantiate(_primedExplposionFinalOuter, _primedExplosionFinalPos);
+                    temp.SetActive(true);
+                    Destroy(temp, .5f);
                     break;
                 case 1:
-                    Destroy(Instantiate(_primedExplposionFinalMiddle, _primedExplosionFinalPos), .5f);
+                    temp = Instantiate(_primedExplposionFinalMiddle, _primedExplosionFinalPos);
+                    temp.SetActive(true);
+                    Destroy(temp, .5f);
                     break;
                 case 2:
-                    Destroy(Instantiate(_primedExplposionFinalInner, _primedExplosionFinalPos), .5f);
+                    temp = Instantiate(_primedExplposionFinalInner, _primedExplosionFinalPos);
+                    temp.SetActive(true);
+                    Destroy(temp, .5f);
                     break;
             }
         });

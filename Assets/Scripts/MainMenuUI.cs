@@ -192,7 +192,7 @@ namespace JamCraft.GMTK2023.Code
             
             _gameMode2Button.onClick.AddListener(() => 
             {
-                Loader.Load("bootstrap_scene");
+                Loader.Load("second_game_scene");
             });
 
         }

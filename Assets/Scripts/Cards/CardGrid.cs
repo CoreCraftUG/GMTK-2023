@@ -6,6 +6,7 @@ using Sirenix.OdinInspector;
 using Random = UnityEngine.Random;
 using Codice.Client.Common;
 using HeathenEngineering.SteamworksIntegration;
+using JamCraft.GMTK2023.Code;
 
 public class CardGrid : MonoBehaviour
 {
@@ -71,7 +72,8 @@ public class CardGrid : MonoBehaviour
             return;
         }
         #endregion
-
+        int s = Random.Range(0, 3);
+        SoundManager.Instance.PlaySFX(s);
         if (_cardField[slot - 1, 0] == null)
         {
             _cardField[slot - 1, 0] = card.Card;
@@ -230,7 +232,14 @@ public class CardGrid : MonoBehaviour
         ECardFace face = new ECardFace();
         ECardColour color = new ECardColour();
         bool isfirstrow = false;
-        for(int i = _gridWidth - 1; i >= 0; i--)
+
+
+
+
+
+        yield return new WaitForSeconds(time);
+
+        for (int i = _gridWidth - 1; i >= 0; i--)
         {
             if (_cardObjects[i, row] == _lastCard)
                 isfirstrow = true;
@@ -255,21 +264,23 @@ public class CardGrid : MonoBehaviour
             }
         }
 
-
-        yield return new WaitForSeconds(time);
-
+        int counter = 0;
+        List<CardHolder> cards = new List<CardHolder>();
         for (int i = _gridWidth - 1; i >= 0; i--)
         {
-            if (_cardObjects[i, row] == _lastCard)
-                continue;
             if (_cardObjects[i, row] == null)
                 continue;
             else if (_cardObjects[i, row].Card.Colour == color && _cardObjects[i, row].Card.Face == face)
             {
-                _cardObjects[i, row].ShowPrimedExplosion();
-                if(isfirstrow)
-                    _lastCard.ShowPrimedExplosion();
+                counter++;
+                cards.Add(_cardObjects[i, row]);
             }
+
+        }
+        if (counter > 1)
+        {
+            foreach (CardHolder card in cards)
+                card.ShowPrimedExplosion();
         }
         //if (_cardObjects[_gridWidth - 1, row] != null)
         //{

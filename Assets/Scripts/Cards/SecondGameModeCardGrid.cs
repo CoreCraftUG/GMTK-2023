@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
+using JamCraft.GMTK2023.Code;
 
 public class SecondGameModeCardGrid : CardGrid
 {
@@ -27,6 +28,8 @@ public class SecondGameModeCardGrid : CardGrid
             return;
         }
         #endregion
+        int s = Random.Range(0, 3);
+        SoundManager.Instance.PlaySFX(s);
 
         if (_cardField[slot - 1, 0] == null)
         {

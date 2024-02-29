@@ -146,6 +146,9 @@ public class CardGrid : MonoBehaviour
                     continue;
                 }
 
+                _cardObjects[k, i].HidePrimedExplosion();
+
+
                 switch (_cardField[k, i].Colour)
                 {
                     case ECardColour.Red:
@@ -179,7 +182,6 @@ public class CardGrid : MonoBehaviour
                 StartRowMatch(i);
                 break;
             }
-
             else
                 TurnOffPrimedExplosion(i);
 
@@ -225,8 +227,35 @@ public class CardGrid : MonoBehaviour
     protected IEnumerator PrimedExplosion(int row)
     {
         float time = cardTime;
-        ECardFace face = _lastCard.Card.Face;
-        ECardColour color = _lastCard.Card.Colour;
+        ECardFace face = new ECardFace();
+        ECardColour color = new ECardColour();
+        bool isfirstrow = false;
+        for(int i = _gridWidth - 1; i >= 0; i--)
+        {
+            if (_cardObjects[i, row] == _lastCard)
+                isfirstrow = true;
+        }
+
+        if (isfirstrow)
+        {
+            face = _lastCard.Card.Face;
+            color = _lastCard.Card.Colour;
+        }
+        if (!isfirstrow)
+        {
+            if (_cardObjects[_gridWidth - 1, row] != null)
+            {
+                face = _cardObjects[_gridWidth - 1, row].Card.Face;
+                color = _cardObjects[_gridWidth - 1, row].Card.Colour;
+            }
+            else
+            {
+                face = _cardObjects[_gridWidth - 2, row].Card.Face;
+                color = _cardObjects[_gridWidth - 2, row].Card.Colour;
+            }
+        }
+
+
         yield return new WaitForSeconds(time);
 
         for (int i = _gridWidth - 1; i >= 0; i--)
@@ -238,7 +267,8 @@ public class CardGrid : MonoBehaviour
             else if (_cardObjects[i, row].Card.Colour == color && _cardObjects[i, row].Card.Face == face)
             {
                 _cardObjects[i, row].ShowPrimedExplosion();
-                _lastCard.ShowPrimedExplosion();
+                if(isfirstrow)
+                    _lastCard.ShowPrimedExplosion();
             }
         }
         //if (_cardObjects[_gridWidth - 1, row] != null)

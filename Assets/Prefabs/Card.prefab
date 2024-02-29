@@ -2605,10 +2605,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MoveTime: 0.25
   _vanishVFX:
-  - {fileID: 6315481160459850127, guid: 716ff029757b91c4a8948e40ba81d134, type: 3}
-  - {fileID: 6315481160459850127, guid: 716ff029757b91c4a8948e40ba81d134, type: 3}
-  - {fileID: 6315481160459850127, guid: 716ff029757b91c4a8948e40ba81d134, type: 3}
-  - {fileID: 6315481160459850127, guid: 716ff029757b91c4a8948e40ba81d134, type: 3}
+  - {fileID: 8331115005966201964, guid: dc2f73d03a8afbd4aa169e4de49fe87f, type: 3}
+  - {fileID: 6273090949532213062, guid: 91d8108cbdacd374b984597857a5e000, type: 3}
+  - {fileID: 8166360388302658508, guid: c736135ff0f93244cb2484f3972b7d79, type: 3}
+  - {fileID: 9083579504175387070, guid: e466c82e1df6ff048bce282663a369db, type: 3}
   _primedExplosion: {fileID: 6687706319991076638, guid: 6fb0896f155a14243b1c340443e00b6e,
     type: 3}
   _shortPrimedExplosion: {fileID: 1086485291175469149, guid: ded847d8988bba245a66bedecb5d14aa,

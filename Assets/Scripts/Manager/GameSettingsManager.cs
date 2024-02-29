@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using CoreCraft.Core;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 

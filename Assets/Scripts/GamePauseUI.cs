@@ -1,4 +1,6 @@
 using System;
+using Cinemachine;
+using CoreCraft.Core;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +14,9 @@ namespace JamCraft.GMTK2023.Code
         [SerializeField] private Button _resumeButton;
         [SerializeField] private Button _optionsButton;
         [SerializeField] private Button _mainMenuButton;
+
+        [SerializeField] private CinemachineVirtualCamera _virtualCamera;
+        [SerializeField] private Transform _pauseMenuCenterTransform;
 
         private void Awake()
         {
@@ -31,8 +36,8 @@ namespace JamCraft.GMTK2023.Code
             // Show the options menu and hide the pause menu.
             _optionsButton.onClick.AddListener(() =>
             {
-                GameOptionsUI.Instance.Show();
                 Hide();
+                GameOptionsUI.Instance.Show();
             });
 
             // Got to main menu.
@@ -66,16 +71,34 @@ namespace JamCraft.GMTK2023.Code
         public void Show()
         {
             gameObject.SetActive(true);
+
+            _resumeButton.Select();
+
+            _virtualCamera.Follow = _pauseMenuCenterTransform;
+
+            CinemachineComponentBase componentBase = _virtualCamera.GetCinemachineComponent(CinemachineCore.Stage.Body);
+            if (componentBase is CinemachineFramingTransposer)
+            {
+                (componentBase as CinemachineFramingTransposer).m_CameraDistance = 1f;
+            }
         }
 
         public void Hide()
         {
             gameObject.SetActive(false);
+
+            _virtualCamera.Follow = GameStateManager.Instance.LastPlayerFocusPoint;
+
+            CinemachineComponentBase componentBase = _virtualCamera.GetCinemachineComponent(CinemachineCore.Stage.Body);
+            if (componentBase is CinemachineFramingTransposer)
+            {
+                (componentBase as CinemachineFramingTransposer).m_CameraDistance = 3.25f;
+            }
         }
 
         private void OnDestroy()
         {
-            if (EventManager.Instance != null)
+            if (GameStateManager.Instance != null)
             {
                 // Unsubscribe from events in case of destruction.
                 GameStateManager.Instance.OnGamePaused -= GameStateManager_OnOnGamePaused;
@@ -89,7 +112,7 @@ namespace JamCraft.GMTK2023.Code
 
         private void OnApplicationQuit()
         {
-            if (EventManager.Instance != null)
+            if (GameStateManager.Instance != null)
             {
                 // Unsubscribe from events in case of destruction.
                 GameStateManager.Instance.OnGamePaused -= GameStateManager_OnOnGamePaused;

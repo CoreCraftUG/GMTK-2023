@@ -80,6 +80,8 @@ namespace JamCraft.GMTK2023.Code
 
             _gameMode1Button.gameObject.SetActive(false);
             _gameMode2Button.gameObject.SetActive(false);
+
+            _playButton.Select();
         }
 
         //private void OnDestroy()
@@ -115,8 +117,14 @@ namespace JamCraft.GMTK2023.Code
             {
                 _uiCamera.Follow = _playButton.transform;
 
+                Navigation navigation = _playButton.navigation;
+                navigation.mode = Navigation.Mode.Explicit;
+                navigation.selectOnLeft = _gameMode2Button;
+                _playButton.navigation = navigation;
+
                 _gameMode1Button.gameObject.SetActive(true);
                 _gameMode2Button.gameObject.SetActive(true);
+                _gameMode1Button.Select();
 
                 _gameModeButtonSequence.Play();
 
@@ -141,7 +149,6 @@ namespace JamCraft.GMTK2023.Code
             {
                 GameOptionsUI.Instance.Show();
                 Hide();
-                _uiCamera.Follow = GameOptionsUI.Instance.OptionsCameraFocus;
             });
 
             // Show quit panel on click.
@@ -149,8 +156,7 @@ namespace JamCraft.GMTK2023.Code
             {
                 _quitYesButton.gameObject.SetActive(true);
                 _quitNoButton.gameObject.SetActive(true);
-                Debug.Log("Quitting!");
-
+                _quitYesButton.Select();
                 _quitButtonSequence.PlayForward();
                 _uiCamera.Follow = _quitButton.transform;
             });
@@ -176,6 +182,7 @@ namespace JamCraft.GMTK2023.Code
             {
                 _quitButtonSequence.SmoothRewind();
                 _uiCamera.Follow = MainMenuCenterTransform.transform;
+                _playButton.Select();
             });
 
             _gameMode1Button.onClick.AddListener(() => 
@@ -197,6 +204,10 @@ namespace JamCraft.GMTK2023.Code
 
         public void Show()
         {
+            _uiCamera.Follow = MainMenuCenterTransform;
+
+            _playButton.Select();
+
             gameObject.SetActive(true);
         }
     }

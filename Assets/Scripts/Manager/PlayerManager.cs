@@ -57,7 +57,7 @@ public class PlayerManager : Singleton<PlayerManager>
 
     protected virtual void Instance_OnPlaceCardAction(object sender, System.EventArgs e)
     {
-        if (GameStateManager.Instance.IsGamePaused && GameStateManager.Instance.IsGameOver) return;
+        if (GameStateManager.Instance.IsGamePaused || GameStateManager.Instance.IsGameOver) return;
 
         _timePlaced = true;
         SelectedPlayerPlays();
@@ -66,9 +66,11 @@ public class PlayerManager : Singleton<PlayerManager>
 
     protected virtual void OnDestroy()
     {
-        if (EventManager.Instance != null)
+        if (GameInputManager.Instance != null)
         {
             EventManager.Instance.GameOverEvent.RemoveAllListeners();
+
+            GameInputManager.Instance.OnPlaceCardAction -= Instance_OnPlaceCardAction;
         }
     }
 
@@ -77,6 +79,8 @@ public class PlayerManager : Singleton<PlayerManager>
         if (EventManager.Instance != null)
         {
             EventManager.Instance.GameOverEvent.RemoveAllListeners();
+
+            GameInputManager.Instance.OnPlaceCardAction -= Instance_OnPlaceCardAction;
         }
     }
 
@@ -155,7 +159,7 @@ public class PlayerManager : Singleton<PlayerManager>
 
         CardTimer.SetTimerProgress(Timer / _currentDelay);
 
-        if (GameStateManager.Instance.IsGamePaused && GameStateManager.Instance.IsGameOver) return;
+        if (GameStateManager.Instance.IsGamePaused || GameStateManager.Instance.IsGameOver) return;
 
         if (Timer >= _currentDelay /*&& CanTurn*/ && _puppyProtection > _maxPuppyProtection && !_timePlaced)
         {
@@ -216,6 +220,7 @@ public class PlayerManager : Singleton<PlayerManager>
         Players[_randomPlayer].Level = _delayLevel;
         Players[_randomPlayer].TurnLight.SetActive(true);
         _virtualCamera.Follow = Players[_randomPlayer].CameraFocusPoint;
+        GameStateManager.Instance.LastPlayerFocusPoint = Players[_randomPlayer].CameraFocusPoint;
         
         {
             Vector3 CardPos = Players[_randomPlayer].GetPresentedCard().transform.position;

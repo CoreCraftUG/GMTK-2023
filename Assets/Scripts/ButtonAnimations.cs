@@ -16,7 +16,7 @@ namespace JamCraft.GMTK2023.Code
             Transform buttonTransform = GetComponent<Transform>();
 
             // Function of the Sequence.
-            _buttonSequence.Append(buttonTransform.DOScale(new Vector3(1.1f, 1.1f, 1.1f), 0.5f))
+            _buttonSequence.Append(buttonTransform.DOScale(new Vector3(0.04f, 0.04f, 0.04f), 0.5f))
                 .Join(buttonTransform.DOPunchRotation(Vector3.one, 0.5f));
         }
 

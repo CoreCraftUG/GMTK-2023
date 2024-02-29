@@ -1,6 +1,7 @@
 using Cinemachine;
 using System;
 using System.Collections.Generic;
+using CoreCraft.Core;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,13 +12,13 @@ namespace JamCraft.GMTK2023.Code
 {
     public class GameOptionsUI : MonoBehaviour
     {
+        public static GameOptionsUI Instance { get; private set; }
+
         public const string PLAYER_PREFS_MAIN_VOLUME = "MainVolume";
         public const string PLAYER_PREFS_MUSIC_VOLUME = "MusicVolume";
         public const string PLAYER_PREFS_SFX_VOLUME = "SfxVolume";
         public const string PLAYER_PREFS_CAMERA_HEIGHT = "CameraHeightValue";
         public const string PLAYER_PREFS_RESOLUTION = "ResolutionValue";
-
-        public static GameOptionsUI Instance { get; private set; }
 
         [Header("UI Buttons")]
         [SerializeField] private Button _saveButton;
@@ -105,6 +106,8 @@ namespace JamCraft.GMTK2023.Code
             // Close options menu and show pause menu.
             _backButton.onClick.AddListener(() =>
             {
+                Hide();
+
                 if (GamePauseUI.Instance != null)
                 {
                     GamePauseUI.Instance.Show();
@@ -113,10 +116,7 @@ namespace JamCraft.GMTK2023.Code
                 if (MainMenuUI.Instance != null)
                 {
                     MainMenuUI.Instance.Show();
-                    _uiCamera.Follow = MainMenuUI.Instance.MainMenuCenterTransform;
                 }
-                
-                Hide();
             });
 
             _graphicsButton?.onClick.AddListener(() =>
@@ -309,7 +309,17 @@ namespace JamCraft.GMTK2023.Code
 
         public void Show()
         {
+            _uiCamera.Follow = OptionsCameraFocus;
+
+            CinemachineComponentBase componentBase = _uiCamera.GetCinemachineComponent(CinemachineCore.Stage.Body);
+            if (componentBase is CinemachineFramingTransposer)
+            {
+                (componentBase as CinemachineFramingTransposer).m_CameraDistance = 1f;
+            }
+
             gameObject.SetActive(true);
+
+            _graphicsButton.Select();
         }
 
         private void ShowRebindPanel()
@@ -346,6 +356,24 @@ namespace JamCraft.GMTK2023.Code
         private string ResolutionToString(Resolution res)
         {
             return res.width + " x " + res.height + " | " + res.refreshRateRatio + " Hz";
+        }
+
+        private void OnDestroy()
+        {
+            if (GameStateManager.Instance != null)
+            {
+                // Unsubscribe from events in case of destruction.
+                GameStateManager.Instance.OnGameUnpaused -= GameStateManager_OnOnGameUnpaused;
+            }
+        }
+
+        private void OnApplicationQuit()
+        {
+            if (GameStateManager.Instance != null)
+            {
+                // Unsubscribe from events in case of destruction.
+                GameStateManager.Instance.OnGameUnpaused -= GameStateManager_OnOnGameUnpaused;
+            }
         }
     }
 }

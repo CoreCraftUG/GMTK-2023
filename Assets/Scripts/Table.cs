@@ -39,5 +39,25 @@ namespace JamCraft.GMTK2023.Code
             EventManager.Instance.TurnRightEvent.Invoke();
             PlayerManager.Instance.TurnLeft();
         }
+
+        private void OnDestroy()
+        {
+            if (GameInputManager.Instance != null)
+            {
+                // Unsubscribe from events in case of destruction.
+                GameInputManager.Instance.OnTurnTableLeftAction-= InstanceOnTurnTableLeftAction;
+                GameInputManager.Instance.OnTurnTableRightAction -= InstanceOnTurnTableRightAction;
+            }
+        }
+
+        private void OnApplicationQuit()
+        {
+            if (GameInputManager.Instance != null)
+            {
+                // Unsubscribe from events in case of destruction.
+                GameInputManager.Instance.OnTurnTableLeftAction -= InstanceOnTurnTableLeftAction;
+                GameInputManager.Instance.OnTurnTableRightAction -= InstanceOnTurnTableRightAction;
+            }
+        }
     }
 }

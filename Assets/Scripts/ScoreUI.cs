@@ -37,6 +37,19 @@ namespace JamCraft.GMTK2023.Code
             }
 
             Instance = this;
+
+            GameStateManager.Instance.OnGamePaused += Instance_OnGamePaused;
+            GameStateManager.Instance.OnGameUnpaused += Instance_OnGameUnpaused;
+        }
+
+        private void Instance_OnGameUnpaused(object sender, System.EventArgs e)
+        {
+            gameObject.SetActive(true);
+        }
+
+        private void Instance_OnGamePaused(object sender, System.EventArgs e)
+        {
+            gameObject.SetActive(false);
         }
 
         private void Start()
@@ -129,6 +142,26 @@ namespace JamCraft.GMTK2023.Code
                 {
                     _beautify.sepia.value = Mathf.Lerp(_startingSepia, 0.746f, 1 - (_timer / _timerTotal));
                 }
+            }
+        }
+
+        private void OnDestroy()
+        {
+            if (GameStateManager.Instance != null)
+            {
+                // Unsubscribe from events in case of destruction.
+                GameStateManager.Instance.OnGamePaused -= Instance_OnGamePaused;
+                GameStateManager.Instance.OnGameUnpaused -= Instance_OnGameUnpaused;
+            }
+        }
+
+        private void OnApplicationQuit()
+        {
+            if (GameStateManager.Instance != null)
+            {
+                // Unsubscribe from events in case of destruction.
+                GameStateManager.Instance.OnGamePaused -= Instance_OnGamePaused;
+                GameStateManager.Instance.OnGameUnpaused -= Instance_OnGameUnpaused;
             }
         }
     }

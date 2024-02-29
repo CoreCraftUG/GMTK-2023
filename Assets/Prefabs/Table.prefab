@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rotationTime: 0.25
-  _playTable: {fileID: 4403840293787354643}
+  _table: {fileID: 0}
 --- !u!114 &2647360859714370160
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,6 +167,7 @@ MonoBehaviour:
   _baseTop: {fileID: 1383681359398429216}
   _baseFrame: {fileID: 4642239442576206794}
   _tableSpawnTransform: {fileID: 6439418397181327469}
+  _middleGridDecalProjector: {fileID: 3026142435892469710}
 --- !u!1001 &356416042431251635
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1308,6 +1309,12 @@ GameObject:
 --- !u!4 &2423223735231682186 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6278535134281681169, guid: 911298bb42f6f7840bbd367c5d4900d7,
+    type: 3}
+  m_PrefabInstance: {fileID: 8539057257557319579}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3026142435892469710 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6881456071286177877, guid: 911298bb42f6f7840bbd367c5d4900d7,
     type: 3}
   m_PrefabInstance: {fileID: 8539057257557319579}
   m_PrefabAsset: {fileID: 0}

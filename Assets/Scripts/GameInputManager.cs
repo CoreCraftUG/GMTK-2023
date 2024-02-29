@@ -1,14 +1,13 @@
 using System;
+using CoreCraft.Core;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
 namespace JamCraft.GMTK2023.Code
 {
-    public class GameInputManager : MonoBehaviour
+    public class GameInputManager : Singleton<GameInputManager>
     {
-        public static GameInputManager Instance { get; private set; }
-
         private GameInput _gameInput;
 
         private const string PLAYER_INPUT_BINDINGS = "InputBindings";
@@ -32,12 +31,7 @@ namespace JamCraft.GMTK2023.Code
 
         private void Awake()
         {
-            if (Instance != null)
-            {
-                Debug.LogError($"There is more than one {this} instance in the scene!");
-            }
-
-            Instance = this;
+            DontDestroyOnLoad(this.gameObject);
 
             _gameInput = new GameInput();
             _gameInput.Player.Enable();
@@ -76,7 +70,7 @@ namespace JamCraft.GMTK2023.Code
             _gameInput.Player.TurnTableLeft.performed += TurnTableCounterClockwise_performed;
             _gameInput.Player.PlaceCard.performed += PlaceCard_performed;
             _gameInput.Player.Pause.performed += Pause_performed;
-            //InputSystem.onAnyButtonPress.CallOnce(ctrl => Debug.Log($"{ctrl} pressed"));
+            //InputSystem.onAnyButtonPress.CallOnce(control => Debug.Log("Test"));
         }
 
         public string GetBindingText(Binding binding, int bindingIndex)

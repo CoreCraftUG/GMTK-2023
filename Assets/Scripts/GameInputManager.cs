@@ -110,7 +110,7 @@ namespace JamCraft.GMTK2023.Code
                 _currentControlScheme = ControlScheme.Gamepad;
             }
 
-            if (inputDevice is Keyboard)
+            if (inputDevice is Keyboard || inputDevice is Mouse)
             {
                 _currentUser.UnpairDevices();
 

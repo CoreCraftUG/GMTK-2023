@@ -1,4 +1,3 @@
-using Cinemachine;
 using JamCraft.GMTK2023.Code;
 using Sirenix.OdinInspector;
 using System;
@@ -39,7 +38,7 @@ public class TutorialPlayerManager : PlayerManager
 
     protected override void Instance_OnPlaceCardAction(object sender, System.EventArgs e)
     {
-        if (GameStateManager.Instance.IsGamePaused && GameStateManager.Instance.IsGameOver) return;
+        if (GameStateManager.Instance.IsGamePaused || GameStateManager.Instance.IsGameOver) return;
 
         StartCoroutine(SetCardPlacedPressBool());
     }
@@ -558,6 +557,22 @@ public class TutorialPlayerManager : PlayerManager
             player.FacingArea++;
             if (player.FacingArea >= Players.Count)
                 player.FacingArea = 0;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (GameInputManager.Instance != null)
+        {
+            GameInputManager.Instance.OnPlaceCardAction -= Instance_OnPlaceCardAction;
+        }
+    }
+
+    private void OnApplicationQuit()
+    {
+        if (GameInputManager.Instance != null)
+        {
+            GameInputManager.Instance.OnPlaceCardAction -= Instance_OnPlaceCardAction;
         }
     }
 }

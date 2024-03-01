@@ -36194,6 +36194,12 @@ Camera:
     type: 3}
   m_PrefabInstance: {fileID: 1583476938}
   m_PrefabAsset: {fileID: 0}
+--- !u!20 &1583476940 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 3766016798414648563, guid: cabaa0c6b13bea140bff30040dc45399,
+    type: 3}
+  m_PrefabInstance: {fileID: 1583476938}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1590563915
 GameObject:
   m_ObjectHideFlags: 0
@@ -45585,6 +45591,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2355665731839522709, guid: 9aa4f0b699f73be4b916f473b60a02ca,
+        type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1583476940}
     - target: {fileID: 3305768306093867707, guid: 9aa4f0b699f73be4b916f473b60a02ca,
         type: 3}
       propertyPath: m_Name
@@ -45670,6 +45681,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 45
       objectReference: {fileID: 0}
+    - target: {fileID: 8155572553501410249, guid: 9aa4f0b699f73be4b916f473b60a02ca,
+        type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1583476940}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

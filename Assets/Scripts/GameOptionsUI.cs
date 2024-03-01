@@ -268,7 +268,7 @@ namespace JamCraft.GMTK2023.Code
             {
                 OnResetToDefault.AddListener(GameInputManager.Instance.GameOptionsUI_OnResetToDefault);
                 GameInputManager.Instance.OnInputDeviceChanged.AddListener(SwapInputIcons);
-                GameInputManager.Instance.OnInputDeviceChanged.AddListener(SetGamepadFocus);
+                GameInputManager.Instance.OnInputDeviceChanged.AddListener(SetGamepadFocusOptionsMenu);
             }
 
             UpdateVisual();
@@ -277,10 +277,12 @@ namespace JamCraft.GMTK2023.Code
             HideRebindPanel();
         }
 
-        private void SetGamepadFocus(ControlScheme controlScheme)
+        private void SetGamepadFocusOptionsMenu(ControlScheme controlScheme)
         {
-            if (controlScheme == GameInputManager.ControlScheme.Gamepad)
+            if (controlScheme == ControlScheme.Gamepad)
             {
+                if (!gameObject.activeSelf) return;
+
                 _graphicsButton.Select();
             }
         }

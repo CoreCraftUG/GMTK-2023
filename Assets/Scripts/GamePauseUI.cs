@@ -56,16 +56,18 @@ namespace JamCraft.GMTK2023.Code
 
             if (GameInputManager.Instance != null)
             {
-                GameInputManager.Instance.OnInputDeviceChanged.AddListener(SetGamepadFocus);
+                GameInputManager.Instance.OnInputDeviceChanged.AddListener(SetGamepadFocusPauseMenu);
             }
 
             Hide();
         }
 
-        private void SetGamepadFocus(GameInputManager.ControlScheme controlScheme)
+        private void SetGamepadFocusPauseMenu(ControlScheme controlScheme)
         {
-            if (controlScheme == GameInputManager.ControlScheme.Gamepad)
+            if (controlScheme == ControlScheme.Gamepad)
             {
+                if (!gameObject.activeSelf) return;
+
                 _resumeButton.Select();
             }
         }

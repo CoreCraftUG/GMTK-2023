@@ -1,3 +1,4 @@
+using Cinemachine;
 using JamCraft.GMTK2023.Code;
 using Sirenix.OdinInspector;
 using System;
@@ -20,7 +21,8 @@ public class TutorialPlayerManager : PlayerManager
     protected int _lastPlacedSlot;
     protected int _missingSlot;
     protected TutorialPlayer _currentPlayer;
-    
+
+
 
     public bool ContinuePlay;
 
@@ -426,6 +428,8 @@ public class TutorialPlayerManager : PlayerManager
         Players[index].Level = _delayLevel;
         Players[index].TurnLight.SetActive(true);
         _currentPlayer = (TutorialPlayer)Players[index];
+        _virtualCamera.Follow = Players[_randomPlayer].CameraFocusPoint;
+        GameStateManager.Instance.LastPlayerFocusPoint = Players[_randomPlayer].CameraFocusPoint;
 
         {
             Vector3 CardPos = Players[index].GetPresentedCard().transform.position;
@@ -515,6 +519,8 @@ public class TutorialPlayerManager : PlayerManager
         Players[_randomPlayer].IsSelected = true;
         Players[_randomPlayer].Level = _delayLevel;
         Players[_randomPlayer].TurnLight.SetActive(true);
+        _virtualCamera.Follow = Players[_randomPlayer].CameraFocusPoint;
+        GameStateManager.Instance.LastPlayerFocusPoint = Players[_randomPlayer].CameraFocusPoint;
 
         {
             Vector3 CardPos = Players[_randomPlayer].GetPresentedCard().transform.position;

@@ -41,7 +41,7 @@ public class PlayerManager : Singleton<PlayerManager>
     [HideInInspector] public bool CanTurn = true;
     [HideInInspector] public float Timer;
 
-    [SerializeField] private CinemachineVirtualCamera _virtualCamera;
+    [SerializeField] protected CinemachineVirtualCamera _virtualCamera;
 
     public List<CardHolder> WigglingCards = new List<CardHolder>();
 

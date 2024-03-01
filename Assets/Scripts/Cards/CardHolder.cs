@@ -14,6 +14,7 @@ public class CardHolder : MonoBehaviour
     [SerializeField] private GameObject[] _cards = new GameObject[20];
     [SerializeField] private Animator _animator;
     [SerializeField] private GameObject _doubleBorder;
+    [SerializeField] private GameObject[] _iconBorder = new GameObject[4];
     
     private CardBase _card;
     public CardBase Card
@@ -80,6 +81,21 @@ public class CardHolder : MonoBehaviour
         //tempPrime.transform.parent = this.transform;
         _doubleBorder.SetActive(true);
         Destroy(Instantiate(_shortPrimedExplosion, new Vector3(transform.position.x, transform.position.y +.6f, transform.position.z), Quaternion.identity), .5f);
+        switch (_card.Face)
+        {
+            case ECardFace.Club:
+                _iconBorder[0].SetActive(true);
+                break;
+            case ECardFace.Diamond:
+                _iconBorder[1].SetActive(true);
+                break;
+            case ECardFace.Heart:
+                _iconBorder[2].SetActive(true);
+                break;
+            case ECardFace.Spade:
+                _iconBorder[3].SetActive(true);
+                break;
+        }
     }
 
     public void HidePrimedExplosion()

@@ -59,6 +59,7 @@ MonoBehaviour:
     - MoreMountains.Tools
     - Plugins.Baedrick.ColoredHeaderCreator
     - UIEffect
+    - Unity.InputSystem.RebindingUI
     - vhacd
     showAdvancedSettings: 1
   addMgrToSceneAutomatically: 0

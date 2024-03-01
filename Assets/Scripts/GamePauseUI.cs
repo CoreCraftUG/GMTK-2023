@@ -3,6 +3,7 @@ using Cinemachine;
 using CoreCraft.Core;
 using UnityEngine;
 using UnityEngine.UI;
+using static JamCraft.GMTK2023.Code.GameInputManager;
 
 namespace JamCraft.GMTK2023.Code
 {
@@ -53,7 +54,20 @@ namespace JamCraft.GMTK2023.Code
             GameStateManager.Instance.OnGamePaused += GameStateManager_OnOnGamePaused;
             GameStateManager.Instance.OnGameUnpaused += GameStateManager_OnOnGameUnpaused;
 
+            if (GameInputManager.Instance != null)
+            {
+                GameInputManager.Instance.OnInputDeviceChanged.AddListener(SetGamepadFocus);
+            }
+
             Hide();
+        }
+
+        private void SetGamepadFocus(GameInputManager.ControlScheme controlScheme)
+        {
+            if (controlScheme == GameInputManager.ControlScheme.Gamepad)
+            {
+                _resumeButton.Select();
+            }
         }
 
         // If the game unpauses, hide the pause menu.

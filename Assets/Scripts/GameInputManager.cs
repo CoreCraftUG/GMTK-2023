@@ -1,14 +1,20 @@
 using System;
 using CoreCraft.Core;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Utilities;
+using UnityEngine.InputSystem.Users;
 
 namespace JamCraft.GMTK2023.Code
 {
-    public class GameInputManager : Singleton<GameInputManager>
+    public class GameInputManager : MonoBehaviour
     {
+        public static GameInputManager Instance;
+
         private GameInput _gameInput;
+        private ControlScheme _currentControlScheme;
+        private InputUser _currentUser;
+        private string _currentCancelKey;
 
         private const string PLAYER_INPUT_BINDINGS = "InputBindings";
         private readonly string _saveFilePath = $"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\\My Games\\House Always WINS!\\SaveFile.ini";
@@ -22,19 +28,43 @@ namespace JamCraft.GMTK2023.Code
 
         #endregion
 
+        public UnityEvent<InputBinding> OnDuplicateKeybindingFound;
+        public UnityEvent<ControlScheme> OnInputDeviceChanged;
+
         public enum Binding
         {
             TurnTableRight,
             TurnTableLeft,
-            PlaceCard,
+            PlaceCard
+        }
+
+        public enum ControlScheme
+        {
+            Keyboard,
+            Gamepad
         }
 
         private void Awake()
         {
+            if (Instance != null)
+            {
+                Debug.LogError($"There is more than one {this} instance in the scene!");
+            }
+
+            Instance = this;
+
             DontDestroyOnLoad(this.gameObject);
 
             _gameInput = new GameInput();
             _gameInput.Player.Enable();
+            
+            _currentUser = InputUser.PerformPairingWithDevice(Keyboard.current);
+            _currentUser.AssociateActionsWithUser(_gameInput);
+            _currentUser.ActivateControlScheme(_gameInput.KeyboardScheme);
+            _currentControlScheme = ControlScheme.Keyboard;
+
+            ++InputUser.listenForUnpairedDeviceActivity;
+            InputUser.onUnpairedDeviceUsed += InputUser_onUnpairedDeviceUsed;
 
             if (ES3.KeyExists(PLAYER_INPUT_BINDINGS, _saveFilePath))
             {
@@ -42,6 +72,73 @@ namespace JamCraft.GMTK2023.Code
             }
 
             RegisterInputActions();
+        }
+
+        private void Start()
+        {
+            OnInputDeviceChanged.AddListener(SetKeybindBindingCancelKey);
+        }
+
+        private void SetKeybindBindingCancelKey(ControlScheme controlScheme)
+        {
+            switch (controlScheme)
+            {
+                default:
+                case ControlScheme.Keyboard:
+                    _currentCancelKey = "<Keyboard>/escape";
+                    break;
+                case ControlScheme.Gamepad:
+                    _currentCancelKey = "<Gamepad>/eastButton";
+                    break;
+            }
+        }
+
+        private void InputUser_onUnpairedDeviceUsed(InputControl inputControl, UnityEngine.InputSystem.LowLevel.InputEventPtr inputEventPtr)
+        {
+            ControlScheme cacheControlScheme = _currentControlScheme;
+
+            InputDevice inputDevice = inputControl.device;
+
+            if (inputDevice is Gamepad)
+            {
+                _currentUser.UnpairDevices();
+
+                InputUser.PerformPairingWithDevice(Gamepad.current, user: _currentUser);
+
+                _currentUser.ActivateControlScheme(ControlScheme.Gamepad.ToString());
+
+                _currentControlScheme = ControlScheme.Gamepad;
+            }
+
+            if (inputDevice is Keyboard)
+            {
+                _currentUser.UnpairDevices();
+
+                InputUser.PerformPairingWithDevice(Keyboard.current, user: _currentUser);
+                InputUser.PerformPairingWithDevice(Mouse.current, user: _currentUser);
+
+                _currentUser.ActivateControlScheme(ControlScheme.Keyboard.ToString());
+
+                _currentControlScheme = ControlScheme.Keyboard;
+            }
+
+            if (cacheControlScheme != _currentControlScheme)
+            {
+                OnInputDeviceChanged?.Invoke(_currentControlScheme);
+                Debug.Log($"Device changed to {_currentControlScheme}.");
+            }
+        }
+
+        public void GameOptionsUI_OnResetToDefault()
+        {
+            foreach (InputActionMap map in _gameInput.asset.actionMaps)
+            {
+                foreach (InputAction inputAction in map.actions)
+                {
+                    inputAction.RemoveBindingOverride(InputBinding.MaskByGroup(_currentControlScheme.ToString()));
+                    ES3.Save(PLAYER_INPUT_BINDINGS, _gameInput.SaveBindingOverridesAsJson(), _saveFilePath);
+                }
+            }
         }
 
         private void PlaceCard_performed(InputAction.CallbackContext obj)
@@ -87,9 +184,9 @@ namespace JamCraft.GMTK2023.Code
             }
         }
 
-        public void RebindBinding(Binding binding, Action onActionRebound, int bindingIndex)
+        public void RebindBinding(Binding binding, Action onActionRebound, int bindingIndex/*, bool allCompositeParts = false*/)
         {
-            _gameInput.Player.Disable();
+            //_gameInput.Player.Disable();
 
             InputAction inputAction;
 
@@ -107,15 +204,103 @@ namespace JamCraft.GMTK2023.Code
                     break;
             }
 
+            inputAction.Disable();
+
             inputAction.PerformInteractiveRebinding(bindingIndex)
-                .OnComplete(callback =>
+                .WithCancelingThrough(_currentCancelKey)
+                .WithControlsExcluding("<Mouse>")
+                .WithControlsExcluding("<Keyboard>/anyKey")
+                .OnCancel(operation =>
                 {
-                    callback.Dispose();
-                    _gameInput.Player.Enable();
-                    onActionRebound();
+                    ResetBinding(inputAction, bindingIndex);
+                    inputAction.Enable();
+                    onActionRebound?.Invoke();
                     ES3.Save(PLAYER_INPUT_BINDINGS, _gameInput.SaveBindingOverridesAsJson(), _saveFilePath);
+                    operation.Dispose();
+                })
+                .OnComplete(operation =>
+                {
+                    if (CheckForDuplicateBindings(inputAction, bindingIndex/*, allCompositeParts*/))
+                    {
+                        inputAction.RemoveBindingOverride(bindingIndex);
+
+                        operation.Dispose();
+
+                        RebindBinding(binding, () =>
+                        {
+                            GameOptionsUI.Instance.HideRebindPanel();
+                            GameOptionsUI.Instance.UpdateVisual();
+                        }, bindingIndex);
+
+                        return;
+                    }
+
+                    inputAction.Enable();
+                    onActionRebound?.Invoke();
+                    ES3.Save(PLAYER_INPUT_BINDINGS, _gameInput.SaveBindingOverridesAsJson(), _saveFilePath);
+                    operation.Dispose();
                 })
                 .Start();
+        }
+
+        private void ResetBinding(InputAction inputAction, int bindingIndex)
+        {
+            InputBinding newBinding = inputAction.bindings[bindingIndex];
+            string oldOverridePath = newBinding.overridePath;
+
+            inputAction.RemoveBindingOverride(bindingIndex);
+
+            foreach (InputAction otherInputAction in inputAction.actionMap.actions)
+            {
+                if (otherInputAction == inputAction)
+                {
+                    continue;
+                }
+
+                for (int i = 0; i < otherInputAction.bindings.Count; i++)
+                {
+                    InputBinding binding = otherInputAction.bindings[i];
+
+                    if (binding.overridePath == newBinding.path)
+                    {
+                        otherInputAction.ApplyBindingOverride(i, oldOverridePath);
+                    }
+                }
+            }
+        }
+
+        private bool CheckForDuplicateBindings(InputAction inputAction, int bindingIndex/*, bool allCompositeParts = false*/)
+        {
+            InputBinding newBinding = inputAction.bindings[bindingIndex];
+
+            foreach (InputBinding binding in inputAction.actionMap.bindings)
+            {
+                if (binding.action == newBinding.action)
+                {
+                    continue;
+                }
+
+                if (binding.effectivePath == newBinding.effectivePath)
+                {
+                    OnDuplicateKeybindingFound?.Invoke(binding);
+                    // TODO: Highlight keybinding?
+                    return true;
+                }
+            }
+
+            //if (allCompositeParts)
+            //{
+            //    for (int i = 1; i < bindingIndex; i++)
+            //    {
+            //        if (inputAction.bindings[i].effectivePath == newBinding.overridePath)
+            //        {
+            //            Debug.Log($"Duplicate binding found: {newBinding.effectivePath}!");
+            //            return true;
+            //        }
+            //    }
+            //}
+
+            return false;
         }
     }
 }

@@ -16781,6 +16781,7 @@ MonoBehaviour:
   _sfxVolumeText: {fileID: 1115033386}
   _cameraHeightText: {fileID: 997091932}
   _rebindPanel: {fileID: 0}
+  _rebindPanelText: {fileID: 0}
   _turnTableRightKeybindingText1: {fileID: 0}
   _turnTableRightKeybindingText2: {fileID: 0}
   _turnTableRightKeybindingButton1: {fileID: 0}
@@ -16795,6 +16796,9 @@ MonoBehaviour:
   _placeCardKeybindingButton2: {fileID: 0}
   OptionsCameraFocus: {fileID: 1582542982}
   _uiCamera: {fileID: 1718725533}
+  OnResetToDefault:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1757114581
 GameObject:
   m_ObjectHideFlags: 0
@@ -24200,7 +24204,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Press a key to rebind.
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3ca4d2f306ccea545b06ae7c31441886, type: 2}
   m_sharedMaterial: {fileID: 1676728505900478140, guid: 3ca4d2f306ccea545b06ae7c31441886,
@@ -24228,8 +24232,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 4
-  m_fontSizeBase: 4
+  m_fontSize: 2
+  m_fontSizeBase: 2
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -24264,7 +24268,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 2, y: 2, z: 3, w: 2}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -24896,6 +24900,7 @@ MonoBehaviour:
   _sfxVolumeText: {fileID: 1703704421636916869}
   _cameraHeightText: {fileID: 2782672586960257833}
   _rebindPanel: {fileID: 3035820403986078043}
+  _rebindPanelText: {fileID: 2333657237466927154}
   _turnTableRightKeybindingText1: {fileID: 4377385634316798543}
   _turnTableRightKeybindingText2: {fileID: 1442787567886424641}
   _turnTableRightKeybindingButton1: {fileID: 3465969468591698823}
@@ -24910,6 +24915,9 @@ MonoBehaviour:
   _placeCardKeybindingButton2: {fileID: 8508634660048507723}
   OptionsCameraFocus: {fileID: 5775157585029006058}
   _uiCamera: {fileID: 1718725533}
+  OnResetToDefault:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &2675641740269766719
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29854,7 +29862,6 @@ RectTransform:
   - {fileID: 3918277937745363414}
   - {fileID: 5775157585029006058}
   - {fileID: 1255889876882713768}
-  - {fileID: 7732611402287348039}
   - {fileID: 5498275911670303366}
   - {fileID: 8552983584781637237}
   - {fileID: 4578538622691991707}
@@ -31423,6 +31430,7 @@ RectTransform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5855187743745666851}
+  - {fileID: 7732611402287348039}
   m_Father: {fileID: 5637870088409972556}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -33450,16 +33458,16 @@ RectTransform:
   m_GameObject: {fileID: 2073531696024822245}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.035, y: 0.035, z: 0.035}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2162978985954231093}
-  m_Father: {fileID: 5637870088409972556}
+  m_Father: {fileID: 6628560961845680493}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0.000000007450581, y: 0}
+  m_AnchoredPosition: {x: 0, y: -21.428574}
   m_SizeDelta: {x: 30, y: 20}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!224 &7733596349548959098
@@ -35534,7 +35542,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5211420860664577325}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.0000028383163}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

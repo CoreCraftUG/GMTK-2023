@@ -4,9 +4,12 @@ using System.Collections.Generic;
 using CoreCraft.Core;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static UnityEngine.InputSystem.InputSettings;
+using static JamCraft.GMTK2023.Code.GameInputManager;
 
 namespace JamCraft.GMTK2023.Code
 {
@@ -54,6 +57,7 @@ namespace JamCraft.GMTK2023.Code
 
         [Header("Keybindings")] 
         [SerializeField] private GameObject _rebindPanel;
+        [SerializeField] public TextMeshProUGUI _rebindPanelText;
         [SerializeField] private TextMeshProUGUI _turnTableRightKeybindingText1;
         [SerializeField] private TextMeshProUGUI _turnTableRightKeybindingText2;
         [SerializeField] private Button _turnTableRightKeybindingButton1;
@@ -73,6 +77,8 @@ namespace JamCraft.GMTK2023.Code
         public Transform OptionsCameraFocus;
 
         [SerializeField] private CinemachineVirtualCamera _uiCamera;
+
+        public UnityEvent OnResetToDefault;
 
         private void Awake()
         {
@@ -101,6 +107,12 @@ namespace JamCraft.GMTK2023.Code
                 PlayerPrefs.SetFloat(PLAYER_PREFS_CAMERA_HEIGHT, GameSettingsManager.Instance.CameraHeight);
                 PlayerPrefs.SetInt(PLAYER_PREFS_RESOLUTION, GameSettingsManager.Instance.ResolutionIndex);
                 PlayerPrefs.Save();
+            });
+
+            _resetToDefaultButton.onClick.AddListener(() =>
+            {
+                OnResetToDefault?.Invoke();
+                UpdateVisual();
             });
 
             // Close options menu and show pause menu.
@@ -159,32 +171,32 @@ namespace JamCraft.GMTK2023.Code
 
             _turnTableRightKeybindingButton1.onClick.AddListener(() =>
             {
-                RebindBinding(GameInputManager.Binding.TurnTableRight, 0);
+                RebindBinding(Binding.TurnTableRight, 0);
             });
 
             _turnTableRightKeybindingButton2.onClick.AddListener(() =>
             {
-                RebindBinding(GameInputManager.Binding.TurnTableRight, 1);
+                RebindBinding(Binding.TurnTableRight, 1);
             });
 
             _turnTableLeftKeybindingButton1.onClick.AddListener(() =>
             {
-                RebindBinding(GameInputManager.Binding.TurnTableLeft, 0);
+                RebindBinding(Binding.TurnTableLeft, 0);
             });
 
             _turnTableLeftKeybindingButton2.onClick.AddListener(() =>
             {
-                RebindBinding(GameInputManager.Binding.TurnTableLeft, 1);
+                RebindBinding(Binding.TurnTableLeft, 1);
             });
 
             _placeCardKeybindingButton1.onClick.AddListener(() =>
             {
-                RebindBinding(GameInputManager.Binding.PlaceCard, 0);
+                RebindBinding(Binding.PlaceCard, 0);
             });
 
             _placeCardKeybindingButton2.onClick.AddListener(() =>
             {
-                RebindBinding(GameInputManager.Binding.PlaceCard, 1);
+                RebindBinding(Binding.PlaceCard, 1);
             });
 
             #endregion
@@ -247,13 +259,136 @@ namespace JamCraft.GMTK2023.Code
                 GameStateManager.Instance.OnGameUnpaused += GameStateManager_OnOnGameUnpaused;
             }
 
+            if (GameInputManager.Instance != null)
+            {
+                GameInputManager.Instance.OnDuplicateKeybindingFound.AddListener(GameInputManager_OnDuplicateKeybindingFound);
+            }
+
+            if (GameInputManager.Instance != null)
+            {
+                OnResetToDefault.AddListener(GameInputManager.Instance.GameOptionsUI_OnResetToDefault);
+                GameInputManager.Instance.OnInputDeviceChanged.AddListener(SwapInputIcons);
+                GameInputManager.Instance.OnInputDeviceChanged.AddListener(SetGamepadFocus);
+            }
+
             UpdateVisual();
 
             Hide();
             HideRebindPanel();
         }
 
-        private void UpdateVisual()
+        private void SetGamepadFocus(ControlScheme controlScheme)
+        {
+            if (controlScheme == GameInputManager.ControlScheme.Gamepad)
+            {
+                _graphicsButton.Select();
+            }
+        }
+
+        private void SwapInputIcons(ControlScheme controlScheme)
+        {
+            switch (controlScheme)
+            {
+                default:
+                case ControlScheme.Keyboard:
+                    _turnTableRightKeybindingText1.text = GameInputManager.Instance.GetBindingText(GameInputManager.Binding.TurnTableRight, 0);
+                    _turnTableRightKeybindingText2.text = GameInputManager.Instance.GetBindingText(GameInputManager.Binding.TurnTableRight, 1);
+                    _turnTableLeftKeybindingText1.text = GameInputManager.Instance.GetBindingText(GameInputManager.Binding.TurnTableLeft, 0);
+                    _turnTableLeftKeybindingText2.text = GameInputManager.Instance.GetBindingText(GameInputManager.Binding.TurnTableLeft, 1);
+                    _placeCardKeybindingText1.text = GameInputManager.Instance.GetBindingText(GameInputManager.Binding.PlaceCard, 0);
+                    _placeCardKeybindingText2.text = GameInputManager.Instance.GetBindingText(GameInputManager.Binding.PlaceCard, 1);
+
+                    _turnTableRightKeybindingButton1.onClick.RemoveAllListeners();
+                    _turnTableRightKeybindingButton2.onClick.RemoveAllListeners();
+                    _turnTableLeftKeybindingButton1.onClick.RemoveAllListeners();
+                    _turnTableLeftKeybindingButton2.onClick.RemoveAllListeners();
+                    _placeCardKeybindingButton1.onClick.RemoveAllListeners();
+                    _placeCardKeybindingButton2.onClick.RemoveAllListeners();
+
+                    _turnTableRightKeybindingButton1.onClick.AddListener(() =>
+                    {
+                        RebindBinding(Binding.TurnTableRight, 0);
+                    });
+
+                    _turnTableRightKeybindingButton2.onClick.AddListener(() =>
+                    {
+                        RebindBinding(Binding.TurnTableRight, 1);
+                    });
+
+                    _turnTableLeftKeybindingButton1.onClick.AddListener(() =>
+                    {
+                        RebindBinding(Binding.TurnTableLeft, 0);
+                    });
+
+                    _turnTableLeftKeybindingButton2.onClick.AddListener(() =>
+                    {
+                        RebindBinding(Binding.TurnTableLeft, 1);
+                    });
+
+                    _placeCardKeybindingButton1.onClick.AddListener(() =>
+                    {
+                        RebindBinding(Binding.PlaceCard, 0);
+                    });
+
+                    _placeCardKeybindingButton2.onClick.AddListener(() =>
+                    {
+                        RebindBinding(Binding.PlaceCard, 1);
+                    });
+                    break;
+                case ControlScheme.Gamepad:
+                    _turnTableRightKeybindingText1.text = GameInputManager.Instance.GetBindingText(GameInputManager.Binding.TurnTableRight, 2);
+                    _turnTableRightKeybindingText2.text = GameInputManager.Instance.GetBindingText(GameInputManager.Binding.TurnTableRight, 3);
+                    _turnTableLeftKeybindingText1.text = GameInputManager.Instance.GetBindingText(GameInputManager.Binding.TurnTableLeft, 2);
+                    _turnTableLeftKeybindingText2.text = GameInputManager.Instance.GetBindingText(GameInputManager.Binding.TurnTableLeft, 3);
+                    _placeCardKeybindingText1.text = GameInputManager.Instance.GetBindingText(GameInputManager.Binding.PlaceCard, 2);
+                    _placeCardKeybindingText2.text = GameInputManager.Instance.GetBindingText(GameInputManager.Binding.PlaceCard, 3);
+
+                    _turnTableRightKeybindingButton1.onClick.RemoveAllListeners();
+                    _turnTableRightKeybindingButton2.onClick.RemoveAllListeners();
+                    _turnTableLeftKeybindingButton1.onClick.RemoveAllListeners();
+                    _turnTableLeftKeybindingButton2.onClick.RemoveAllListeners();
+                    _placeCardKeybindingButton1.onClick.RemoveAllListeners();
+                    _placeCardKeybindingButton2.onClick.RemoveAllListeners();
+
+                    _turnTableRightKeybindingButton1.onClick.AddListener(() =>
+                    {
+                        RebindBinding(Binding.TurnTableRight, 2);
+                    });
+
+                    _turnTableRightKeybindingButton2.onClick.AddListener(() =>
+                    {
+                        RebindBinding(Binding.TurnTableRight, 3);
+                    });
+
+                    _turnTableLeftKeybindingButton1.onClick.AddListener(() =>
+                    {
+                        RebindBinding(Binding.TurnTableLeft, 2);
+                    });
+
+                    _turnTableLeftKeybindingButton2.onClick.AddListener(() =>
+                    {
+                        RebindBinding(Binding.TurnTableLeft, 3);
+                    });
+
+                    _placeCardKeybindingButton1.onClick.AddListener(() =>
+                    {
+                        RebindBinding(Binding.PlaceCard, 2);
+                    });
+
+                    _placeCardKeybindingButton2.onClick.AddListener(() =>
+                    {
+                        RebindBinding(Binding.PlaceCard, 3);
+                    });
+                    break;
+            }
+        }
+
+        private void GameInputManager_OnDuplicateKeybindingFound(InputBinding binding)
+        {
+            _rebindPanelText.text = $"Key is already being used for {binding.action}!\nPlease use another key.";
+        }
+
+        public void UpdateVisual()
         {
             // Set the texts to the according values + some black magic so it looks correct.
             _mainVolumeText.text = Mathf.Round(SoundManager.Instance.MainVolume * 10f).ToString();
@@ -292,7 +427,7 @@ namespace JamCraft.GMTK2023.Code
         /// <param name="bindingIndex">The binding index of the binding that gets changed. E.g. an action can have multiple bindings, jump can be space and arrow up.</param>
         private void RebindBinding(GameInputManager.Binding binding, int bindingIndex)
         {
-            ShowRebindPanel();
+            ShowRebindPanel(binding);
 
             GameInputManager.Instance.RebindBinding(binding, () =>
             {
@@ -322,12 +457,14 @@ namespace JamCraft.GMTK2023.Code
             _graphicsButton.Select();
         }
 
-        private void ShowRebindPanel()
+        private void ShowRebindPanel(GameInputManager.Binding binding)
         {
+            _rebindPanelText.text = $"Press a key to rebind {binding}.\nPress {Keyboard.current.escapeKey.displayName} or {Gamepad.current.buttonEast.displayName} to cancel the process.";
+
             _rebindPanel.SetActive(true);
         }
 
-        private void HideRebindPanel()
+        public void HideRebindPanel()
         {
             _rebindPanel.SetActive(false);
         }

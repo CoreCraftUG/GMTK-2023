@@ -81,7 +81,18 @@ namespace JamCraft.GMTK2023.Code
             _gameMode1Button.gameObject.SetActive(false);
             _gameMode2Button.gameObject.SetActive(false);
 
-            _playButton.Select();
+            if (GameInputManager.Instance != null)
+            {
+                GameInputManager.Instance.OnInputDeviceChanged.AddListener(SetGamepadFocus);
+            }
+        }
+
+        private void SetGamepadFocus(GameInputManager.ControlScheme controlScheme)
+        {
+            if (controlScheme == GameInputManager.ControlScheme.Gamepad)
+            {
+                _playButton.Select();
+            }
         }
 
         //private void OnDestroy()

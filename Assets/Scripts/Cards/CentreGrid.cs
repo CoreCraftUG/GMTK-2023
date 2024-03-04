@@ -173,6 +173,8 @@ public class CentreGrid : MonoBehaviour
                         if (_grid[slot - 1, i].Level == ECentreGridLevel.Gold && _grid[slot - 1, i].Face == card.Card.Face)
                         {
                             EventManager.Instance.CentreLevelUpEvent.Invoke(ECentreGridLevel.Gold);
+                            _grid[slot - 1, i].Coin.GetComponent<Animator>().SetInteger("Level", 4);
+                            Destroy(_grid[slot - 1, i].Coin, .5f);
                             _grid[slot - 1, i] = new CentreGridSlot { Level = ECentreGridLevel.None };
                             _spriteGrid[slot - 1, i].sprite = null;
                             _spriteGrid[slot - 1, i].color = Color.white;

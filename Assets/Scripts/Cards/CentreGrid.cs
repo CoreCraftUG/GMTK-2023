@@ -60,6 +60,8 @@ public class CentreGrid : MonoBehaviour
                         if (_grid[slot - 1, i].Level == ECentreGridLevel.Gold && _grid[slot - 1, i].Face == card.Card.Face)
                         {
                             EventManager.Instance.CentreLevelUpEvent.Invoke(ECentreGridLevel.Gold);
+                            _grid[slot - 1, i].Coin.GetComponent<Animator>().SetInteger("Level", 4);
+                            Destroy(_grid[slot - 1, i].Coin, .5f);
                             _grid[slot - 1, i] = new CentreGridSlot { Level = ECentreGridLevel.None };
                             _spriteGrid[slot - 1, i].sprite = null;
                             _spriteGrid[slot - 1, i].color = Color.white;
@@ -117,6 +119,8 @@ public class CentreGrid : MonoBehaviour
                         if (_grid[i, slot - 1].Level == ECentreGridLevel.Gold && _grid[i, slot - 1].Face == card.Card.Face)
                         {
                             EventManager.Instance.CentreLevelUpEvent.Invoke(ECentreGridLevel.Gold);
+                            _grid[i, slot - 1].Coin.GetComponent<Animator>().SetInteger("Level", 4);
+                            Destroy(_grid[i, slot - 1].Coin, .5f);
                             _grid[i, slot - 1] = new CentreGridSlot { Level = ECentreGridLevel.None };
                             _spriteGrid[i, slot - 1].sprite = null;
                             _spriteGrid[i, slot - 1].color = Color.white;
@@ -230,6 +234,8 @@ public class CentreGrid : MonoBehaviour
                         if (_grid[i, slot - 1].Level == ECentreGridLevel.Gold && _grid[i, slot - 1].Face == card.Card.Face)
                         {
                             EventManager.Instance.CentreLevelUpEvent.Invoke(ECentreGridLevel.Gold);
+                            _grid[i, slot - 1].Coin.GetComponent<Animator>().SetInteger("Level", 4);
+                            Destroy(_grid[i, slot - 1].Coin, .5f);
                             _grid[i, slot - 1] = new CentreGridSlot { Level = ECentreGridLevel.None };
                             _spriteGrid[i, slot - 1].sprite = null;
                             _spriteGrid[i, slot - 1].color = Color.white;

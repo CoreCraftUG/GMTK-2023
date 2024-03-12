@@ -2,40 +2,47 @@ using UnityEngine;
 using UnityEngine.Audio;
 using System.Collections;
 using System.Collections.Generic;
+using CoreCraft.Core;
 
 namespace JamCraft.GMTK2023.Code
 {
-    public class SoundManager : MonoBehaviour
+    public class SoundManager : Singleton<SoundManager>
     {
         private const string MAIN_VOLUME = "masterVolume";
         private const string MUSIC_VOLUME = "musicVolume";
         private const string SFX_VOLUME = "sfxVolume";
 
-        public static SoundManager Instance { get; private set; }
-
         public float MainVolume = 0.5000499f;
         public float MusicVolume = 0.5000499f;
         public float SfxVolume = 0.5000499f;
+        public bool EventManagerReady;
 
         [Header("Sound Mixer")] 
         [SerializeField] private AudioMixer _mainAudioMixer;
         [SerializeField] private List<AudioClip> _allClips = new List<AudioClip>();
         [SerializeField] private AudioSource _sfxSource;
-        
-        private void Awake()
-        {
-            if (Instance != null)
-            {
-                Debug.LogError($"There is more than one {this} instance in the scene!");
-            }
 
-            Instance = this;
-            
+        private void Start()
+        {
+            StartCoroutine(SetUpCoroutine());
+        }
+
+        private IEnumerator SetUpCoroutine()
+        {
+            yield return new WaitUntil(() =>
+            {
+                return EventManagerReady;
+            });
+
+            EventManager.Instance.PlayAudio.AddListener(PlaySFXDelayed);
+        }
+
+        public void SetUpOptionsUI()
+        {
             // Get the saves values and set the volumes accordingly.
             MainVolume = PlayerPrefs.GetFloat(GameOptionsUI.PLAYER_PREFS_MAIN_VOLUME, 0.5000499f);
             MusicVolume = PlayerPrefs.GetFloat(GameOptionsUI.PLAYER_PREFS_MUSIC_VOLUME, 0.5000499f);
             SfxVolume = PlayerPrefs.GetFloat(GameOptionsUI.PLAYER_PREFS_SFX_VOLUME, 0.5000499f);
-            EventManager.Instance.PlayAudio.AddListener(PlaySFXDelayed);
         }
 
         private void OnDestroy()
@@ -54,11 +61,11 @@ namespace JamCraft.GMTK2023.Code
             }
         }
 
-        public void PlaySFXDelayed(int clip, float volume)
+        public void PlaySFXDelayed(int clip, float delay)
         {
             _sfxSource.clip = _allClips[clip];
 
-            _sfxSource.PlayDelayed(volume);
+            _sfxSource.PlayDelayed(delay);
         }
 
         public void PlaySFX(int clip)

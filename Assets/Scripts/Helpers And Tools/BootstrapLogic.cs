@@ -61,6 +61,7 @@ namespace CoreCraft.Core
 
             SteamAchievementHelper.Instance.EventManagerReady = true;
             SteamStatManager.Instance.EventManagerReady = true;
+            SoundManager.Instance.EventManagerReady = true;
 
             // Visualize Timer
             BootTimerEvent.Invoke(1f);

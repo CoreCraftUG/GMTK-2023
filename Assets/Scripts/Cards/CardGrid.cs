@@ -28,6 +28,8 @@ public class CardGrid : MonoBehaviour
 
     [SerializeField] protected bool _wait;
 
+    protected bool _wasRearranged = true;
+
     protected void Start()
     {
         _cardField = new CardBase[_gridWidth, _gridLength];
@@ -121,8 +123,8 @@ public class CardGrid : MonoBehaviour
         }
 
         EventManager.Instance.TimeStopEvent.Invoke();
-        EventManager.Instance.TurnEvent.Invoke();
         CheckForMatch();
+        EventManager.Instance.TurnEvent.Invoke();
 
     }
 
@@ -198,7 +200,7 @@ public class CardGrid : MonoBehaviour
         else
             EventManager.Instance.GridNoLongerFullEvent.Invoke(this);
 
-        if (!match)
+        if (!match && _wasRearranged)
         {
             //PlayerManager.Instance.CanTurn = true;
             EventManager.Instance.TimeStartEvent.Invoke();
@@ -318,25 +320,37 @@ public class CardGrid : MonoBehaviour
 
     protected IEnumerator RowMatch(int i)
     {
-
-        float time = _cardObjects[_gridWidth - 1, i].MoveTime;
-        yield return new WaitForSeconds(time);
+        //Logic
+        _wasRearranged = false;
         ECardFace face = _cardObjects[_gridWidth - 1, i].Card.Face;
         ECardColour color = _cardObjects[_gridWidth - 1, i].Card.Colour;
         bool faceMatch = true;
-        EventManager.Instance.PlayAudio.Invoke(3, 0);
         List<CardHolder> holder = new List<CardHolder>();
-        for (int j  = _gridWidth - 1; j >= 0; j--)
+        for (int j = _gridWidth - 1; j >= 0; j--)
         {
-            if(face != _cardObjects[j, i].Card.Face)
+            if (face != _cardObjects[j, i].Card.Face)
                 faceMatch = false;
-            _cardObjects[j, i].FlipCard();
+
+            holder.Add(_cardObjects[j, i]);
+            _cardField[j, i] = null;
+        }
+
+        EventManager.Instance.MatchingCardsEvent.Invoke(faceMatch);
+        EventManager.Instance.RowStreakAchievementEvent.Invoke(color);
+
+        CheckForMatch();
+
+        //Visual
+        float time = holder[0].MoveTime;
+        yield return new WaitForSeconds(time);
+        EventManager.Instance.PlayAudio.Invoke(3, 0);
+        foreach (CardHolder holders in holder)
+        {
+            holders.FlipCard();
             //int k = Random.Range(0, 3);
             EventManager.Instance.PlayAudio.Invoke(1, 4);
-            holder.Add(_cardObjects[j, i]);
-            if (PlayerManager.Instance.WigglingCards.Contains(_cardObjects[j, i]))
-                PlayerManager.Instance.WigglingCards.Remove(_cardObjects[j, i]);
-            _cardField[j, i] = null;
+            if (PlayerManager.Instance.WigglingCards.Contains(holders))
+                PlayerManager.Instance.WigglingCards.Remove(holders);
         }
         yield return new WaitForSeconds(.5f);
         foreach (CardHolder holders in holder)
@@ -344,11 +358,7 @@ public class CardGrid : MonoBehaviour
         if (faceMatch)
             EventManager.Instance.RimExplosionEvent.Invoke(this, i);
 
-        EventManager.Instance.MatchingCardsEvent.Invoke(faceMatch);
-        EventManager.Instance.RowStreakAchievementEvent.Invoke(color);
-
-        yield return new WaitForSeconds(time);
-        StartCoroutine(ArrangeField());
+        yield return StartCoroutine(ArrangeField());
 
         CheckForMatch();
     }
@@ -374,6 +384,7 @@ public class CardGrid : MonoBehaviour
                 }
             }
         }
+        _wasRearranged = true;
         yield return new WaitForSeconds(time);
     }
 

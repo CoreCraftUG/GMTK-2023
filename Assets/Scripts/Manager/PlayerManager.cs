@@ -57,11 +57,11 @@ public class PlayerManager : Singleton<PlayerManager>
 
     protected virtual void Instance_OnPlaceCardAction(object sender, System.EventArgs e)
     {
-        if (GameStateManager.Instance.IsGamePaused || GameStateManager.Instance.IsGameOver) return;
+        if (GameStateManager.Instance.IsGamePaused || GameStateManager.Instance.IsGameOver || _timePlaced) return;
 
         _timePlaced = true;
-        SelectedPlayerPlays();
         StartCoroutine(TimePlaceDelay());
+        SelectedPlayerPlays();
     }
 
     protected virtual void OnDestroy()
@@ -164,8 +164,8 @@ public class PlayerManager : Singleton<PlayerManager>
         if (Timer >= _currentDelay /*&& CanTurn*/ && _puppyProtection > _maxPuppyProtection && !_timePlaced)
         {
             _timePlaced = true;
-            SelectedPlayerPlays();
             StartCoroutine(TimePlaceDelay());
+            SelectedPlayerPlays();
         }
     }
 
@@ -205,8 +205,15 @@ public class PlayerManager : Singleton<PlayerManager>
 
     protected virtual IEnumerator TimePlaceDelay()
     {
-        yield return new WaitForSeconds(_timeDelayTimePlace);
-        _timePlaced = false;
+        //if(Timer > 0)
+        {
+            float tempTimer = Timer;
+            yield return new WaitUntil(() => tempTimer >= Timer);
+            _timePlaced = false;
+        }
+        //else
+        //    _timePlaced = false;
+
     }
 
     public virtual void NextPlayer(bool first)

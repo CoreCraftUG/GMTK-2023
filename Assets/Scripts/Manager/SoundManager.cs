@@ -57,7 +57,6 @@ namespace JamCraft.GMTK2023.Code
 
         private void MusicMultiply(float value)
         {
-            throw new NotImplementedException();
         }
 
         private void SyncAudioSources()

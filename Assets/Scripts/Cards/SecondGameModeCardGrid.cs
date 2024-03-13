@@ -101,8 +101,8 @@ public class SecondGameModeCardGrid : CardGrid
         }
 
         EventManager.Instance.TimeStopEvent.Invoke();
-        EventManager.Instance.TurnEvent.Invoke();
         CheckForMatch();
+        EventManager.Instance.TurnEvent.Invoke();
 
     }
 
@@ -136,8 +136,8 @@ public class SecondGameModeCardGrid : CardGrid
         }
 
         EventManager.Instance.TimeStopEvent.Invoke();
-        EventManager.Instance.TurnEvent.Invoke();
         CheckForMatch();
+        EventManager.Instance.TurnEvent.Invoke();
         return true;
     }
 

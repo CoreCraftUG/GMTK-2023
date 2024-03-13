@@ -38,7 +38,7 @@ public class TutorialPlayerManager : PlayerManager
 
     protected override void Instance_OnPlaceCardAction(object sender, System.EventArgs e)
     {
-        if (GameStateManager.Instance.IsGamePaused || GameStateManager.Instance.IsGameOver) return;
+        if (GameStateManager.Instance.IsGamePaused || GameStateManager.Instance.IsGameOver || _timePlaced) return;
 
         StartCoroutine(SetCardPlacedPressBool());
     }
@@ -500,13 +500,6 @@ public class TutorialPlayerManager : PlayerManager
             StartCoroutine(TimePlaceDelay());
             //CancelInvoke();
         }
-    }
-
-
-    protected override IEnumerator TimePlaceDelay()
-    {
-        yield return new WaitForSeconds(_timeDelayTimePlace);
-        _timePlaced = false;
     }
 
     public override void NextPlayer(bool first)

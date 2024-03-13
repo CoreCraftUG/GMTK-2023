@@ -3,6 +3,8 @@ using UnityEngine.Audio;
 using System.Collections;
 using System.Collections.Generic;
 using CoreCraft.Core;
+using Sirenix.OdinInspector;
+using System;
 
 namespace JamCraft.GMTK2023.Code
 {
@@ -22,6 +24,14 @@ namespace JamCraft.GMTK2023.Code
         [SerializeField] private List<AudioClip> _allClips = new List<AudioClip>();
         [SerializeField] private AudioSource _sfxSource;
 
+        [FoldoutGroup("Music"), Header("Audio Sources"), SerializeField] private AudioSource _mainTrack;
+        [FoldoutGroup("Music"), SerializeField] private AudioSource _track1;
+        [FoldoutGroup("Music"), SerializeField] private AudioSource _track2;
+        [FoldoutGroup("Music"), SerializeField] private AudioSource _track3;
+        [FoldoutGroup("Music"), SerializeField] private AudioSource _track4;
+        [FoldoutGroup("Music"), SerializeField] private AudioSource _track5;
+        [FoldoutGroup("Music"), SerializeField] private AudioSource _track6;
+
         private void Start()
         {
             StartCoroutine(SetUpCoroutine());
@@ -34,7 +44,20 @@ namespace JamCraft.GMTK2023.Code
                 return EventManagerReady;
             });
 
+            EventManager.Instance.OnGameOptionsUIInitialized.AddListener(() => SetUpOptionsUI());
             EventManager.Instance.PlayAudio.AddListener(PlaySFXDelayed);
+
+            EventManager.Instance.PointMultiplyEvent.AddListener(MusicMultiply);
+        }
+
+        private void MusicMultiply(float value)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void SyncAudioSources()
+        {
+
         }
 
         public void SetUpOptionsUI()

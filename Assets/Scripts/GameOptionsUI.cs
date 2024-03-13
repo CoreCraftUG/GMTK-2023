@@ -293,12 +293,12 @@ namespace JamCraft.GMTK2023.Code
             {
                 default:
                 case ControlScheme.Keyboard:
-                    _turnTableRightKeybindingText1.text = GameInputManager.Instance.GetBindingText(Actions.TurnTableRight, 0);
-                    _turnTableRightKeybindingText2.text = GameInputManager.Instance.GetBindingText(Actions.TurnTableRight, 1);
-                    _turnTableLeftKeybindingText1.text = GameInputManager.Instance.GetBindingText(Actions.TurnTableLeft, 0);
-                    _turnTableLeftKeybindingText2.text = GameInputManager.Instance.GetBindingText(Actions.TurnTableLeft, 1);
-                    _placeCardKeybindingText1.text = GameInputManager.Instance.GetBindingText(Actions.PlaceCard, 0);
-                    _placeCardKeybindingText2.text = GameInputManager.Instance.GetBindingText(Actions.PlaceCard, 1);
+                    _turnTableRightKeybindingText1.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.TurnTableRight, 0);
+                    _turnTableRightKeybindingText2.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.TurnTableRight, 1);
+                    _turnTableLeftKeybindingText1.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.TurnTableLeft, 0);
+                    _turnTableLeftKeybindingText2.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.TurnTableLeft, 1);
+                    _placeCardKeybindingText1.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.PlaceCard, 0);
+                    _placeCardKeybindingText2.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.PlaceCard, 1);
 
                     _turnTableRightKeybindingButton1.onClick.RemoveAllListeners();
                     _turnTableRightKeybindingButton2.onClick.RemoveAllListeners();
@@ -309,41 +309,41 @@ namespace JamCraft.GMTK2023.Code
 
                     _turnTableRightKeybindingButton1.onClick.AddListener(() =>
                     {
-                        RebindBinding(Actions.TurnTableRight, 0);
+                        RebindBinding(GameInputManager.Actions.TurnTableRight, 0);
                     });
 
                     _turnTableRightKeybindingButton2.onClick.AddListener(() =>
                     {
-                        RebindBinding(Actions.TurnTableRight, 1);
+                        RebindBinding(GameInputManager.Actions.TurnTableRight, 1);
                     });
 
                     _turnTableLeftKeybindingButton1.onClick.AddListener(() =>
                     {
-                        RebindBinding(Actions.TurnTableLeft, 0);
+                        RebindBinding(GameInputManager.Actions.TurnTableLeft, 0);
                     });
 
                     _turnTableLeftKeybindingButton2.onClick.AddListener(() =>
                     {
-                        RebindBinding(Actions.TurnTableLeft, 1);
+                        RebindBinding(GameInputManager.Actions.TurnTableLeft, 1);
                     });
 
                     _placeCardKeybindingButton1.onClick.AddListener(() =>
                     {
-                        RebindBinding(Actions.PlaceCard, 0);
+                        RebindBinding(GameInputManager.Actions.PlaceCard, 0);
                     });
 
                     _placeCardKeybindingButton2.onClick.AddListener(() =>
                     {
-                        RebindBinding(Actions.PlaceCard, 1);
+                        RebindBinding(GameInputManager.Actions.PlaceCard, 1);
                     });
                     break;
                 case ControlScheme.Gamepad:
-                    _turnTableRightKeybindingText1.text = GameInputManager.Instance.GetBindingText(Actions.TurnTableRight, 2);
-                    _turnTableRightKeybindingText2.text = GameInputManager.Instance.GetBindingText(Actions.TurnTableRight, 3);
-                    _turnTableLeftKeybindingText1.text = GameInputManager.Instance.GetBindingText(Actions.TurnTableLeft, 2);
-                    _turnTableLeftKeybindingText2.text = GameInputManager.Instance.GetBindingText(Actions.TurnTableLeft, 3);
-                    _placeCardKeybindingText1.text = GameInputManager.Instance.GetBindingText(Actions.PlaceCard, 2);
-                    _placeCardKeybindingText2.text = GameInputManager.Instance.GetBindingText(Actions.PlaceCard, 3);
+                    _turnTableRightKeybindingText1.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.TurnTableRight, 2);
+                    _turnTableRightKeybindingText2.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.TurnTableRight, 3);
+                    _turnTableLeftKeybindingText1.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.TurnTableLeft, 2);
+                    _turnTableLeftKeybindingText2.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.TurnTableLeft, 3);
+                    _placeCardKeybindingText1.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.PlaceCard, 2);
+                    _placeCardKeybindingText2.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.PlaceCard, 3);
 
                     _turnTableRightKeybindingButton1.onClick.RemoveAllListeners();
                     _turnTableRightKeybindingButton2.onClick.RemoveAllListeners();
@@ -354,32 +354,32 @@ namespace JamCraft.GMTK2023.Code
 
                     _turnTableRightKeybindingButton1.onClick.AddListener(() =>
                     {
-                        RebindBinding(Actions.TurnTableRight, 2);
+                        RebindBinding(GameInputManager.Actions.TurnTableRight, 2);
                     });
 
                     _turnTableRightKeybindingButton2.onClick.AddListener(() =>
                     {
-                        RebindBinding(Actions.TurnTableRight, 3);
+                        RebindBinding(GameInputManager.Actions.TurnTableRight, 3);
                     });
 
                     _turnTableLeftKeybindingButton1.onClick.AddListener(() =>
                     {
-                        RebindBinding(Actions.TurnTableLeft, 2);
+                        RebindBinding(GameInputManager.Actions.TurnTableLeft, 2);
                     });
 
                     _turnTableLeftKeybindingButton2.onClick.AddListener(() =>
                     {
-                        RebindBinding(Actions.TurnTableLeft, 3);
+                        RebindBinding(GameInputManager.Actions.TurnTableLeft, 3);
                     });
 
                     _placeCardKeybindingButton1.onClick.AddListener(() =>
                     {
-                        RebindBinding(Actions.PlaceCard, 2);
+                        RebindBinding(GameInputManager.Actions.PlaceCard, 2);
                     });
 
                     _placeCardKeybindingButton2.onClick.AddListener(() =>
                     {
-                        RebindBinding(Actions.PlaceCard, 3);
+                        RebindBinding(GameInputManager.Actions.PlaceCard, 3);
                     });
                     break;
             }
@@ -412,12 +412,12 @@ namespace JamCraft.GMTK2023.Code
 
             #region Keybindings
 
-            _turnTableRightKeybindingText1.text = GameInputManager.Instance.GetBindingText(Actions.TurnTableRight, 0);
-            _turnTableRightKeybindingText2.text = GameInputManager.Instance.GetBindingText(Actions.TurnTableRight, 1);
-            _turnTableLeftKeybindingText1.text = GameInputManager.Instance.GetBindingText(Actions.TurnTableLeft, 0);
-            _turnTableLeftKeybindingText2.text = GameInputManager.Instance.GetBindingText(Actions.TurnTableLeft, 1);
-            _placeCardKeybindingText1.text = GameInputManager.Instance.GetBindingText(Actions.PlaceCard, 0);
-            _placeCardKeybindingText2.text = GameInputManager.Instance.GetBindingText(Actions.PlaceCard, 1);
+            _turnTableRightKeybindingText1.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.TurnTableRight, 0);
+            _turnTableRightKeybindingText2.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.TurnTableRight, 1);
+            _turnTableLeftKeybindingText1.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.TurnTableLeft, 0);
+            _turnTableLeftKeybindingText2.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.TurnTableLeft, 1);
+            _placeCardKeybindingText1.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.PlaceCard, 0);
+            _placeCardKeybindingText2.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.PlaceCard, 1);
 
             #endregion
         }
@@ -459,7 +459,7 @@ namespace JamCraft.GMTK2023.Code
             _graphicsButton.Select();
         }
 
-        private void ShowRebindPanel(Actions actions)
+        private void ShowRebindPanel(GameInputManager.Actions actions)
         {
             _rebindPanelText.text = $"Press a key to rebind {actions}.\nPress {Keyboard.current.escapeKey.displayName} or {Gamepad.current.buttonEast.displayName} to cancel the process.";
 

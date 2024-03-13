@@ -101,6 +101,9 @@ public class PointsManager : MonoBehaviour
 
         PointMultiplyer += _multiplierIncrease;
         EventManager.Instance.PointMultiplyEvent.Invoke(PointMultiplyer);
+
+        // TODO: Add multiply animation to handle.
+
         _wasMultiplied = true;
         _missedMultiplies = 0;
 
@@ -125,6 +128,8 @@ public class PointsManager : MonoBehaviour
                 break;
         }
         EventManager.Instance.PointMultiplyEvent.Invoke(PointMultiplyer);
+
+        // TODO: Add multiply animation to handle.
 
         _wasMultiplied = true;
         _missedMultiplies = 0;

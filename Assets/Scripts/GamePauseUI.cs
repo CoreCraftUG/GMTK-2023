@@ -124,6 +124,11 @@ namespace JamCraft.GMTK2023.Code
                 _optionsButton.onClick.RemoveAllListeners();
                 _mainMenuButton.onClick.RemoveAllListeners();
             }
+
+            if (GameInputManager.Instance != null)
+            {
+                GameInputManager.Instance.OnInputDeviceChanged.RemoveListener(SetGamepadFocusPauseMenu);
+            }
         }
 
         private void OnApplicationQuit()
@@ -137,6 +142,11 @@ namespace JamCraft.GMTK2023.Code
                 _resumeButton.onClick.RemoveAllListeners();
                 _optionsButton.onClick.RemoveAllListeners();
                 _mainMenuButton.onClick.RemoveAllListeners();
+            }
+
+            if (GameInputManager.Instance != null)
+            {
+                GameInputManager.Instance.OnInputDeviceChanged.RemoveListener(SetGamepadFocusPauseMenu);
             }
         }
     }

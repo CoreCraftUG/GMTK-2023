@@ -97,32 +97,6 @@ namespace JamCraft.GMTK2023.Code
             }
         }
 
-        //private void OnDestroy()
-        //{
-        //    if (EventManager.Instance != null)
-        //    {
-        //        _playButton.onClick.RemoveAllListeners();
-        //        _optionsButton.onClick.RemoveAllListeners();
-        //        _quitButton.onClick.RemoveAllListeners();
-        //        _coreCraftButton.onClick.RemoveAllListeners();
-        //        _quitYesButton.onClick.RemoveAllListeners();
-        //        _quitNoButton.onClick.RemoveAllListeners();
-        //    }
-        //}
-
-        //private void OnApplicationQuit()
-        //{
-        //    if (EventManager.Instance != null)
-        //    {
-        //        _playButton.onClick.RemoveAllListeners();
-        //        _optionsButton.onClick.RemoveAllListeners();
-        //        _quitButton.onClick.RemoveAllListeners();
-        //        _coreCraftButton.onClick.RemoveAllListeners();
-        //        _quitYesButton.onClick.RemoveAllListeners();
-        //        _quitNoButton.onClick.RemoveAllListeners();
-        //    }
-        //}
-
         private void SetupUIButtons()
         {
             // Load the game scene.
@@ -225,6 +199,22 @@ namespace JamCraft.GMTK2023.Code
             }
 
             gameObject.SetActive(true);
+        }
+
+        private void OnDestroy()
+        {
+            if (GameInputManager.Instance != null)
+            {
+                GameInputManager.Instance.OnInputDeviceChanged.RemoveListener(SetGamepadFocusMainMenu);
+            }
+        }
+
+        private void OnApplicationQuit()
+        {
+            if (GameInputManager.Instance != null)
+            {
+                GameInputManager.Instance.OnInputDeviceChanged.RemoveListener(SetGamepadFocusMainMenu);
+            }
         }
     }
 }

@@ -32,6 +32,11 @@ namespace JamCraft.GMTK2023.Code
         [FoldoutGroup("Music"), SerializeField] private AudioSource _track5;
         [FoldoutGroup("Music"), SerializeField] private AudioSource _track6;
 
+        private void Awake()
+        {
+            DontDestroyOnLoad(this.gameObject);
+        }
+        
         private void Start()
         {
             StartCoroutine(SetUpCoroutine());

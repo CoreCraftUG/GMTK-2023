@@ -77,7 +77,6 @@ namespace JamCraft.GMTK2023.Code
         [SerializeField] private CinemachineVirtualCamera _uiCamera;
 
         public UnityEvent OnResetToDefault;
-        public UnityEvent OnGameOptionsUIInitialized;
 
         private void Awake()
         {
@@ -206,7 +205,7 @@ namespace JamCraft.GMTK2023.Code
             // Add function to the resolution dropdown.
             _resolutionDropdown.onValueChanged.AddListener(SetResolution);
 
-            OnGameOptionsUIInitialized?.Invoke();
+            EventManager.Instance.OnGameOptionsUIInitialized?.Invoke();
         }
 
         private void OnCameraHeightValueChanged(float value)

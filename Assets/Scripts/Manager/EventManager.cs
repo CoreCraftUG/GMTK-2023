@@ -36,6 +36,7 @@ public class EventManager : Singleton<EventManager>
     public UnityEvent<CardGrid,int> RimExplosionEvent = new UnityEvent<CardGrid, int>();
     public UnityEvent<int> RimExplosionExplodedCardsEvent = new UnityEvent<int>();
     public UnityEvent MatchFromNeighbourEvent = new UnityEvent();
+    public UnityEvent OnGameOptionsUIInitialized = new UnityEvent();
 
     //Tutorial Message
     public UnityEvent<bool> TutorialMessage01Event = new UnityEvent<bool>();

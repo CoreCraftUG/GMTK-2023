@@ -31,6 +31,7 @@ public class PlayerManager : Singleton<PlayerManager>
 
     protected bool _gameover;
     protected bool _timePlaced;
+    protected bool _placedPressed;
     protected int _randomPlayer = 0; //random player currently being selected(int)
     protected int _delayLevel;
     protected int _puppyProtection;
@@ -57,6 +58,10 @@ public class PlayerManager : Singleton<PlayerManager>
 
     protected virtual void Instance_OnPlaceCardAction(object sender, System.EventArgs e)
     {
+        _placedPressed = true;
+
+        return;
+
         if (GameStateManager.Instance.IsGamePaused || GameStateManager.Instance.IsGameOver || _timePlaced) return;
 
         _timePlaced = true;
@@ -161,9 +166,11 @@ public class PlayerManager : Singleton<PlayerManager>
 
         if (GameStateManager.Instance.IsGamePaused || GameStateManager.Instance.IsGameOver) return;
 
-        if (Timer >= _currentDelay /*&& CanTurn*/ && _puppyProtection > _maxPuppyProtection && !_timePlaced)
+        if (((Timer >= _currentDelay  /*&& CanTurn*/ && _puppyProtection > _maxPuppyProtection) || _placedPressed) && !_timePlaced)
         {
+            _placedPressed = false;
             _timePlaced = true;
+            Timer = 0f;
             StartCoroutine(TimePlaceDelay());
             SelectedPlayerPlays();
         }

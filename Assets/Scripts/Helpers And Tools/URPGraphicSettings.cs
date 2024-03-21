@@ -4,7 +4,7 @@ using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using ShadowResolution = UnityEngine.Rendering.Universal.ShadowResolution;
 
-namespace CoreCraft.FrankenDice
+namespace JamCraft.GMTK2023.Code
 {
     /// <summary>
     /// Enables getting/setting URP graphics settings properties that don't have built-in getters and setters.

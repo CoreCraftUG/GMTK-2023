@@ -1,4 +1,3 @@
-using CoreCraft.FrankenDice;
 using System;
 using System.Collections;
 using Cinemachine;

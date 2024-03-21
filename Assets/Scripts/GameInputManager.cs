@@ -15,9 +15,6 @@ namespace JamCraft.GMTK2023.Code
         private InputUser _currentUser;
         private string _currentCancelKey;
 
-        private const string PLAYER_INPUT_BINDINGS = "InputBindings";
-        private readonly string _saveFilePath = $"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\\My Games\\House Always WINS!\\SaveFile.ini";
-
         #region EventHandlers
 
         public event EventHandler OnTurnTableRightAction;
@@ -73,9 +70,9 @@ namespace JamCraft.GMTK2023.Code
 
             // Check if user has custom bindings and load from the save file if available.
 
-            if (ES3.KeyExists(PLAYER_INPUT_BINDINGS, _saveFilePath))
+            if (ES3.KeyExists(GameSettingsFile.USERSETTINGS_INPUT_BINDINGS, GameSettingsFile.Instance.UserSettingsFilePath))
             {
-                _gameInput.LoadBindingOverridesFromJson(ES3.Load<string>(PLAYER_INPUT_BINDINGS, _saveFilePath));
+                _gameInput.LoadBindingOverridesFromJson(ES3.Load<string>(GameSettingsFile.USERSETTINGS_INPUT_BINDINGS, GameSettingsFile.Instance.UserSettingsFilePath));
             }
 
             RegisterInputActions();
@@ -151,7 +148,7 @@ namespace JamCraft.GMTK2023.Code
                 foreach (InputAction inputAction in map.actions)
                 {
                     inputAction.RemoveBindingOverride(InputBinding.MaskByGroup(_currentControlScheme.ToString()));
-                    ES3.Save(PLAYER_INPUT_BINDINGS, _gameInput.SaveBindingOverridesAsJson(), _saveFilePath);
+                    ES3.Save(GameSettingsFile.USERSETTINGS_INPUT_BINDINGS, _gameInput.SaveBindingOverridesAsJson(), GameSettingsFile.Instance.UserSettingsFilePath);
                 }
             }
         }
@@ -246,7 +243,7 @@ namespace JamCraft.GMTK2023.Code
                     ResetBinding(inputAction, bindingIndex); // Reset to the old binding.
                     inputAction.Enable();
                     onActionRebound?.Invoke();
-                    ES3.Save(PLAYER_INPUT_BINDINGS, _gameInput.SaveBindingOverridesAsJson(), _saveFilePath);
+                    ES3.Save(GameSettingsFile.USERSETTINGS_INPUT_BINDINGS, _gameInput.SaveBindingOverridesAsJson(), GameSettingsFile.Instance.UserSettingsFilePath);
                     operation.Dispose();
                 })
                 .OnComplete(operation =>
@@ -268,7 +265,7 @@ namespace JamCraft.GMTK2023.Code
 
                     inputAction.Enable();
                     onActionRebound?.Invoke();
-                    ES3.Save(PLAYER_INPUT_BINDINGS, _gameInput.SaveBindingOverridesAsJson(), _saveFilePath);
+                    ES3.Save(GameSettingsFile.USERSETTINGS_INPUT_BINDINGS, _gameInput.SaveBindingOverridesAsJson(), GameSettingsFile.Instance.UserSettingsFilePath);
                     operation.Dispose();
                 })
                 .Start();
@@ -349,7 +346,7 @@ namespace JamCraft.GMTK2023.Code
         {
             if (GameOptionsUI.Instance != null)
             {
-                GameOptionsUI.Instance.OnResetToDefault.RemoveListener(GameOptionsUI_OnResetToDefault);
+                GameOptionsUI.OnResetToDefault.RemoveListener(GameOptionsUI_OnResetToDefault);
             }
         }
 
@@ -357,7 +354,7 @@ namespace JamCraft.GMTK2023.Code
         {
             if (GameOptionsUI.Instance != null)
             {
-                GameOptionsUI.Instance.OnResetToDefault.RemoveListener(GameOptionsUI_OnResetToDefault);
+                GameOptionsUI.OnResetToDefault.RemoveListener(GameOptionsUI_OnResetToDefault);
             }
         }
     }

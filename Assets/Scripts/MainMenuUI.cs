@@ -85,6 +85,8 @@ namespace JamCraft.GMTK2023.Code
             {
                 GameInputManager.Instance.OnInputDeviceChanged.AddListener(SetGamepadFocusMainMenu);
             }
+
+            GameSettingsManager.Instance.VirtualCamera = _uiCamera;
         }
 
         private void SetGamepadFocusMainMenu(GameInputManager.ControlScheme controlScheme)

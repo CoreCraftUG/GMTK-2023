@@ -31,7 +31,7 @@ namespace CoreCraft.Core
 
             yield return new WaitUntil(() =>
             {
-                return EventManager.Instance != null && SteamAchievementHelper.Instance != null && SteamInitializationErrorHandler.Instance != null && GameInputManager.Instance != null;
+                return EventManager.Instance != null && SteamAchievementHelper.Instance != null && SteamInitializationErrorHandler.Instance != null && GameInputManager.Instance != null && GameSettingsFile.Instance != null && GameSettingsManager.Instance != null;
             });
             Debug.Log($"EventManager is ready!");
 

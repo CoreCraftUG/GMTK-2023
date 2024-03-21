@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6479021068302164329
+--- !u!1 &1821957284281129684
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,43 +8,51 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8320821152091639909}
-  - component: {fileID: 3193977333909078418}
+  - component: {fileID: 2422052657940147274}
+  - component: {fileID: 5549928904181623943}
   m_Layer: 0
-  m_Name: GameSettingsManager
+  m_Name: GameSettingsFile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8320821152091639909
+--- !u!4 &2422052657940147274
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6479021068302164329}
+  m_GameObject: {fileID: 1821957284281129684}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3193977333909078418
+--- !u!114 &5549928904181623943
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6479021068302164329}
+  m_GameObject: {fileID: 1821957284281129684}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc13bb7ca7c72074c9feb5c23e6cf05f, type: 3}
+  m_Script: {fileID: 11500000, guid: c2a1ca4d7a2ff204f9f255e9f65340ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _urpAsset: {fileID: 11400000, guid: 7b7fd9122c28c4d15b667c7040e3b3fd, type: 2}
-  _urpRendererData: {fileID: 11400000, guid: c40be3174f62c4acf8c1216858c64956, type: 2}
-  _audioMixer: {fileID: 24100000, guid: 6d42d09a1545f4441be5b02f210764ee, type: 2}
-  VirtualCamera: {fileID: 0}
+  _resolutionIndex: 0
+  _displayIndex: 0
+  _windowModeIndex: 0
+  _lastSavedWindowMode: 0
+  _vSync: 0
+  _textureQualityIndex: 0
+  _shadowQualityIndex: 0
+  _softShadows: 0
+  _cameraDistance: 0
+  _mainVolume: 0
+  _musicVolume: 0
+  _sfxVolume: 0

@@ -59,6 +59,8 @@ namespace JamCraft.GMTK2023.Code
                 GameInputManager.Instance.OnInputDeviceChanged.AddListener(SetGamepadFocusPauseMenu);
             }
 
+            GameSettingsManager.Instance.VirtualCamera = _virtualCamera;
+
             Hide();
         }
 
@@ -95,7 +97,7 @@ namespace JamCraft.GMTK2023.Code
             CinemachineComponentBase componentBase = _virtualCamera.GetCinemachineComponent(CinemachineCore.Stage.Body);
             if (componentBase is CinemachineFramingTransposer)
             {
-                (componentBase as CinemachineFramingTransposer).m_CameraDistance = 1f;
+                (componentBase as CinemachineFramingTransposer).m_CameraDistance = 1.5f;
             }
         }
 

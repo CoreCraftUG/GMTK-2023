@@ -1,13 +1,11 @@
 using Cinemachine;
 using System;
-using System.Collections.Generic;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using static JamCraft.GMTK2023.Code.GameInputManager;
 
 namespace JamCraft.GMTK2023.Code
 {
@@ -15,11 +13,7 @@ namespace JamCraft.GMTK2023.Code
     {
         public static GameOptionsUI Instance { get; private set; }
 
-        public const string PLAYER_PREFS_MAIN_VOLUME = "MainVolume";
-        public const string PLAYER_PREFS_MUSIC_VOLUME = "MusicVolume";
-        public const string PLAYER_PREFS_SFX_VOLUME = "SfxVolume";
-        public const string PLAYER_PREFS_CAMERA_HEIGHT = "CameraHeightValue";
-        public const string PLAYER_PREFS_RESOLUTION = "ResolutionValue";
+        #region UI Fields
 
         [Header("UI Buttons")]
         [SerializeField] private Button _saveButton;
@@ -32,7 +26,7 @@ namespace JamCraft.GMTK2023.Code
         [SerializeField] private Button _controlsButton;
         [SerializeField] private Button _accessibilityButton;
 
-        [Header("Options Categories Panels")] 
+        [Header("Options Categories Panels")]
         [SerializeField] private GameObject _graphicsPanel;
         [SerializeField] private GameObject _soundsPanel;
         [SerializeField] private GameObject _controlsPanel;
@@ -40,20 +34,59 @@ namespace JamCraft.GMTK2023.Code
 
         [Header("UI Dropdowns")]
         [SerializeField] private TMP_Dropdown _resolutionDropdown;
+        [SerializeField] private TMP_Dropdown _displayDropdown;
+        [SerializeField] private TMP_Dropdown _windowModeDropdown;
+        [SerializeField] private TMP_Dropdown _textureQualityDropdown;
+        [SerializeField] private TMP_Dropdown _shadowQualityDropdown;
 
-        [Header("UI Slider")] 
+        [Header("UI Slider")]
         [SerializeField] private Slider _mainVolumeSlider;
         [SerializeField] private Slider _musicVolumeSlider;
         [SerializeField] private Slider _sfxVolumeSlider;
-        [SerializeField] private Slider _cameraHeightSlider;
+        [SerializeField] private Slider _cameraDistanceSlider;
 
-        [Header("UI Texts")] 
-        [SerializeField] private TextMeshProUGUI _mainVolumeText;
-        [SerializeField] private TextMeshProUGUI _musicVolumeText;
-        [SerializeField] private TextMeshProUGUI _sfxVolumeText;
-        [SerializeField] private TextMeshProUGUI _cameraHeightText;
+        [Header("UI Toggles")]
+        [SerializeField] private Toggle _vSyncToggle;
+        [SerializeField] private Toggle _softShadowsToggle;
+        [SerializeField] private Toggle _hdrToggle;
+        [SerializeField] private Toggle _ssaoToggle;
 
-        [Header("Keybindings")] 
+        [Header("UI Texts")]
+        [SerializeField] private TextMeshProUGUI _mainVolumeValueText;
+        [SerializeField] private TextMeshProUGUI _musicVolumeValueText;
+        [SerializeField] private TextMeshProUGUI _sfxVolumeValueText;
+        [SerializeField] private TextMeshProUGUI _cameraDistanceValueText;
+        [SerializeField] private TextMeshProUGUI _resolutionOptionText;
+        [SerializeField] private TextMeshProUGUI _displayOptionText;
+        [SerializeField] private TextMeshProUGUI _windowModeOptionText;
+        [SerializeField] private TextMeshProUGUI _mainVolumeOptionText;
+        [SerializeField] private TextMeshProUGUI _musicVolumeOptionText;
+        [SerializeField] private TextMeshProUGUI _sfxVolumeOptionText;
+        [SerializeField] private TextMeshProUGUI _vSyncOptionText;
+        [SerializeField] private TextMeshProUGUI _textureQualityOptionText;
+        [SerializeField] private TextMeshProUGUI _shadowQualityOptionText;
+        [SerializeField] private TextMeshProUGUI _softShadowsOptionText;
+        [SerializeField] private TextMeshProUGUI _hdrOptionText;
+        [SerializeField] private TextMeshProUGUI _ssaoOptionText;
+        [SerializeField] private TextMeshProUGUI _cameraDistanceOptionText;
+        [SerializeField] private TextMeshProUGUI _vSyncToggleState;
+        [SerializeField] private TextMeshProUGUI _softShadowsToggleState;
+        [SerializeField] private TextMeshProUGUI _hdrToggleState;
+        [SerializeField] private TextMeshProUGUI _ssaoToggleState;
+
+        [Header("Graphic Options Pop-Up")]
+        [SerializeField] private GameObject _graphicOptionsChangedPopUpPanel;
+        [SerializeField] private Button _acceptSettingsButton;
+        [SerializeField] private Button _revertSettingsButton;
+        [SerializeField] private int _maxPopUpTimer = 15;
+        [SerializeField] private TextMeshProUGUI _graphicOptionsChangedPopUpText;
+
+        [Header("Unsaved Changes Pop-Up")]
+        [SerializeField] private GameObject _unsavedChangesPopUpPanel;
+        [SerializeField] private Button _acceptUnsavedChangesButton;
+        [SerializeField] private Button _cancelUnsavedChangesButton;
+
+        [Header("Keybindings")]
         [SerializeField] private GameObject _rebindPanel;
         [SerializeField] private TextMeshProUGUI _rebindPanelText;
         [SerializeField] private TextMeshProUGUI _turnTableRightKeybindingText1;
@@ -69,14 +102,17 @@ namespace JamCraft.GMTK2023.Code
         [SerializeField] private Button _placeCardKeybindingButton1;
         [SerializeField] private Button _placeCardKeybindingButton2;
 
-        private List<Resolution> _supportedResolutions;
+        #endregion
 
-        [Space]
+        [Header("UI Colors")]
+        [SerializeField] private Color _unsavedChangesColor;
+        [SerializeField] private Color _defaultSettingsColor;
+        
+        [Header("Camera")]
+        [SerializeField] private CinemachineVirtualCamera _uiCamera;
         public Transform OptionsCameraFocus;
 
-        [SerializeField] private CinemachineVirtualCamera _uiCamera;
-
-        public UnityEvent OnResetToDefault;
+        public static UnityEvent OnResetToDefault = new UnityEvent();
 
         private void Awake()
         {
@@ -87,24 +123,37 @@ namespace JamCraft.GMTK2023.Code
 
             Instance = this;
 
-            // Add functions to the sliders.
-            _mainVolumeSlider.onValueChanged.AddListener(OnMainVolumeValueChanged);
+            SetupButtons();
+            SetupDropdowns();
+            SetupToggles();
+            SetupSliders();
+            SetupKeybindings();
 
-            _musicVolumeSlider.onValueChanged.AddListener(OnMusicVolumeValueChanged);
+            GameSettingsManager.OnMoveWindowOperationComplete.AddListener(() =>
+            {
+                _resolutionDropdown.ClearOptions();
+                FillResolutionDropdown();
+                ResolutionDropdown(0);
+            });
 
-            _sfxVolumeSlider.onValueChanged.AddListener(OnSfxVolumeValueChanged);
+            // Fill the resolution dropdown with the supported resolutions.
+            FillResolutionDropdown();
 
-            _cameraHeightSlider.onValueChanged.AddListener(OnCameraHeightValueChanged);
+            // Fill the display dropdown with the connected displays.
+            FillDisplayDropdown();
 
+            EventManager.Instance.OnGameOptionsUIInitialized?.Invoke();
+        }
+
+        /// <summary>
+        /// Add functions to all buttons.
+        /// </summary>
+        private void SetupButtons()
+        {
             // Save sound values.
             _saveButton.onClick.AddListener(() =>
             {
-                PlayerPrefs.SetFloat(PLAYER_PREFS_MAIN_VOLUME, SoundManager.Instance.MainVolume);
-                PlayerPrefs.SetFloat(PLAYER_PREFS_MUSIC_VOLUME, SoundManager.Instance.MusicVolume);
-                PlayerPrefs.SetFloat(PLAYER_PREFS_SFX_VOLUME, SoundManager.Instance.SfxVolume);
-                PlayerPrefs.SetFloat(PLAYER_PREFS_CAMERA_HEIGHT, GameSettingsManager.Instance.CameraHeight);
-                PlayerPrefs.SetInt(PLAYER_PREFS_RESOLUTION, GameSettingsManager.Instance.ResolutionIndex);
-                PlayerPrefs.Save();
+                GameSettingsManager.Instance.SaveSettings();
             });
 
             _resetToDefaultButton.onClick.AddListener(() =>
@@ -116,6 +165,15 @@ namespace JamCraft.GMTK2023.Code
             // Close options menu and show pause menu.
             _backButton.onClick.AddListener(() =>
             {
+                //if (CheckForUnsavedChanges())
+                //{
+                //    _unsavedChangesPopUpPanel.SetActive(true);
+                //}
+                //else
+                //{
+                //    Hide();
+                //}
+
                 Hide();
 
                 if (GamePauseUI.Instance != null)
@@ -137,7 +195,7 @@ namespace JamCraft.GMTK2023.Code
                 _controlsPanel.SetActive(false);
                 _accessibilityPanel.SetActive(false);
             });
-            
+
             _soundsButton?.onClick.AddListener(() =>
             {
                 _soundsPanel.SetActive(true);
@@ -165,89 +223,78 @@ namespace JamCraft.GMTK2023.Code
                 _controlsPanel.SetActive(false);
             });
 
-            #region Keybindings
+            _acceptUnsavedChangesButton.onClick.AddListener(AcceptUnsavedChanges);
+            _cancelUnsavedChangesButton.onClick.AddListener(CancelUnsavedChanges);
+        }
 
+        /// <summary>
+        /// Add functions to all dropdowns.
+        /// </summary>
+        private void SetupDropdowns()
+        {
+            _resolutionDropdown.onValueChanged.AddListener(delegate { GraphicOptionsChangedPopUpHandler(_resolutionDropdown.value, _resolutionDropdown); });
+            _displayDropdown.onValueChanged.AddListener(delegate { GraphicOptionsChangedPopUpHandler(_displayDropdown.value, _displayDropdown); });
+            _windowModeDropdown.onValueChanged.AddListener(delegate { GraphicOptionsChangedPopUpHandler(_windowModeDropdown.value, _windowModeDropdown); });
+            _textureQualityDropdown.onValueChanged.AddListener(TextureQualityDropdown);
+            _shadowQualityDropdown.onValueChanged.AddListener(ShadowQualityDropdown);
+        }
+
+        /// <summary>
+        /// Add functions to all toggles.
+        /// </summary>
+        private void SetupToggles()
+        {
+            _vSyncToggle.onValueChanged.AddListener(VSyncToggle);
+            _softShadowsToggle.onValueChanged.AddListener(SoftShadowsToggle);
+            //_hdrToggle.onValueChanged.AddListener(HDRToggle);
+            //_ssaoToggle.onValueChanged.AddListener(SSAOToggle);
+        }
+
+        /// <summary>
+        /// Add functions to all sliders.
+        /// </summary>
+        private void SetupSliders()
+        {
+            _mainVolumeSlider.onValueChanged.AddListener(OnMainVolumeValueChanged);
+            _musicVolumeSlider.onValueChanged.AddListener(OnMusicVolumeValueChanged);
+            _sfxVolumeSlider.onValueChanged.AddListener(OnSfxVolumeValueChanged);
+            _cameraDistanceSlider.onValueChanged.AddListener(OnCameraHeightValueChanged);
+        }
+
+        /// <summary>
+        /// Add functions to all keybindings.
+        /// </summary>
+        private void SetupKeybindings()
+        {
             _turnTableRightKeybindingButton1.onClick.AddListener(() =>
             {
-                RebindBinding(Actions.TurnTableRight, 0);
+                RebindBinding(GameInputManager.Actions.TurnTableRight, 0);
             });
 
             _turnTableRightKeybindingButton2.onClick.AddListener(() =>
             {
-                RebindBinding(Actions.TurnTableRight, 1);
+                RebindBinding(GameInputManager.Actions.TurnTableRight, 1);
             });
 
             _turnTableLeftKeybindingButton1.onClick.AddListener(() =>
             {
-                RebindBinding(Actions.TurnTableLeft, 0);
+                RebindBinding(GameInputManager.Actions.TurnTableLeft, 0);
             });
 
             _turnTableLeftKeybindingButton2.onClick.AddListener(() =>
             {
-                RebindBinding(Actions.TurnTableLeft, 1);
+                RebindBinding(GameInputManager.Actions.TurnTableLeft, 1);
             });
 
             _placeCardKeybindingButton1.onClick.AddListener(() =>
             {
-                RebindBinding(Actions.PlaceCard, 0);
+                RebindBinding(GameInputManager.Actions.PlaceCard, 0);
             });
 
             _placeCardKeybindingButton2.onClick.AddListener(() =>
             {
-                RebindBinding(Actions.PlaceCard, 1);
+                RebindBinding(GameInputManager.Actions.PlaceCard, 1);
             });
-
-            #endregion
-
-            // Fill the dropdown with the supported resolutions.
-            AddResolutions();
-
-            // Add function to the resolution dropdown.
-            _resolutionDropdown.onValueChanged.AddListener(SetResolution);
-
-            EventManager.Instance.OnGameOptionsUIInitialized?.Invoke();
-        }
-
-        private void OnCameraHeightValueChanged(float value)
-        {
-            if (SceneManager.GetActiveScene().name == "game_scene")
-            {
-                GameSettingsManager.Instance.ChangeCameraHeight(_cameraHeightSlider.value);
-            }
-            
-            _cameraHeightText.text = Mathf.Round(GameSettingsManager.Instance.CameraHeight * 10).ToString();
-        }
-
-        public void SetResolution(int index)
-        {
-            Screen.SetResolution(_supportedResolutions[index].width, _supportedResolutions[index].height, FullScreenMode.ExclusiveFullScreen);
-            _resolutionDropdown.value = index;
-            _resolutionDropdown.RefreshShownValue();
-
-            GameSettingsManager.Instance.ResolutionIndex = _resolutionDropdown.value;
-        }
-
-        // Change the volume to the slider value and set the text accordingly.
-        private void OnSfxVolumeValueChanged(float value)
-        {
-            SoundManager.Instance.ChangeSfxVolume(_sfxVolumeSlider.value);
-            _sfxVolumeText.text = Mathf.Round(SoundManager.Instance.SfxVolume * 10).ToString();
-        }
-
-        // Change the volume to the slider value and set the text accordingly.
-
-        private void OnMusicVolumeValueChanged(float value)
-        {
-            SoundManager.Instance.ChangeMusicVolume(_musicVolumeSlider.value);
-            _musicVolumeText.text = Mathf.Round(SoundManager.Instance.MusicVolume * 10).ToString();
-        }
-
-        // Change the volume to the slider value and set the text accordingly.
-
-        private void OnMainVolumeValueChanged(float value)
-        {
-            SoundManager.Instance.ChangeMainVolume(_mainVolumeSlider.value);
-            _mainVolumeText.text = Mathf.Round(SoundManager.Instance.MainVolume * 10).ToString();
         }
 
         private void Start()
@@ -262,10 +309,6 @@ namespace JamCraft.GMTK2023.Code
             if (GameInputManager.Instance != null)
             {
                 GameInputManager.Instance.OnDuplicateKeybindingFound.AddListener(GameInputManager_OnDuplicateKeybindingFound);
-            }
-
-            if (GameInputManager.Instance != null)
-            {
                 OnResetToDefault.AddListener(GameInputManager.Instance.GameOptionsUI_OnResetToDefault);
                 GameInputManager.Instance.OnInputDeviceChanged.AddListener(SwapInputIcons);
                 GameInputManager.Instance.OnInputDeviceChanged.AddListener(SetGamepadFocusOptionsMenu);
@@ -273,13 +316,398 @@ namespace JamCraft.GMTK2023.Code
 
             UpdateVisual();
 
+            GameSettingsManager.Instance.VirtualCamera = _uiCamera;
+
             Hide();
             HideRebindPanel();
         }
 
-        private void SetGamepadFocusOptionsMenu(ControlScheme controlScheme)
+        /// <summary>
+        /// Fill the resolution dropdown with all available resolutions for the current display.
+        /// </summary>
+        private void FillResolutionDropdown()
         {
-            if (controlScheme == ControlScheme.Gamepad)
+            foreach (Resolution resolution in GameSettingsFile.Instance.SupportedResolutions)
+            {
+                _resolutionDropdown.options.Add(new TMP_Dropdown.OptionData(ResolutionToString(resolution)));
+            }
+
+            _resolutionDropdown.RefreshShownValue();
+        }
+
+        /// <summary>
+        /// Handles the functionality of the resolution dropdown.
+        /// </summary>
+        /// <param name="index">Selected option of the dropdown. In this case - the selected resolution.</param>
+        private void ResolutionDropdown(int index)
+        {
+            GameSettingsManager.Instance.SetResolution(index);
+            _resolutionDropdown.RefreshShownValue();
+        }
+
+        /// <summary>
+        /// Formats the resolution options string.
+        /// </summary>
+        /// <returns>Correctly formatted resolution options string.</returns>
+        private string ResolutionToString(Resolution resolution)
+        {
+            return resolution.width + " x " + resolution.height + " @ " + resolution.refreshRate + " Hz";
+        }
+
+        /// <summary>
+        /// Fill the display dropdown with all connected displays.
+        /// </summary>
+        private void FillDisplayDropdown()
+        {
+            foreach (DisplayInfo displayInfo in GameSettingsFile.Instance.SupportedDisplays)
+            {
+                _displayDropdown.options.Add(new TMP_Dropdown.OptionData(displayInfo.name));
+            }
+
+            _displayDropdown.RefreshShownValue();
+        }
+
+        /// <summary>
+        /// Handles the functionality of the display dropdown.
+        /// </summary>
+        /// <param name="index">Selected option of the dropdown. In this case - the selected display.</param>
+        private void DisplayDropdown(int index)
+        {
+            GameSettingsManager.Instance.SetDisplay(index);
+            _displayDropdown.RefreshShownValue();
+        }
+
+        /// <summary>
+        /// Handles the functionality of the window mode dropdown.
+        /// </summary>
+        /// <param name="index">Selected option of the dropdown. In this case - the selected window mode.</param>
+        private void WindowModeDropdown(int index)
+        {
+            GameSettingsManager.Instance.SetWindowMode(index);
+            _windowModeDropdown.RefreshShownValue();
+        }
+
+        /// <summary>
+        /// Handles the functionality of the V-Sync toggle.
+        /// </summary>
+        /// <param name="isChecked">Current state of the toggle. In this case - the state of V-Sync.</param>
+        private void VSyncToggle(bool isChecked)
+        {
+            GameSettingsManager.Instance.SetVSync(isChecked);
+            _vSyncToggle.SetIsOnWithoutNotify(isChecked);
+            _vSyncToggleState.text = isChecked ? "Enabled" : "Disabled";
+        }
+
+        /// <summary>
+        /// Handles the functionality of the texture quality dropdown.
+        /// </summary>
+        /// <param name="index">Selected option of the dropdown. In this case - the selected texture quality.</param>
+        private void TextureQualityDropdown(int index)
+        {
+            GameSettingsManager.Instance.SetTextureQuality(index);
+            _textureQualityDropdown.RefreshShownValue();
+        }
+
+        /// <summary>
+        /// Handles the functionality of the shadow quality dropdown.
+        /// </summary>
+        /// <param name="index">Selected option of the dropdown. In this case - the selected shadow quality.</param>
+        private void ShadowQualityDropdown(int index)
+        {
+            GameSettingsManager.Instance.SetShadowQuality(index);
+            _shadowQualityDropdown.RefreshShownValue();
+        }
+
+        /// <summary>
+        /// Handles the functionality of the Soft Shadows toggle.
+        /// </summary>
+        /// <param name="isChecked">Current state of the toggle. In this case - the state of Soft Shadows.</param>
+        private void SoftShadowsToggle(bool isChecked)
+        {
+            GameSettingsManager.Instance.SetSoftShadows(isChecked);
+            _softShadowsToggle.SetIsOnWithoutNotify(isChecked);
+            _softShadowsToggleState.text = isChecked ? "Enabled" : "Disabled";
+        }
+
+        ///// <summary>
+        ///// Handles the functionality of the HDR toggle.
+        ///// </summary>
+        ///// <param name="isChecked">Current state of the toggle. In this case - the state of HDR.</param>
+        //private void HDRToggle(bool isChecked)
+        //{
+        //    GameSettingsManager.Instance.SetHDR(isChecked);
+        //    _hdrToggle.SetIsOnWithoutNotify(isChecked);
+        //    _hdrToggleState.text = isChecked ? "Enabled" : "Disabled";
+        //}
+
+        ///// <summary>
+        ///// Handles the functionality of the SSAO toggle.
+        ///// </summary>
+        ///// <param name="isChecked">Current state of the toggle. In this case - the state of SSAO.</param>
+        //private void SSAOToggle(bool isChecked)
+        //{
+        //    GameSettingsManager.Instance.SetSSAO(isChecked);
+        //    _ssaoToggle.SetIsOnWithoutNotify(isChecked);
+        //    _ssaoToggleState.text = isChecked ? "Enabled" : "Disabled";
+        //}
+
+        private void OnCameraHeightValueChanged(float value)
+        {
+            GameSettingsManager.Instance.SetCameraDistance(value);
+            _cameraDistanceValueText.text = Mathf.Round(GameSettingsFile.Instance.CameraDistance * 10).ToString();
+        }
+
+        /// <summary>
+        /// Handles the functionality of the Main Volume slider.
+        /// </summary>
+        /// <param name="value">Value of the slider. In this case - the volume of the Main Volume.</param>
+        private void OnMainVolumeValueChanged(float value)
+        {
+            GameSettingsManager.Instance.SetMainVolume(value);
+            _mainVolumeValueText.text = Mathf.Round(GameSettingsFile.Instance.MainVolume * 10).ToString();
+        }
+
+        /// <summary>
+        /// Handles the functionality of the Music Volume slider.
+        /// </summary>
+        /// <param name="value">Value of the slider. In this case - the volume of the Music Volume.</param>
+        private void OnMusicVolumeValueChanged(float value)
+        {
+            GameSettingsManager.Instance.SetMusicVolume(value);
+            _musicVolumeValueText.text = Mathf.Round(GameSettingsFile.Instance.MusicVolume * 10).ToString();
+        }
+
+        /// <summary>
+        /// Handles the functionality of the SFX Volume slider.
+        /// </summary>
+        /// <param name="value">Value of the slider. In this case - the volume of the SFX Volume.</param>
+        private void OnSfxVolumeValueChanged(float value)
+        {
+            GameSettingsManager.Instance.SetSFXVolume(value);
+            _sfxVolumeValueText.text = Mathf.Round(GameSettingsFile.Instance.SfxVolume * 10).ToString();
+        }
+
+        /// <summary>
+        /// Handles the Pop-Up if the resolution, display or the window mode is changed.
+        /// </summary>
+        /// <param name="index">Selected resolution, display or window mode of the dropdown.</param>
+        /// <param name="dropdown">Dropdown of the particular option.</param>
+        private void GraphicOptionsChangedPopUpHandler(int index, TMP_Dropdown dropdown)
+        {
+            if (!_graphicOptionsChangedPopUpPanel.activeSelf)
+            {
+                _graphicOptionsChangedPopUpPanel.SetActive(true);
+                _acceptSettingsButton.onClick.RemoveAllListeners();
+                _revertSettingsButton.onClick.RemoveAllListeners();
+
+                if (dropdown == _resolutionDropdown)
+                {
+                    ResolutionDropdown(index);
+                    _acceptSettingsButton.onClick.AddListener(delegate { ApplyGraphicOptionsChangedPopUp(dropdown, index); });
+                    _revertSettingsButton.onClick.AddListener(delegate { RevertGraphicsOptionsChangedPopUp(dropdown, ES3.Load<int>(GameSettingsFile.USERSETTINGS_RESOLUTION)); });
+                }
+                else if (dropdown == _displayDropdown)
+                {
+                    DisplayDropdown(index);
+                    _acceptSettingsButton.onClick.AddListener(delegate { ApplyGraphicOptionsChangedPopUp(dropdown, index); });
+                    _revertSettingsButton.onClick.AddListener(delegate { RevertGraphicsOptionsChangedPopUp(dropdown, ES3.Load<int>(GameSettingsFile.USERSETTINGS_DISPLAY)); });
+                }
+                else
+                {
+                    WindowModeDropdown(index);
+                    _acceptSettingsButton.onClick.AddListener(delegate { ApplyGraphicOptionsChangedPopUp(dropdown, index); });
+                    _revertSettingsButton.onClick.AddListener(delegate { RevertGraphicsOptionsChangedPopUp(dropdown, ES3.Load<int>(GameSettingsFile.USERSETTINGS_WINDOW_MODE)); });
+                }
+
+                StartCoroutine("GraphicOptionsChangedPopUpTimer", dropdown);
+            }
+        }
+
+        /// <summary>
+        /// Close the Graphic Options Changed Pop-Up.
+        /// </summary>
+        private void CloseGraphicOptionsChangedPopUp()
+        {
+            _graphicOptionsChangedPopUpPanel.SetActive(false);
+            StopCoroutine("GraphicOptionsChangedPopUpTimer");
+        }
+
+        /// <summary>
+        /// Apply the graphic option.
+        /// </summary>
+        /// <param name="dropdown">Dropdown of the particular option.</param>
+        /// <param name="newIndex">New resolution, display or window mode.</param>
+        private void ApplyGraphicOptionsChangedPopUp(TMP_Dropdown dropdown, int newIndex)
+        {
+            CloseGraphicOptionsChangedPopUp();
+        }
+
+        /// <summary>
+        /// Reverts the graphic option to the previous value.
+        /// </summary>
+        /// <param name="dropdown">Dropdown of the particular option.</param>
+        /// <param name="index">Previous resolution, display or window mode.</param>
+        private void RevertGraphicsOptionsChangedPopUp(TMP_Dropdown dropdown, int index)
+        {
+            if (dropdown == _resolutionDropdown)
+            {
+                ResolutionDropdown(index);
+            }
+            else if (dropdown == _displayDropdown)
+            {
+                DisplayDropdown(index);
+            }
+            else
+            {
+                WindowModeDropdown(index);
+            }
+
+            CloseGraphicOptionsChangedPopUp();
+        }
+
+        /// <summary>
+        /// Logic of the Timer of the Graphic Options Changed Pop-Up.
+        /// </summary>
+        /// <param name="dropdown">Dropdown of the particular option.</param>
+        private IEnumerator GraphicOptionsChangedPopUpTimer(TMP_Dropdown dropdown)
+        {
+            int currentTimer = _maxPopUpTimer;
+
+            while (currentTimer >= 0)
+            {
+                _graphicOptionsChangedPopUpText.text = $"Would you like to apply this option? It will be reverted in {currentTimer} seconds.";
+                yield return new WaitForSecondsRealtime(1);
+                currentTimer--;
+
+                if (currentTimer < 0)
+                {
+                    if (dropdown == _resolutionDropdown)
+                    {
+                        RevertGraphicsOptionsChangedPopUp(dropdown, ES3.Load<int>(GameSettingsFile.USERSETTINGS_RESOLUTION));
+                    }
+                    else if (dropdown == _displayDropdown)
+                    {
+                        RevertGraphicsOptionsChangedPopUp(dropdown, ES3.Load<int>(GameSettingsFile.USERSETTINGS_DISPLAY));
+                    }
+                    else
+                    {
+                        RevertGraphicsOptionsChangedPopUp(dropdown, ES3.Load<int>(GameSettingsFile.USERSETTINGS_WINDOW_MODE));
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Checks for unsaved changes in the user settings.
+        /// </summary>
+        /// <returns>True if unsaved changes have been found, otherwise false.</returns>
+        private bool CheckForUnsavedChanges()
+        {
+            if (_resolutionDropdown.value != ES3.Load<int>(GameSettingsFile.USERSETTINGS_RESOLUTION))
+                return true;
+
+            if (_displayDropdown.value != ES3.Load<int>(GameSettingsFile.USERSETTINGS_DISPLAY))
+                return true;
+
+            if (_windowModeDropdown.value != ES3.Load<int>(GameSettingsFile.USERSETTINGS_WINDOW_MODE))
+                return true;
+
+            if (_vSyncToggle.isOn != ES3.Load<bool>(GameSettingsFile.USERSETTINGS_VSYNC))
+                return true;
+
+            if (_textureQualityDropdown.value != ES3.Load<int>(GameSettingsFile.USERSETTINGS_TEXTURE_QUALITY))
+                return true;
+
+            if (_shadowQualityDropdown.value != ES3.Load<int>(GameSettingsFile.USERSETTINGS_SHADOW_QUALITY))
+                return true;
+            
+            if (_softShadowsToggle.isOn != ES3.Load<bool>(GameSettingsFile.USERSETTINGS_SOFT_SHADOWS))
+                return true;
+
+            //if (_hdrToggle.isOn != ES3.Load<bool>(GameSettingsFile.USERSETTINGS_HDR))
+            //    return true;
+
+            //if (_ssaoToggle.isOn != ES3.Load<bool>(GameSettingsFile.USERSETTINGS_SSAO))
+            //    return true;
+
+            if (_cameraDistanceSlider.value != ES3.Load<float>(GameSettingsFile.USERSETTINGS_CAMERA_DISTANCE))
+                return true;
+
+            if (_mainVolumeSlider.value != ES3.Load<float>(GameSettingsFile.USERSETTINGS_MAIN_VOLUME))
+                return true;
+
+            if (_musicVolumeSlider.value != ES3.Load<float>(GameSettingsFile.USERSETTINGS_MUSIC_VOLUME))
+                return true;
+
+            if (_sfxVolumeSlider.value != ES3.Load<float>(GameSettingsFile.USERSETTINGS_SFX_VOLUME))
+                return true;
+
+            return false;
+        }
+
+        /// <summary>
+        /// Accept the unsaved changes, close the panel and revert to the previously saved values.
+        /// </summary>
+        private void AcceptUnsavedChanges()
+        {
+            _resolutionDropdown.SetValueWithoutNotify(ES3.Load<int>(GameSettingsFile.USERSETTINGS_RESOLUTION));
+            //_resolutionOptionText.color = _defaultSettingsColor;
+
+            _displayDropdown.SetValueWithoutNotify(ES3.Load<int>(GameSettingsFile.USERSETTINGS_DISPLAY));
+            //_displayOptionText.color = _defaultSettingsColor;
+
+            _windowModeDropdown.SetValueWithoutNotify(ES3.Load<int>(GameSettingsFile.USERSETTINGS_WINDOW_MODE));
+            //_windowModeOptionText.color = _defaultSettingsColor;
+            
+            _vSyncToggle.SetIsOnWithoutNotify(ES3.Load<bool>(GameSettingsFile.USERSETTINGS_VSYNC));
+            //_vSyncOptionText.color = _defaultSettingsColor;
+            _vSyncToggleState.text = ES3.Load<bool>(GameSettingsFile.USERSETTINGS_VSYNC) ? "Enabled" : "Disabled";
+
+            _textureQualityDropdown.SetValueWithoutNotify(ES3.Load<int>(GameSettingsFile.USERSETTINGS_TEXTURE_QUALITY));
+            //_textureQualityOptionText.color = _defaultSettingsColor;
+
+            _shadowQualityDropdown.SetValueWithoutNotify(ES3.Load<int>(GameSettingsFile.USERSETTINGS_SHADOW_QUALITY));
+            //_shadowQualityOptionText.color = _defaultSettingsColor;
+
+            _softShadowsToggle.SetIsOnWithoutNotify(ES3.Load<bool>(GameSettingsFile.USERSETTINGS_SOFT_SHADOWS));
+            //_softShadowsOptionText.color = _defaultSettingsColor;
+            _softShadowsToggleState.text = ES3.Load<bool>(GameSettingsFile.USERSETTINGS_SOFT_SHADOWS) ? "Enabled" : "Disabled";
+
+            //_hdrToggle.SetIsOnWithoutNotify(ES3.Load<bool>(GameSettingsFile.USERSETTINGS_HDR));
+            //_hdrOptionText.color = _defaultSettingsColor;
+            //_hdrToggleState.text = ES3.Load<bool>(GameSettingsFile.USERSETTINGS_HDR) ? "Enabled" : "Disabled";
+
+            //_ssaoToggle.SetIsOnWithoutNotify(ES3.Load<bool>(GameSettingsFile.USERSETTINGS_SSAO));
+            //_ssaoOptionText.color = _defaultSettingsColor;
+            //_ssaoToggleState.text = ES3.Load<bool>(GameSettingsFile.USERSETTINGS_SSAO) ? "Enabled" : "Disabled";
+
+            //_cameraDistanceOptionText.color = _defaultSettingsColor;
+            _cameraDistanceValueText.text = Mathf.Round(ES3.Load<float>(GameSettingsFile.USERSETTINGS_CAMERA_DISTANCE) * 10).ToString();
+
+            //_mainVolumeOptionText.color = _defaultSettingsColor;
+            _mainVolumeValueText.text = Mathf.Round(ES3.Load<float>(GameSettingsFile.USERSETTINGS_MAIN_VOLUME) * 10).ToString();
+
+            //_musicVolumeOptionText.color = _defaultSettingsColor;
+            _musicVolumeValueText.text = Mathf.Round(ES3.Load<float>(GameSettingsFile.USERSETTINGS_MUSIC_VOLUME) * 10).ToString();
+
+            //_sfxVolumeOptionText.color = _defaultSettingsColor;
+            _sfxVolumeValueText.text = Mathf.Round(ES3.Load<float>(GameSettingsFile.USERSETTINGS_SFX_VOLUME) * 10).ToString();
+
+            _unsavedChangesPopUpPanel.SetActive(false);
+            Hide();
+        }
+
+        /// <summary>
+        /// Close the Pop-Up.
+        /// </summary>
+        private void CancelUnsavedChanges()
+        {
+            _unsavedChangesPopUpPanel.SetActive(false);
+        }
+
+        private void SetGamepadFocusOptionsMenu(GameInputManager.ControlScheme controlScheme)
+        {
+            if (controlScheme == GameInputManager.ControlScheme.Gamepad)
             {
                 if (!gameObject.activeSelf) return;
 
@@ -287,12 +715,12 @@ namespace JamCraft.GMTK2023.Code
             }
         }
 
-        private void SwapInputIcons(ControlScheme controlScheme)
+        private void SwapInputIcons(GameInputManager.ControlScheme controlScheme)
         {
             switch (controlScheme)
             {
                 default:
-                case ControlScheme.Keyboard:
+                case GameInputManager.ControlScheme.Keyboard:
                     _turnTableRightKeybindingText1.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.TurnTableRight, 0);
                     _turnTableRightKeybindingText2.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.TurnTableRight, 1);
                     _turnTableLeftKeybindingText1.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.TurnTableLeft, 0);
@@ -337,7 +765,7 @@ namespace JamCraft.GMTK2023.Code
                         RebindBinding(GameInputManager.Actions.PlaceCard, 1);
                     });
                     break;
-                case ControlScheme.Gamepad:
+                case GameInputManager.ControlScheme.Gamepad:
                     _turnTableRightKeybindingText1.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.TurnTableRight, 2);
                     _turnTableRightKeybindingText2.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.TurnTableRight, 3);
                     _turnTableLeftKeybindingText1.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.TurnTableLeft, 2);
@@ -392,23 +820,36 @@ namespace JamCraft.GMTK2023.Code
 
         public void UpdateVisual()
         {
-            // Set the texts to the according values + some black magic so it looks correct.
-            _mainVolumeText.text = Mathf.Round(SoundManager.Instance.MainVolume * 10f).ToString();
+            #region Graphics
 
-            _musicVolumeText.text = Mathf.Round(SoundManager.Instance.MusicVolume * 10f).ToString();
+            _resolutionDropdown.value = GameSettingsFile.Instance.ResolutionIndex;
+            _displayDropdown.value = GameSettingsFile.Instance.DisplayIndex;
+            _windowModeDropdown.value = GameSettingsFile.Instance.WindowModeIndex;
+            _vSyncToggle.isOn = GameSettingsFile.Instance.VSync;
+            _vSyncToggleState.text = GameSettingsFile.Instance.VSync ? "Enabled" : "Disabled";
+            _textureQualityDropdown.value = GameSettingsFile.Instance.TextureQualityIndex;
+            _shadowQualityDropdown.value = GameSettingsFile.Instance.ShadowQualityIndex;
+            _softShadowsToggle.isOn = GameSettingsFile.Instance.SoftShadows;
+            _softShadowsToggleState.text = GameSettingsFile.Instance.SoftShadows ? "Enabled" : "Disabled";
+            //_hdrToggle.isOn = GameSettingsFile.Instance.HDR;
+            //_hdrToggleState.text = GameSettingsFile.Instance.HDR ? "Enabled" : "Disabled";
+            //_ssaoToggle.isOn = GameSettingsFile.Instance.SSAO;
+            //_ssaoToggleState.text = GameSettingsFile.Instance.SSAO ? "Enabled" : "Disabled";
+            _cameraDistanceValueText.text = Mathf.Round(GameSettingsFile.Instance.CameraDistance * 10f).ToString();
+            _cameraDistanceSlider.value = GameSettingsFile.Instance.CameraDistance;
 
-            _sfxVolumeText.text = Mathf.Round(SoundManager.Instance.SfxVolume * 10f).ToString();
+            #endregion
 
-            _cameraHeightText.text = Mathf.Round(GameSettingsManager.Instance.CameraHeight * 10f).ToString();
+            #region Audio
 
-            // Set the slider values to the sound manager values.
-            _mainVolumeSlider.value = SoundManager.Instance.MainVolume;
+            _mainVolumeValueText.text = Mathf.Round(GameSettingsFile.Instance.MainVolume * 10f).ToString();
+            _mainVolumeSlider.value = GameSettingsFile.Instance.MainVolume;
+            _musicVolumeValueText.text = Mathf.Round(GameSettingsFile.Instance.MusicVolume * 10f).ToString();
+            _musicVolumeSlider.value = GameSettingsFile.Instance.MusicVolume;
+            _sfxVolumeValueText.text = Mathf.Round(GameSettingsFile.Instance.SfxVolume * 10f).ToString();
+            _sfxVolumeSlider.value = GameSettingsFile.Instance.SfxVolume;
 
-            _musicVolumeSlider.value = SoundManager.Instance.MusicVolume;
-
-            _sfxVolumeSlider.value = SoundManager.Instance.SfxVolume;
-
-            _cameraHeightSlider.value = GameSettingsManager.Instance.CameraHeight;
+            #endregion
 
             #region Keybindings
 
@@ -451,7 +892,7 @@ namespace JamCraft.GMTK2023.Code
             CinemachineComponentBase componentBase = _uiCamera.GetCinemachineComponent(CinemachineCore.Stage.Body);
             if (componentBase is CinemachineFramingTransposer)
             {
-                (componentBase as CinemachineFramingTransposer).m_CameraDistance = 1f;
+                (componentBase as CinemachineFramingTransposer).m_CameraDistance = 1.5f;
             }
 
             gameObject.SetActive(true);
@@ -474,27 +915,6 @@ namespace JamCraft.GMTK2023.Code
         public void Hide()
         {
             gameObject.SetActive(false);
-        }
-
-        private void AddResolutions()
-        {
-            _supportedResolutions = new List<Resolution>();
-            Resolution[] resolutions = Screen.resolutions;
-
-            Array.Reverse(resolutions);
-
-            for (int i = 0; i < resolutions.Length; i++)
-            {
-                _resolutionDropdown.options.Add(new TMP_Dropdown.OptionData(ResolutionToString(resolutions[i])));
-                _supportedResolutions?.Add(resolutions[i]);
-            }
-            
-            _resolutionDropdown.RefreshShownValue();
-        }
-
-        private string ResolutionToString(Resolution res)
-        {
-            return res.width + " x " + res.height + " | " + res.refreshRateRatio + " Hz";
         }
 
         private void OnDestroy()

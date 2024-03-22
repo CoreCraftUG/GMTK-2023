@@ -67,8 +67,9 @@ public class PointsManager : MonoBehaviour
         TempPoints = 0;
 
         EventManager.Instance.TempPointsEvent.Invoke(TempPoints);
+        EventManager.Instance.OnTempPointsAdded?.Invoke();
         EventManager.Instance.PointsAddedEvent.Invoke(TotalPoints);
-        EventManager.Instance.OnPointsChanged.Invoke();
+        EventManager.Instance.OnPointsChanged?.Invoke();
         SoundManager.Instance.PlaySFX(6);
     }
 
@@ -81,7 +82,7 @@ public class PointsManager : MonoBehaviour
                 Multiply();
                 PointMultiplyer = 1;
                 EventManager.Instance.MissedMultiplyEvent.Invoke(_missedMultiplies);
-                EventManager.Instance.StreakEndEvent.Invoke();
+                EventManager.Instance.StreakEndEvent?.Invoke();
             }
             else
             {
@@ -102,12 +103,17 @@ public class PointsManager : MonoBehaviour
         PointMultiplyer += _multiplierIncrease;
         EventManager.Instance.PointMultiplyEvent.Invoke(PointMultiplyer);
 
+        
+
         // TODO: Add multiply animation to handle.
 
         _wasMultiplied = true;
         _missedMultiplies = 0;
 
         EventManager.Instance.TempPointsEvent.Invoke(TempPoints);
+
+        EventManager.Instance.OnPointsMultipliedTempPointsAdded?.Invoke();
+        EventManager.Instance.OnTempPointsAdded?.Invoke();
     }
 
     private void CentreMultiply(ECentreGridLevel level)
@@ -135,6 +141,8 @@ public class PointsManager : MonoBehaviour
         _missedMultiplies = 0;
 
         EventManager.Instance.TempPointsEvent.Invoke(TempPoints);
+        EventManager.Instance.OnPointsMultipliedTempPointsAdded?.Invoke();
+        EventManager.Instance.OnTempPointsAdded?.Invoke();
     }
 
     public void ResetPoints()

@@ -282,7 +282,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 347654335809598976}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: StarHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -316,7 +316,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3029775860755564103}
   - component: {fileID: 3089549049977384051}
-  m_Layer: 0
+  - component: {fileID: 4433945844666025457}
+  m_Layer: 5
   m_Name: P_UI_Slot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -365,6 +366,26 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4433945844666025457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6149914781459134611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e06f390d98705b43af141000417f745, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animationClips:
+  - {fileID: 7400000, guid: 8909322ef326c334bbf12a14e0266b12, type: 2}
+  - {fileID: 7400000, guid: 5d127a6f19e8c7d49bf53336220c4561, type: 2}
+  - {fileID: 7400000, guid: 576662323083f65488e7094ca95736ea, type: 2}
+  - {fileID: 7400000, guid: 3613561fce405b348a15bd403d639a37, type: 2}
+  - {fileID: 7400000, guid: 48aae8f0e1eaf6742ba5f948b6b9565c, type: 2}
+  - {fileID: 7400000, guid: 81a3680579642db4ba1d4db75fec0fac, type: 2}
+  - {fileID: 7400000, guid: 716460df363460c48be8dc0762f2a853, type: 2}
 --- !u!1 &7090452438926686904
 GameObject:
   m_ObjectHideFlags: 0
@@ -715,6 +736,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_UI_Star
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b76b408c14f611c45accea2a0f23a767,
+        type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -804,6 +830,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_UI_Handle
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 1f7c80d2044aa9f40b409a043ec0af75,
+        type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -891,6 +922,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SM_LampHolder
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 66bdd4c3d276e144ca65b1a014c3e34a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -984,6 +1020,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SM_UI_Walze_7
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a85acf36571517249aa0c36e4f7f6227,
+        type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a85acf36571517249aa0c36e4f7f6227,
         type: 3}
@@ -1099,6 +1140,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a85acf36571517249aa0c36e4f7f6227,
         type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a85acf36571517249aa0c36e4f7f6227,
+        type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -1208,6 +1254,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SM_UI_Walze_3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a85acf36571517249aa0c36e4f7f6227,
+        type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a85acf36571517249aa0c36e4f7f6227,
         type: 3}
@@ -1323,6 +1374,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a85acf36571517249aa0c36e4f7f6227,
         type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a85acf36571517249aa0c36e4f7f6227,
+        type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -1433,6 +1489,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Bulb_3
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 247a10e69796a63459be5242abe89981,
+        type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1516,6 +1577,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SM_MainScore
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e424b487c1cefae40a58a78157729524,
+        type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1632,6 +1698,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SM_UI_Walze_2
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a85acf36571517249aa0c36e4f7f6227,
+        type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a85acf36571517249aa0c36e4f7f6227,
         type: 3}
@@ -1755,6 +1826,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Bulb_1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 247a10e69796a63459be5242abe89981,
+        type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1838,6 +1914,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SM_UI_Walze_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a85acf36571517249aa0c36e4f7f6227,
+        type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a85acf36571517249aa0c36e4f7f6227,
         type: 3}
@@ -1951,6 +2032,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_TempScore
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5dbd5f96b7373c041b506c335517f134,
+        type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -2038,6 +2124,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SM_Bulb_2
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 247a10e69796a63459be5242abe89981,
+        type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2127,6 +2218,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SM_UI_Walze_6
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a85acf36571517249aa0c36e4f7f6227,
+        type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a85acf36571517249aa0c36e4f7f6227,
         type: 3}

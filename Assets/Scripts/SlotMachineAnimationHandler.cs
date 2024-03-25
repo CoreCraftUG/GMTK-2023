@@ -8,11 +8,26 @@ public class SlotMachineAnimationHandler : AnimationHandler
 
     private void Awake()
     {
-        EventManager.Instance.OnPointsMultipliedTempPointsAdded.AddListener(() =>
+        EventManager.Instance.OnPointsMultipliedTempPointsAdded.AddListener(value =>
         {
             int randomNumber = Random.Range(0, 10);
 
-            PlayAnimation(randomNumber > 5 ? "BulbReset Layer.ANIM_MultiplierUp_B" : "BulbReset Layer.ANIM_UpScore", 1, 0f);
+            if (value == 1)
+            {
+                PlayAnimation(randomNumber > 5 ? $"BulbReset Layer.Multiply_Bulb{value}Reset_A" : $"BulbReset Layer.Multiply_Bulb{value}Reset_B", 1, 0f);
+            }
+            else if (value == 2)
+            {
+                PlayAnimation(randomNumber > 5 ? $"BulbReset Layer.Multiply_Bulb{value}Reset_A" : $"BulbReset Layer.Multiply_Bulb{value}Reset_B", 1, 0f);
+            }
+            else
+            {
+                PlayAnimation(randomNumber > 5 ? "Base Layer.ANIM_MultiplierUp_B" : "Base Layer.ANIM_UpScore", 0, 0f);
+            }
+
+            //PlayAnimation(randomNumber > 5 ? $"BulbReset Layer.Multiply_Bulb{value}Reset_A" : $"BulbReset Layer.Multiply_Bulb{value}Reset_B", 1, 0f);
+
+            //PlayAnimation(randomNumber > 5 ? "BulbReset Layer.ANIM_MultiplierUp_B" : "BulbReset Layer.ANIM_UpScore", 1, 0f);
 
             _allLightsOut = false;
 
@@ -28,7 +43,7 @@ public class SlotMachineAnimationHandler : AnimationHandler
 
             if (!_streakEnded) return;
 
-            PlayAnimation(randomNumber > 5 ? "BulbRest Layer.Test 1" : "BulbReset Layer.Test 2", 1, 0f);
+            PlayAnimation(randomNumber > 5 ? "BulbReset Layer.Multiply_BulbReset_A" : "BulbReset Layer.Multiply_BulbReset_B", 1, 0f);
 
             //PlayAnimation("BulbReset Layer.ANIM_BulbReset", 1, 0f);
             _streakEnded = false;

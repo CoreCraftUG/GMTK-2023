@@ -18,6 +18,7 @@ public class CentreGrid : MonoBehaviour
     [SerializeField] private Color _goldColour;
     [SerializeField] private List<GameObject> _coins;
     [SerializeField] private GameObject _table;
+    [SerializeField] private TableVisualLogic _tableVisualLogic;
 
     private List<CardGrid> Grids => PlayerManager.Instance.Grids;
     private CentreGridSlot[,] _grid;
@@ -35,6 +36,12 @@ public class CentreGrid : MonoBehaviour
                 _spriteGrid[i, ii] = _images[count];
                 count++;
             }
+        }
+
+        TableTopSwitch topSwitch;
+        if(_tableVisualLogic.TableTop != null && _tableVisualLogic.TableTop.TryGetComponent<TableTopSwitch>(out topSwitch))
+        {
+            topSwitch.CenterfieldSwitch(true);
         }
     }
 

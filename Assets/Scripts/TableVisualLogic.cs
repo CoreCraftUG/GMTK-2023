@@ -11,27 +11,49 @@ public class TableVisualLogic : MonoBehaviour
     [SerializeField] private GameObject _middleGridDecalProjector;
     [SerializeField] private GameObject _middleGridDecals;
 
+    public GameObject TableTop;
+    public GameObject TableFrame;
+
     private TableVisual _tableVisuals;
+    private bool _middleGridDecalProjectorActiveOnStart;
+
+    private TableTopSwitch _topSwitch;
 
     private void Awake()
     {
         GameStateManager.Instance.OnGamePaused += Instance_OnGamePaused;
         GameStateManager.Instance.OnGameUnpaused += Instance_OnGameUnpaused;
+
+        _middleGridDecalProjectorActiveOnStart = _middleGridDecalProjector.active;
     }
 
     private void Instance_OnGameUnpaused(object sender, System.EventArgs e)
     {
-        _middleGridDecalProjector.SetActive(true);
+        if (TableTop != null && TableTop.TryGetComponent<TableTopSwitch>(out _topSwitch))
+        {
+            _topSwitch.CenterfieldSwitch(_middleGridDecalProjectorActiveOnStart);
+        }
+        else
+        {
+            _middleGridDecalProjector.SetActive(_middleGridDecalProjectorActiveOnStart);
+        }
 
         if (_middleGridDecals != null)
         {
-            _middleGridDecals.SetActive(true);
+            _middleGridDecals.SetActive(_middleGridDecalProjectorActiveOnStart);
         }
     }
 
     private void Instance_OnGamePaused(object sender, System.EventArgs e)
     {
-        _middleGridDecalProjector.SetActive(false);
+        if (TableTop != null && TableTop.TryGetComponent<TableTopSwitch>(out _topSwitch))
+        {
+            _topSwitch.CenterfieldSwitch(false);
+        }
+        else
+        {
+            _middleGridDecalProjector.SetActive(false);
+        }
 
         if (_middleGridDecals != null)
         {
@@ -51,12 +73,15 @@ public class TableVisualLogic : MonoBehaviour
         {
             _baseTop.SetActive(false);
             _baseFrame.SetActive(false);
+
+            Destroy(_baseTop);
+            Destroy(_baseFrame);
+
+            _tableVisuals = TableVisualManager.Instance.TableVisuals;
+
+            TableTop = Instantiate(_tableVisuals.TableTop, _tableSpawnTransform);
+            TableFrame = Instantiate(_tableVisuals.TableFrame, _tableSpawnTransform);
         }
-
-        _tableVisuals = TableVisualManager.Instance.TableVisuals;
-
-        Instantiate(_tableVisuals.TableTop, _tableSpawnTransform);
-        Instantiate(_tableVisuals.TableFrame, _tableSpawnTransform);
     }
 
     private void OnDestroy()

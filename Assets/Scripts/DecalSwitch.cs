@@ -59,10 +59,4 @@ public class DecalSwitch : MonoBehaviour
         }
 
     }
-
-
-
-
-
-
 }

@@ -28,7 +28,7 @@ namespace JamCraft.GMTK2023.Code
 
         private bool _moveWindowInProgress;
 
-        public static UnityEvent OnMoveWindowOperationComplete = new UnityEvent();
+        public event EventHandler OnMoveWindowOperationComplete;
 
         private void Awake()
         {
@@ -53,7 +53,7 @@ namespace JamCraft.GMTK2023.Code
 
         private void Start()
         {
-            
+            Application.targetFrameRate = 60;
         }
 
         /// <summary>
@@ -151,7 +151,7 @@ namespace JamCraft.GMTK2023.Code
                 GetSupportedResolutions();
 
                 // Notify the UI.
-                OnMoveWindowOperationComplete?.Invoke();
+                OnMoveWindowOperationComplete?.Invoke(this, EventArgs.Empty);
             }
         }
 

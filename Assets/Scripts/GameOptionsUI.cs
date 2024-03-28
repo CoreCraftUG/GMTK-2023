@@ -129,12 +129,7 @@ namespace JamCraft.GMTK2023.Code
             SetupSliders();
             SetupKeybindings();
 
-            GameSettingsManager.OnMoveWindowOperationComplete.AddListener(() =>
-            {
-                _resolutionDropdown.ClearOptions();
-                FillResolutionDropdown();
-                ResolutionDropdown(0);
-            });
+            GameSettingsManager.Instance.OnMoveWindowOperationComplete += GameSettingsManager_OnMoveWindowOperationComplete;
 
             // Fill the resolution dropdown with the supported resolutions.
             FillResolutionDropdown();
@@ -143,6 +138,18 @@ namespace JamCraft.GMTK2023.Code
             FillDisplayDropdown();
 
             EventManager.Instance.OnGameOptionsUIInitialized?.Invoke();
+        }
+
+        /// <summary>
+        /// Functionality after the MoveWindowOperation has been completed.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void GameSettingsManager_OnMoveWindowOperationComplete(object sender, EventArgs e)
+        {
+            _resolutionDropdown.ClearOptions();
+            FillResolutionDropdown();
+            ResolutionDropdown(0);
         }
 
         /// <summary>
@@ -296,7 +303,7 @@ namespace JamCraft.GMTK2023.Code
                 RebindBinding(GameInputManager.Actions.PlaceCard, 1);
             });
         }
-
+        
         private void Start()
         {
             // Subscribe to the unpause event.
@@ -314,12 +321,24 @@ namespace JamCraft.GMTK2023.Code
                 GameInputManager.Instance.OnInputDeviceChanged.AddListener(SetGamepadFocusOptionsMenu);
             }
 
+            SetupPanels();
             UpdateVisual();
 
             GameSettingsManager.Instance.VirtualCamera = _uiCamera;
 
             Hide();
             HideRebindPanel();
+        }
+
+        /// <summary>
+        /// Open the right panel and hide the rest.
+        /// </summary>
+        private void SetupPanels()
+        {
+            _graphicsPanel.SetActive(true);
+            _soundsPanel.SetActive(false);
+            _controlsPanel.SetActive(false);
+            _accessibilityPanel.SetActive(false);
         }
 
         /// <summary>
@@ -932,6 +951,11 @@ namespace JamCraft.GMTK2023.Code
 
                 GameInputManager.Instance.OnDuplicateKeybindingFound.RemoveListener(GameInputManager_OnDuplicateKeybindingFound);
             }
+
+            if (GameSettingsManager.Instance != null)
+            {
+                GameSettingsManager.Instance.OnMoveWindowOperationComplete -= GameSettingsManager_OnMoveWindowOperationComplete;
+            }
         }
 
         private void OnApplicationQuit()
@@ -948,6 +972,11 @@ namespace JamCraft.GMTK2023.Code
                 GameInputManager.Instance.OnInputDeviceChanged.RemoveListener(SwapInputIcons);
 
                 GameInputManager.Instance.OnDuplicateKeybindingFound.RemoveListener(GameInputManager_OnDuplicateKeybindingFound);
+            }
+
+            if (GameSettingsManager.Instance != null)
+            {
+                GameSettingsManager.Instance.OnMoveWindowOperationComplete -= GameSettingsManager_OnMoveWindowOperationComplete;
             }
         }
     }

@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using JamCraft.GMTK2023.Code;
 using UnityEngine;
 
@@ -21,10 +20,47 @@ public class TableVisualLogic : MonoBehaviour
 
     private void Awake()
     {
-        GameStateManager.Instance.OnGamePaused += Instance_OnGamePaused;
-        GameStateManager.Instance.OnGameUnpaused += Instance_OnGameUnpaused;
+        if (GameStateManager.Instance != null)
+        {
+            GameStateManager.Instance.OnGamePaused += Instance_OnGamePaused;
+            GameStateManager.Instance.OnGameUnpaused += Instance_OnGameUnpaused;
+        }
 
-        _middleGridDecalProjectorActiveOnStart = _middleGridDecalProjector.active;
+        //_middleGridDecalProjectorActiveOnStart = _middleGridDecalProjector.active;
+
+        if (TableVisualManager.Instance != null)
+        { 
+            TableVisualManager.Instance.OnTableVisualsUpdated += TableVisualManager_OnTableVisualsUpdated;
+        }
+    }
+
+    private void TableVisualManager_OnTableVisualsUpdated(object sender, EventArgs e)
+    {
+        if (TableVisualManager.Instance == null || TableVisualManager.Instance.TableVisuals.TableTop == null || TableVisualManager.Instance.TableVisuals.TableFrame == null)
+        {
+            _baseTop?.SetActive(true);
+            _baseFrame?.SetActive(true);
+            return;
+        }
+        else
+        {
+            _tableVisuals = TableVisualManager.Instance.TableVisuals;
+
+            _baseTop?.SetActive(false);
+            _baseFrame?.SetActive(false);
+
+            Destroy(_baseTop);
+            Destroy(_baseFrame);
+
+            _baseTop = null;
+            _baseFrame = null;
+
+            Destroy(TableTop);
+            Destroy(TableFrame);
+
+            TableTop = Instantiate(_tableVisuals.TableTop, _tableSpawnTransform);
+            TableFrame = Instantiate(_tableVisuals.TableFrame, _tableSpawnTransform);
+        }
     }
 
     private void Instance_OnGameUnpaused(object sender, System.EventArgs e)
@@ -61,27 +97,16 @@ public class TableVisualLogic : MonoBehaviour
         }
     }
 
-    void Start()
+    private void Start()
     {
-        if(TableVisualManager.Instance == null || TableVisualManager.Instance.TableVisuals.TableTop == null || TableVisualManager.Instance.TableVisuals.TableFrame == null)
+        if (TableVisualManager.Instance != null)
         {
-            _baseTop.SetActive(true);
-            _baseFrame.SetActive(true);
-            return;
-        }
-        else
-        {
-            _baseTop.SetActive(false);
-            _baseFrame.SetActive(false);
-
-            Destroy(_baseTop);
-            Destroy(_baseFrame);
-
             _tableVisuals = TableVisualManager.Instance.TableVisuals;
-
-            TableTop = Instantiate(_tableVisuals.TableTop, _tableSpawnTransform);
-            TableFrame = Instantiate(_tableVisuals.TableFrame, _tableSpawnTransform);
         }
+
+        TableVisualManager_OnTableVisualsUpdated(this, EventArgs.Empty);
+        TableVisualManager.Instance.TableVisuals.TableTop.SetActive(false);
+        TableVisualManager.Instance.TableVisuals.TableFrame.SetActive(false);
     }
 
     private void OnDestroy()
@@ -91,6 +116,11 @@ public class TableVisualLogic : MonoBehaviour
             GameStateManager.Instance.OnGamePaused -= Instance_OnGamePaused;
             GameStateManager.Instance.OnGameUnpaused -= Instance_OnGameUnpaused;
         }
+
+        if (TableVisualManager.Instance != null)
+        {
+            TableVisualManager.Instance.OnTableVisualsUpdated -= TableVisualManager_OnTableVisualsUpdated;
+        }
     }
 
     private void OnApplicationQuit()
@@ -99,6 +129,11 @@ public class TableVisualLogic : MonoBehaviour
         {
             GameStateManager.Instance.OnGamePaused -= Instance_OnGamePaused;
             GameStateManager.Instance.OnGameUnpaused -= Instance_OnGameUnpaused;
+        }
+
+        if (TableVisualManager.Instance != null)
+        {
+            TableVisualManager.Instance.OnTableVisualsUpdated -= TableVisualManager_OnTableVisualsUpdated;
         }
     }
 }

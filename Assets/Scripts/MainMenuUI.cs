@@ -87,6 +87,14 @@ namespace JamCraft.GMTK2023.Code
             }
 
             GameSettingsManager.Instance.VirtualCamera = _uiCamera;
+
+            _uiCamera.Follow = MainMenuCenterTransform.transform;
+
+            CinemachineComponentBase componentBase = _uiCamera.GetCinemachineComponent(CinemachineCore.Stage.Body);
+            if (componentBase is CinemachineFramingTransposer)
+            {
+                (componentBase as CinemachineFramingTransposer).m_CameraDistance = 1.25f;
+            }
         }
 
         private void SetGamepadFocusMainMenu(GameInputManager.ControlScheme controlScheme)
@@ -126,6 +134,9 @@ namespace JamCraft.GMTK2023.Code
             _custominsationButton.onClick.AddListener(() =>
             {
                 _uiCamera.Follow = _custominsationButton.transform;
+
+                CustomizationUI.Instance.Show();
+                Hide();
 
                 if (_quitButtonSequence.IsComplete())
                 {
@@ -193,7 +204,7 @@ namespace JamCraft.GMTK2023.Code
 
         public void Show()
         {
-            _uiCamera.Follow = MainMenuCenterTransform;
+            _uiCamera.Follow = MainMenuCenterTransform.transform;
 
             if (_playButton != null)
             {
@@ -201,6 +212,12 @@ namespace JamCraft.GMTK2023.Code
             }
 
             gameObject.SetActive(true);
+
+            CinemachineComponentBase componentBase = _uiCamera.GetCinemachineComponent(CinemachineCore.Stage.Body);
+            if (componentBase is CinemachineFramingTransposer)
+            {
+                (componentBase as CinemachineFramingTransposer).m_CameraDistance = 1.25f;
+            }
         }
 
         private void OnDestroy()
